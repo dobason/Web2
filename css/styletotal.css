@@ -1,0 +1,541 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&family=Open+Sans:wght@500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+}
+
+/* !Menu Sidebar */
+.sidebar {
+    margin: 0;
+    padding: 0;
+    width: 200px;
+    background: #111827;
+    position: fixed;
+    height: 100%;
+
+}
+
+.sidebar a {
+    display: block;
+    color: rgb(201, 201, 201);
+    padding: 16px;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.sidebar a.active {
+  
+    color: white;
+
+}
+
+.menutext a:hover:not(.logobrand):not(.active) {
+    background-color: #555;
+    color: white;
+}
+
+.menutext .logobrand {
+    background-color: transparent;
+    color: white;
+}
+
+.menutext .logobrand:hover {
+    background-color: transparent;
+    color: white;
+}
+
+.content {
+
+    margin-left: 200px;
+    padding: 1px 1px;
+    height: 100%;
+}
+
+
+@media screen and (max-width: 700px) {
+    .sidebar {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: auto;
+        position: relative;
+        white-space: nowrap;
+        overflow: hidden;
+
+
+
+    }
+
+    .sidebar a {
+
+        display: block;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+        white-space: nowrap;
+        font-size: 92%;
+        align-items: center;
+        max-width: 100%;
+        padding: 15px;
+
+
+
+
+
+    }
+
+    /*  */
+
+    div.content {
+        margin-left: 0;
+    }
+
+    .menutext {
+        text-align: center;
+        justify-content: center;
+        white-space: nowrap;
+    }
+}
+
+
+@media screen and (max-width: 420px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+
+/* !Thông Tin Admin */
+.sidebar .info_account {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.profile-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    color: white;
+}
+
+/* !Title QUản Lý */
+.titleQL {
+    background-color:rgb(182, 161, 113);
+    display: flex;
+    justify-content: center;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    white-space: nowrap;
+
+}
+
+.titleQL h1 {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 220%;
+    color: white;
+    font-family: 'Open Sans', sans-serif;
+}
+
+@media only screen and (max-width: 427px) {
+    .titleQL h1 {
+        font-size: 170%;
+    }
+}
+
+/* !Table */
+
+.TotalTable {
+    border: 1px solid black;
+    border-collapse: collapse;
+    /* Thêm dòng này để hiển thị đường viền */
+    width: 100%;
+
+    /* Đảm bảo bảng chiếm toàn bộ độ rộng của phần nội dung */
+}
+
+.TotalTable th,
+.TotalTable td {
+    border: 1px solid black;
+    /* Đường viền cho các ô */
+    padding: 8px;
+    /* Để tạo khoảng cách giữa nội dung và đường viền */
+}
+
+.TotalTable th {
+    font-size: 106%;
+    white-space: nowrap;
+    background-color: #006bcf;
+    color: white;
+}
+
+.TotalTable th:nth-child(2),
+.TotalTable td:nth-child(2) {
+    width: 7%;
+    /* Điều chỉnh độ rộng theo nhu cầu của bạn */
+}
+
+.TotalTable th:nth-child(5),
+.TotalTable td:nth-child(5) {
+    width: 2%;
+    /* Điều chỉnh độ rộng theo nhu cầu của bạn */
+}
+
+/* Responsive Design - Sử dụng media query */
+@media only screen and (max-width: 564px) {
+
+    .TotalTable th,
+    .TotalTable td {
+        font-size: 80%;
+        /* Điều chỉnh kích thước chữ khi màn hình nhỏ hơn 600px */
+    }
+
+
+}
+
+@media only screen and (max-width: 440px) {
+
+    .TotalTable th,
+    .TotalTable td {
+        font-size: 70%;
+        padding: 2px;
+    }
+}
+
+.chucnungbutton {
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    white-space: nowrap;
+
+}
+
+.chucnungbutton button {
+    margin-right: 1%;
+    /* Khoảng cách giữa các nút */
+
+
+    padding: 1.5% 4%;
+}
+
+
+/* !CSS cho modal thêm người dùng */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Additional styles for the form inside the modal */
+#userFormModal {
+    display: grid;
+    grid-gap: 10px;
+}
+
+#userFormModal label {
+    font-weight: bold;
+}
+
+#userFormModal input,
+#userFormModal select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+#userFormModal button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#userFormModal button:hover {
+    background-color: #45a049;
+}
+
+/* !Chỉnh button cho js tức sửa xóa */
+button {
+    padding: 10px 20px;
+    /* Điều chỉnh kích thước của nút */
+    margin: 2px;
+    /* Tạo khoảng cách giữa các nút */
+    font-size: 14px;
+    /* Điều chỉnh kích thước chữ của nút */
+    display: flexbox;
+
+}
+
+/* Thêm kiểu cho nút "Lưu" và "Hủy" trong chế độ chỉnh sửa */
+button:disabled {
+    background-color: #ccc;
+    /* Màu nền xám cho nút bị vô hiệu hóa */
+    cursor: not-allowed;
+    /* Đổi con trỏ chuột khi nút bị vô hiệu hóa */
+}
+
+/* !nút thay đổi trang  */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.page-link {
+    padding: 8px 12px;
+    margin: 0 5px;
+    cursor: pointer;
+    text-decoration: none;
+    color: #000;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    /* Make the font bold for better visibility */
+    font-size: 2px;
+}
+
+.page-link:hover {
+    background-color: #ddd;
+}
+
+.active {
+    background-color: #04aa6d;
+    color: white;
+
+}
+
+/* Add some spacing between pagination items */
+.pagination a:not(:last-child) {
+    margin-right: 5px;
+}
+
+/* Add box-shadow for a subtle lift effect */
+.page-link {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+}
+
+/* Add a subtle border radius for a modern look */
+.pagination {
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 23px;
+}
+
+/* !CSS cho các ô input bên trong .chucnungbutton-sp */
+.chucnungbutton-sp input[type="text"],
+.chucnungbutton-sp input[type="number"] {
+    width: 97%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid black;
+    border-radius: 4px;
+    background-color: #4c6f8d;
+    color: white;
+    font-size: 20px;
+    box-shadow: 3px 1px black;
+    margin-left: 1%;
+}
+
+
+/* !CSS cho nút "Apply/Create the Product" bên trong .chucnungbutton-sp */
+.chucnungbutton-sp button {
+    background-color: transparent;
+    color: #04aa6d;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 18px;
+    border: 1px solid #04aa6d;
+    width: 98%;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.chucnungbutton-sp button:hover {
+    background-color: hsl(123, 40%, 45%);
+    color: white;
+    font-size: 19px;
+    letter-spacing: 6%;
+}
+
+/* !upload area */
+.uploadarea input[type="file"] {
+    display: none;
+    /* Ẩn input type file */
+}
+
+.uploadarea label {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.uploadarea label:hover {
+    background-color: #2980b9;
+}
+
+.uploadarea input[type="file"]:hover+label {
+    background-color: #2980b9;
+}
+
+.uploadarea input[type="file"]:active+label {
+    background-color: #1f618d;
+}
+/* !Table Sản Phẩm */
+
+
+#productTableContainer {
+    width: 100%; /* Set to 100% to fill the entire width */
+    margin-top: 20px;
+}
+
+table {
+    width: 100%; /* Set to 100% to fill the entire width */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: rgb(207, 183, 0);
+    color: white;
+    text-align: center;
+}
+/* !Form thêm sản phẩm */
+#addProductForm {
+    max-width: 80vw; /* Set a maximum width for the form */
+    margin: 0 auto; /* Center the form on the page */
+}
+
+#addProductForm label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+#addProductForm input {
+    width: 30%; /* Set the width of the inputs to 100% */
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    border-radius: 8px;
+}
+
+#addProductForm button {
+    display: flex;
+    width: 30%; /* Set the width of the button to 100% */
+    padding: 10px;
+    background-color: #04aa6d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+#addProductForm #productImage{
+    
+    width: 30%;
+}
+
+
+
+#formWrapper {
+    width: 20%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 20%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    width: 20%;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}

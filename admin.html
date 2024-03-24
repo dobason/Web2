@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="vendor/fontawesome/js/all.min.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+     <script src="js/admin.js"></script>
+    <title>Quản lý</title>
+</head>
+<body>
+    <section id="menu">
+        <div class="logo">
+           <img src="IMG/book.png" alt="">
+           <h2>Admin</h2> 
+        </div>
+        
+        <div class="items">
+            <li><i class='bx bxs-pie-chart-alt'></i><a href="#">Trang tổng quát</a></li>
+            <li><i class='bx bx-cart'></i><a href="tinhtrang.html">Tình trạng đơn hàng</a></li>
+            <li><i class='bx bx-cart'></i><a href="tinhtrang.html">Quản lý sản phẩm</a></li>
+            <li><i class='bx bx-cart'></i><a href="tinhtrang.html">Quản lý danh mục</a></li>
+            <li><i class='bx bx-cart'></i><a href="nguoidung.html">Quản lý người dùng</a></li>
+            <li><i class='bx bx-home'></i><a href="index.html">Trang chủ</a></li>
+
+        </div>
+    </section>
+
+    <section id="interface">
+        <div class="top">
+            <div class="search">
+                    <i><i class='bx bx-search'></i></i>
+                    <input type="text" placeholder="Search">
+            </div>
+            <div class="profile">
+                <i><i class='bx bx-bell'></i></i>
+                <img src="IMG/Admin.avif" alt="">
+            </div>
+        </div>
+
+        <h3 class="name">
+            Bảng quản lý
+        </h3>
+
+        <div class="value">
+            <div class="val-box">
+                <i class='bx bxs-user'></i>
+                <div>
+                    <h3>472</h3>
+                    <span>Người dùng mới</span>
+                </div>
+            </div>
+            
+            <div class="val-box">
+                <i class='bx bx-cart'></i>
+                <div>
+                    <h3>1,120</h3>
+                    <span>Hàng đã giao</span>
+                </div>
+            </div>
+            
+            <div class="val-box">
+                <i class='bx bx-shopping-bag'></i>
+                <div>
+                    <h3>1,192</h3>
+                    <span>Hàng đã bán</span>
+                </div>
+            </div>
+
+            <div class="val-box">
+                <i class='bx bx-credit-card'></i>
+                <div>
+                    <h3>2.398.782vnđ</h3>
+                    <span>Lợi nhuận tháng</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="board">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <td>Tên</td>
+                        <td>Email</td>
+                        <td>SĐT</td>
+                        <td>Chức vụ</td>
+                        
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="people">
+                            <img src="IMG/Admin.avif" alt="">
+                            <div class="people-i">
+                                <h5>Tín Lê</h5>
+            
+                            </div>
+                        </td>
+                        <td class="peopleo-i">
+                            <h5>tinle@gmail.com</h5>
+                        </td>
+                        <td class="peopleo-i">
+                            <h5>0934234231</h5>
+                        </td>
+
+                        <td class="people-i">
+                            <h5>Admin</h5>
+                        </td>
+
+                   
+                    </tr>
+
+                    <tr>
+                        <td class="people">
+                            <img src="IMG/Admin.avif" alt="">
+                            <div class="people-i">
+                                <h5 id="userName">Kiên Nguyễn</h5>
+                            </div>
+                        </td>
+                        <td class="peopleo-i">
+                            <h5 id="userEmail">kiennguyen@gmail.com</h5>
+                        </td>
+                        <td class="peopleo-i">
+                            <h5 id="userPhone">0934234231</h5>
+                        </td>
+                        <td class="people-i">
+                            <h5 id="userRole">khách hàng</h5>
+                        </td>
+                        
+                    </tr>
+
+                    <tr>
+                        <td class="people">
+                            <img src="IMG/Admin.avif" alt="">
+                            <div class="people-i">
+                                <h5>Nhật Phương</h5>
+            
+                            </div>
+                        </td>
+                        <td class="peopleo-i">
+                            <h5>nhatphuong@gmail.com</h5>
+                        </td>
+                        <td class="peopleo-i">
+                            <h5>0934234231</h5>
+                        </td>
+
+                        <td class="people-i">
+                            <h5>khách hàng</h5>
+                        </td>
+
+                       
+                    </tr>
+                </tbody>
+            </table>
+</div>
+
+<div id="editModal" style="display: none;">
+    <!-- Modal content for editing user information -->
+    <label for="newName">Tên mới:</label>
+    <input type="text" id="newName" placeholder="Nhập tên mới">
+
+    <label for="newEmail">Email mới:</label>
+    <input type="text" id="newEmail" placeholder="Nhập email mới">
+
+    <label for="newPhone">Số điện thoại mới:</label>
+    <input type="text" id="newPhone" placeholder="Nhập số điện thoại mới">
+
+    <button onclick="saveChanges()">Lưu thay đổi</button>
+</div>
+        
+    </section>
+</body>
+</html>
