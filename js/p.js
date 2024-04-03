@@ -87,7 +87,7 @@ function dangNhap() {
         }));
 
         alert("Đăng nhập với quyền admin!");
-        window.location.href = "admin.html";
+        window.location.href = "admin-dashboard.html";
         return;
     }
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (loggedInUser.isAdmin) {
                 // Nếu là tài khoản admin, thêm chức năng quản lý cửa hàng
                 dropdownContentElement.innerHTML = `
-                    <a href="admin.html" class="dropdown-item"><i class="np fa fa-cogs"></i>Quản lý cửa hàng</a>
+                    <a href="admin-dashboard.html" class="dropdown-item"><i class="np fa fa-cogs"></i>Quản lý cửa hàng</a>
                     <a href="donhang.html" class="dropdown-item"><i class="np fa fa-shopping-bag"></i>Đơn hàng đã mua</a>
                     <a href="#" onclick="dangXuat();" class="dropdown-item"><i class="np fa fa-sign-out"></i>Đăng xuất</a>
                 `;

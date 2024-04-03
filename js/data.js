@@ -57,12 +57,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     // Dữ liệu mẫu cho các sản phẩm động
-                                                                /*<option value="1">Tiểu thuyếtc</option>
+                        /*<option value="1">Tiểu thuyếtc</option>
                         <option value="2">Truyện ngắn</option>
                         <option value="3">Trinh thám</option>
                         <option value="4">Thơ ca</option>*/
     const products = [
-         { imgSrc: "/IMG/product1.jpg", name: "Những người hàng xóm", price: "50000", category: "1" },
+        { imgSrc: "/IMG/product1.jpg", name: "Những người hàng xóm", price: "50000", category: "1" },
         { imgSrc: "IMG/NNA4.png",name: "Cảm ơn người lớn", price: "169000", category: "1" },
         { imgSrc: "IMG/product2.3.jpg", name: "Romeo và Juliet", price: "120000", category: "2" },
         { imgSrc: "IMG/product13.jpg", name: "Quán bar trong bụng cá voi", price: "500000", category: "3" },
