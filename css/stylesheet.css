@@ -101,7 +101,7 @@ text-align: center;
 }
 
 .logo img{
-    width:100% ;
+    width:80% ;
 }
 .logo
 {
@@ -234,7 +234,7 @@ text-align: center;
    width: 850px;
  }
  .slide img{
-   width: 100%;
+   width: 59%;
  }
  
  @-webkit-keyframes Slide {
