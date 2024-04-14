@@ -408,22 +408,27 @@ text-align: center;
 width: 75em;
 }
 
-.slider-product-one-content-items{
-   display: flex;
-   justify-content: space-evenly;/*khoang cach deu*/
-}
+
 
 .slider-product-one-content-item a:hover> img{
    transform: translateY(-15px);
 }
-.slider-product-one-content-item{
-   width: 16%;
-   margin-bottom: 20px;
+.slider-product-one-content-items {
+   display: flex;
+   flex-wrap: wrap; /* Cho phép các phần tử chuyển dòng khi không đủ không gian */
+   justify-content: flex-start; /* Các phần tử sẽ được căn bên trái */
+
+}
+
+.slider-product-one-content-item {
+   width: calc(20% - 20px); /* 20% chiều rộng cho mỗi phần tử, trừ đi margin-left và margin-right */
+   margin: 0 10px 20px 0; /* Khoảng cách giữa các phần tử, 20px dưới cùng */
    background-color: white;
    padding: 30px 17px;
    border-radius: 2px;
    border: 1px solid rgb(206, 206, 206);
-
+   box-sizing: border-box; /* Đảm bảo padding và border không tăng kích thước của phần tử */
+   margin-left: 10px; 
 }
 
 

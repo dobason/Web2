@@ -1,19 +1,24 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel=" stylesheet" href="css/product.css">
-    <link rel=" stylesheet" href="css/stylesheet.css">
-    <script src="js/product.j"></script>
+    <title>Bookstore</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="vendor/fontawesome/js/all.min.js"></script>
-    <script src="js/main.js"></script>
-    <title>Document</title>
+    <script src="js/main.js"> </script>
+    <script src="js/search.js"></script>
+ 
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+<!-- Đường dẫn tới tệp CSS bạn đã chỉnh sửa -->
+
 </head>
 
 <body>
-
     <header>
 
 
@@ -204,226 +209,185 @@
         </div>
     </header>
 
-<main>
+    <main>
+    
 
-                            <div id=wrapper>
-          <div id="backtop">
-            <i class="fa-solid fa-arrow-up"></i>
-
-        </div>                      
-
-        <div class="product">
-            <div class="product-left">
-
-
-                <div class="product-top">
-                    <img src="IMG/in-pic4.jpg" id="main-img">
-                </div>
-
-                <p>
-                    <img src="IMG/in-pic4.jpg">
-                    <img src="IMG/product4.6.webp">
-                    <img src="IMG/product4.7.webp">
-                </p>
-            </div>
-
-            <div class="product-right">
-                <div class="product-right-top">
-                    <h2>Sách Giáo Khoa Lớp 12-Bộ Sách Giáo Khoa(14 cuốn)</h2>
-                    <ul>
-                        <li><a href="#">Nhiều tác giả</a></li>
-                        <li>140,000 đ</li>
-                        <div class="product-shopping">
-                            <button class="buyNowButton" 
-                                    data-image="IMG/in-pic4.jpg" 
-                                    data-title="Sách Giáo Khoa Lớp 12-Bộ Sách Giáo Khoa(14 cuốn)" 
-                                    data-quantity="1"
-                                    onclick="addToCart(this)">Mua ngay</button>
+        <!----------------------------------slider1--------------------------->
+        <div class="slider1">
+            <div class="in-slider1">
+                <div class="slidebody">
+                    <div class="in-slidebody-left">
+                        <a href="#"><img src="IMG/left-top.jpg"></a>
+                        <a href="#"><img src="IMG/slide2.jpg"></a>
+                    </div>
+                    <div class="in-slidebody-right">
+                        <div id="slideshow">
+                            <div class="slide-wrapper">
+                                <div class="slide">
+                                    <a href="#"><img src="IMG/slide1.jpg"></a>
+                                </div>
+                                <div class="slide">
+                                    <a href="#"><img src="IMG/slide2.jpg"></a>
+                                </div>
+                                <div class="slide">
+                                    <a href="#"><img src="IMG/slide5.jpg"></a>
+                                </div>
+                                <div class="slide">
+                                    <a href="#"><img src="IMG/slide1.jpg"></a>
+                                </div>
+                            </div>
                         </div>
-                    </ul>
-                </div>
-                <div class="product-right-down">
-                    <li>Thông tin & Khuyến mãi</li>
-                    <li>Đổi trả hàng trong vòng 7 ngày</li>
-                    <li>Freeship nội thành Sài Gòn từ 150.000đ*</li>
-                    <li>Freeship toàn quốc từ 250.000đ</li>
-                </div>
-
-
-                </ul>
-
-
-            </div>
-
-        </div>
-
-        <div class="middle1">
-            <div class="middle1-top">
-                <h2>Thông tin chi tiết</h2>
-            </div>
-            <div class="middle1-bottom">
-
-
-                <div class="middle1-left">
-                    <ul>
-
-                        <li>Hàng chính hãng</li>
-                        <li>Ngày xuất bản</li>
-                        <li>Kích thước</li>
-                        <li>Số trang</li>
-                        <li>Nhà xuất bản</li>
-                    </ul>
-                </div>
-
-                <div class="middle1-right">
-                    <ul>
-                        <li>Có</li>
-                        <li>2023-07-07</li>
-                        <li>19x26,5cm</li>
-                        <li>232</li>
-                        <li>Nhà Xuất Bản Giáo Dục Việt Nam</li>
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="middle2">
-            <h2>Mô tả sản phẩm</h2>
-            <p>Bộ Sách Giáo Khoa Lớp 12 (14 Cuốn) bao gồm:
-
-                <p>Giáo Dục An Ninh Quốc Phòng 12</p>
-                <p>Giáo Dục Công Dân 12</p>
-                <p>Công Nghệ 12</p>
-                <p>Địa Lí 12</p>
-                <p>Tiếng Anh 12</p>
-                <p>Giải Tích 12</p>
-                <p>Hình Học 12</p>
-                <p>Hóa Học 12</p>
-                <p>Vật Lí 12</p>
-                <p>Sinh Học 12</p>
-                <p>Lịch Sử 12</p>
-                <p>Tin Học 12</p>
-                <p>Ngữ Văn 12/1</p>
-                <p>Ngữ Văn 12/2</p>
-            </p>
-        </div>
-
+        <!------------------------------------------------------------------>
         <div class="slider5">
+    <div class="in-slider5">
+        <section class="slider-product-one">
+            <div class="slider-product-one-content">
+                <div class="slider-product-one-content-items" id="bookListContainer">
+                    <?php
+                    require_once 'db/dbhelper.php'; // Đảm bảo rằng bạn đã định nghĩa hàm executeResult trong dbhelper.php
 
-            <section class="slider-product-one">
-                <div class="container">
+                    // Thư mục chứa hình ảnh trên máy chủ
+                    $imageDirectory = '.../IMG/'; // Đường dẫn tương đối đến thư mục IMG
 
-                    <div class="slider-product-one-content">
-                        <h2>Sản phẩm có liên quan</h2>
-                        <div class="slider-product-one-content-items">
+                    // Truy vấn danh sách sách từ cơ sở dữ liệu
+                    $sql = "SELECT * FROM books";
+                    $books = executeResult($sql);
 
-                            <div class="slider-product-one-content-item">
+                    // Kiểm tra nếu có sách trong danh sách
+                    if ($books) {
+                        foreach ($books as $index => $book) {
+                            $bookName = $book['book_name'];
+                            $author = $book['author'];
+                            $price = number_format($book['price'], 0, ',', '.');
+                            $imagePath = $imageDirectory . $book['book_image']; // Đường dẫn đến hình ảnh trên máy chủ
+                    
+                            // Bắt đầu một phần tử sách
+                            echo '<div class="slider-product-one-content-item">';
+                            echo '<a href="product.html"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                            echo '<div class="slider-product-one-content-item-text">';
+                            echo '<div class="slider-text1">';
+                            echo '<li><a href="product.html"><p>' . $bookName . '</p></a></li>';
+                            echo '</div>';
+                            echo '<div class="slider-text2">';
+                            echo '<li><a href="#">' . $author . '</a></li>';
+                            echo '</div>';
+                            echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                            echo '</div>';
+                            echo '</div>';
+                    
+                            // Chỉnh sửa CSS trực tiếp tại đây
+                            echo '<style>';
+                            echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
+                            echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
+                            echo '</style>';
+                        }
+                    } else {
+                        echo '<p>Không tìm thấy sách nào.</p>';
+                    }
+                    
+                    ?>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 
-                                <a href="product.html"><img src="IMG/product2.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Tôi là Bêtô</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                    
-                                    <li>72,000<sup><u>đ</u></sup></li>
+        <!----------------------------------------------->
+        <div class="slider2">
+            <div class="in-slider2">
+                <div class="in-slider2-1">
+                    <img src="IMG/slide6.png">
+                </div>
+                <div class="in-slider2-2">
+                    <img src="IMG/slide7.png">
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!------------------------------------------>
+        <div class="slider6">
+            <div class="in-slider6-top">
+                <button type="button" onclick="showCategory('category1')">Manga mới</button>
+                <button type="button" onclick="showCategory('category2')">Live Novel mới</button>
+            </div>
+            <div class="in-slider6">
+            <section id="category1" class="product_love">
+                <div class="in-product-love">
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Thỏ bảy màu </a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>130.000d</p>
+
                                 </div>
                             </div>
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product.html"><img src="IMG/product3.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Tôi thấy hoa vàng trên cỏ xanh</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                    
-                                    <li>56.500<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product.html"><img src="IMG/product4.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Mùa hè không tên</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                    
-                                    <li>110,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product.html"><img src="IMG/product5.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Cho tôi xin một vé đi Tuổi Thơ</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                
-                                    <li>80,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-
-
-
-
                         </div>
                     </div>
 
+                    <!-------------------------------------------->
+
                 </div>
             </section>
-        </div>
+            <!--------------Section2---------------->
 
-    </div>
-</main>
+            <section id="category2" class="product_love">
+
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------->
+            </section>
+            </div>
+
+            <script>
+                function showCategory(categoryId) {
+                    // Hide all categories
+                    document.getElementById('category1').style.display = 'none';
+                    document.getElementById('category2').style.display = 'none';
+
+                    // Show the selected category
+                    document.getElementById(categoryId).style.display = 'block';
+                }
+
+            </script>
+        </div>
+    </main>
     <footer>
         <div class="footer">
-           
-        
+
+
             <div class="in-footer-body">
                 <div class="in-footer-body-left">
                     <p>Phương thức thanh toán</p>
@@ -433,7 +397,7 @@
                     <li><img src="IMG/pay4.png"></li>
                     <li><img src="IMG/pay5.webp"></li>
                 </div>
-        
+
                 <div class="in-footer-body-mid">
                     <p>Tài khoản của bạn</p>
                     <li><a href="">Cập nhật tài khoản</a></li>
@@ -442,18 +406,19 @@
                     <li><a href="">Sản phẩm yêu thích</a></li>
                     <li><a href="">Kiểm tra đơn hàng</a></li>
                 </div>
-        
+
                 <div class="in-footer-body-mid">
                     <p>GOODREADS</a>
-                    <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
-                    <li><a href="">GOODREADS trên Facebook</a></li>
-                    <li><a href="">Liên hệ GOODREADS</a></li>
-                    <li><a href="">Đặt hàng theo yêu cầu</a</li>
+                        <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
+                        <li><a href="">GOODREADS trên Facebook</a></li>
+                        <li><a href="">Liên hệ GOODREADS</a></li>
+                        <li><a href="">Đặt hàng theo yêu cầu</a</li>
                 </div>
-                 <div class="in-footer-body-right">
+                <div class="in-footer-body-right">
                     <p>Kết nối với chúng tôi</p>
                     <li><a href="#"><img src="IMG/contact1.webp"></a></li>
-                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img
+                                src="IMG/contact2.webp"></a></li>
                     <li><a href="#"><img src="IMG/contact3.webp"></a></li>
                     <li><a href="#"><img src="IMG/contact4.webp"></a></li>
                     <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
@@ -461,80 +426,21 @@
                     <li><a href="#">Chính sách đổi - trả</a></li>
                     <li><a href="#">Chính sách bồi hoàn</a></li>
                     <li><a href="#">Câu hỏi thường gặp (FAQs)</a></li>
-        
-        
-        
+
+
+
                 </div>
-                </div>
-        
-               
+            </div>
+
+
         </div>
         <div class="footer-bottom">
             <p>&copy; 2023 Bookstore</p>
         </div>
-       
-         
-        </footer>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-        <script>
-            $(() => {
-                $('p img').click(function () {
-                    let imgPath = $(this).attr('src');
-                    $('#main-img').attr('src', imgPath);
-                })
-            })
-        </script>
-
-    <script>
-        $(document).ready(function () {
-            $(window).scroll(function () {
-                if ($(this).scrollTop()) {
-                    $('#backtop').fadeIn();
-                }
-                else {
-                    $('#backtop').fadeOut();
-                }
-            });
-            $("#backtop").click(function () {
-                $('html,body').animate({ scrollTop: 0 }, 1000);
-            });
-        });
 
 
-
-    </script>
+    </footer>
     <script src="js/p.js"></script>
-    <script>
-        function addToCart(button) {
-            // Kiểm tra trạng thái đăng nhập ở đây
-            var isLoggedIn = checkLoginStatus(); // Hàm kiểm tra đăng nhập
-    
-            if (isLoggedIn) {
-                // Thực hiện thêm sản phẩm vào giỏ hàng
-                var image = button.getAttribute('data-image');
-                var title = button.getAttribute('data-title');
-                var quantity = button.getAttribute('data-quantity');
-    
-                // Gọi hàm thêm sản phẩm vào giỏ hàng
-                addToCartFunction(image, title, quantity);
-            } else {
-                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-                alert('Vui lòng đăng nhập trước khi mua hàng!');
-                window.location.href = 'dangnhap.html'; // Điều hướng đến trang đăng nhập
-            }
-        }
-    
-        function checkLoginStatus() {
-            // Hàm kiểm tra đăng nhập, trả về true nếu đã đăng nhập và ngược lại
-            var loggedInUser = localStorage.getItem('loggedInUser');
-            return loggedInUser !== null;
-        }
-    
-        // Các hàm khác ở đây, bao gồm đăng nhập và thêm sản phẩm vào giỏ hàng
-        // ...
-    
-    </script>
 </body>
 
 </html>

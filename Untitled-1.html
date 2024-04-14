@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,8 +13,6 @@
     <script src="js/main.js"> </script>
     <script src="js/search.js"></script>
     <link rel="stylesheet" href="css/stylesheet.css">
-    <link rel="stylesheet" href="css/gioi_thieu.css">
-    <link rel="stylesheet" href="css/product.css">
 </head>
 
 <body>
@@ -214,18 +214,15 @@
             <div class="in-slider1">
                 <div class="slidebody">
                     <div class="in-slidebody-left">
-                        
-                    </div>
-                    <a href="#"><img src="IMG/left-top.jpg"></a>
+                        <a href="#"><img src="IMG/left-top.jpg"></a>
                         <a href="#"><img src="IMG/slide2.jpg"></a>
-                        <img src="IMG/slide6.png">
+                    </div>
                     <div class="in-slidebody-right">
                         <div id="slideshow">
                             <div class="slide-wrapper">
                                 <div class="slide">
                                     <a href="#"><img src="IMG/slide1.jpg"></a>
-                                </div>
-                                <div class="slide">
+                                </div>                                <div class="slide">
                                     <a href="#"><img src="IMG/slide2.jpg"></a>
                                 </div>
                                 <div class="slide">
@@ -243,118 +240,90 @@
 
         <!------------------------------------------------------------------>
         <div class="slider5">
-            <div class="in-slider5">
-                <div class="in-slider5-text">
-                    <h3>NGUYỄN NHẬT ÁNH</h3>
-                </div>
-
-
-                <section class="slider-product-one">
-
-                    <div class="slider-product-one-content">
-
-                        <div class="slider-product-one-content-items">
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product.html"><img src="IMG/product1.jpg" alt="" width="500"></a>
-                                <div class="slider-product-one-content-item-text">
-
-                                    <div class="slider-text1">
-                                        <li><a href="product.html">
-                                                <p>Những người hàng xóm</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyen Nhat Anh</a></li>
-                                    </div>
-
-                                    <li>169,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product4.html"><img src="IMG/product2.jpg" alt="" width="500"></a>
-                                <div class="slider-product-one-content-item-text">
-
-                                    <div class="slider-text1">
-                                        <li><a href="product4.html">
-                                                <p>Tôi là Bêtô</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyen Nhat Anh</a></li>
-                                    </div>
-
-                                    <li>152,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product5.html"><img src="IMG/product3.jpg" alt="" width="500"></a>
-                                <div class="slider-product-one-content-item-text">
-
-                                    <div class="slider-text1">
-                                        <li><a href="product5.html">
-                                                <p>Tôi thấy hoa vàng trên cỏ xanh</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyen Nhat Anh</a></li>
-                                    </div>
-
-                                    <li>169,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product6.html"><img src="IMG/product4.jpg" alt="" width="500"></a>
-                                <div class="slider-product-one-content-item-text">
-
-                                    <div class="slider-text1">
-                                        <li><a href="product6.html">
-                                                <p>Mùa hè không tên</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyen Nhat Anh</a></li>
-                                    </div>
-
-                                    <li>175,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-
-                            <div class="slider-product-one-content-item">
-
-                                <a href="product7.html"><img src="IMG/hoahonh.jpg" alt="" width="500"></a>
-                                <div class="slider-product-one-content-item-text">
-
-                                    <div class="slider-text1">
-                                        <li><a href="product7.html">
-                                                <p>Hoa Hồng Xứ Khác</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyen Nhat Anh</a></li>
-                                    </div>
-
-                                    <li>120,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </section>
-            </div>
+    <div class="in-slider5">
+        <div class="in-slider5-text">
+            <h3>NGUYỄN NHẬT ÁNH</h3>
         </div>
+
+        <section class="slider-product-one">
+            <div class="slider-product-one-content">
+                <div class="slider-product-one-content-items" id="bookListContainer">
+                    <?php
+                    require_once 'db/dbhelper.php'; // Đảm bảo rằng bạn đã định nghĩa hàm executeResult trong dbhelper.php
+
+                    // Thư mục chứa hình ảnh trên máy chủ
+                    $imageDirectory = '.../IMG/'; // Đường dẫn tương đối đến thư mục IMG
+
+                    // Truy vấn danh sách sách từ cơ sở dữ liệu
+                    $sql = "SELECT * FROM books";
+                    $books = executeResult($sql);
+
+                    // Kiểm tra nếu có sách trong danh sách
+                    if ($books) {
+                        foreach ($books as $book) {
+                            $bookName = $book['book_name'];
+                            $author = $book['author'];
+                            $price = number_format($book['price'], 0, ',', '.');
+                            $imagePath = $imageDirectory . $book['book_image']; // Đường dẫn đến hình ảnh trên máy
+
+                            echo '<div class="book-item">';
+                            echo '<img src="' . $imageDirectory . $book['book_image'] . '" alt="Book Image">';
+
+
+                            echo '<h3>' . $bookName . '</h3>';
+                            echo '<p>Tác giả: ' . $author . '</p>';
+                            echo '<p>Giá: ' . $price . ' đ</p>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<p>Không tìm thấy sách nào.</p>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        // Sử dụng AJAX để lấy danh sách sách từ server
+        $.ajax({
+            type: 'GET',
+            url: 'get_books.php', // Đường dẫn đến tập tin xử lý lấy danh sách sách
+            success: function(response) {
+                var books = JSON.parse(response);
+                var html = '';
+
+                // Duyệt qua từng cuốn sách và tạo HTML để hiển thị
+                books.forEach(function(book) {
+                    html += `
+                        <div class="slider-product-one-content-item">
+                            <a href="product.html"><img src="${book.book_image}" alt="" width="500"></a>
+                            <div class="slider-product-one-content-item-text">
+                                <div class="slider-text1">
+                                    <li><a href="product.html"><p>${book.book_name}</p></a></li>
+                                </div>
+                                <div class="slider-text2">
+                                    <li><a href="#">${book.author}</a></li>
+                                </div>
+                                <li>${book.price}<sup><u>đ</u></sup></li>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                // Thêm HTML vào vùng chứa danh sách sách trên trang
+                $('#bookListContainer').html(html);
+            },
+            error: function(error) {
+                console.log('Lỗi khi lấy dữ liệu sách:', error);
+            }
+        });
+    });
+</script>
+
 
         <!------------------------------------------------------>
         <div class="slider5">
