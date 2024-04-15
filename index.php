@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,14 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bookstore</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"
-        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="js/main.js"> </script>
     <script src="js/search.js"></script>
- 
+
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-<!-- Đường dẫn tới tệp CSS bạn đã chỉnh sửa -->
+    <!-- Đường dẫn tới tệp CSS bạn đã chỉnh sửa -->
 
 </head>
 
@@ -58,7 +55,7 @@
                 </div>
 
                 <div class="top-right-item">
-                    <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                    <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
                     <p id="cartItemCount">0</p>
                 </div>
 
@@ -67,8 +64,7 @@
         <div class="menu-bar">
             <div class="menu-bar-content">
                 <ul>
-                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span
-                                class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
+                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
                         <div class="sub-menu">
                             <ul>
                                 <div class="in-sub-menu">
@@ -77,7 +73,7 @@
                                         <li> <a href="web1.html">Truyện ngắn</a></li>
                                         <li> <a href="web1.html">Light Novel</a></li>
                                         <li> <a href="web1.html">Trinh thám</a></li>
-                                      
+
 
                                     </div>
                                     <div class="sub-menu3">
@@ -89,7 +85,7 @@
                                             </a></li>
                                         <li> <a href="web1.html">Combo Văn Học
                                             </a></li>
-                                            <li> <a href="web1.html"> Tất cả sách ></a></li>
+                                        <li> <a href="web1.html"> Tất cả sách ></a></li>
                                     </div>
 
                                     <div class="sub-menu-pic">
@@ -100,8 +96,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li><a href="#"><i class="fa-solid fa-paintbrush"></i> Sách theo chủ đề <i
-                                class="fa-solid fa-caret-down"></i></a>
+                    <li><a href="#"><i class="fa-solid fa-paintbrush"></i> Sách theo chủ đề <i class="fa-solid fa-caret-down"></i></a>
                         <div class="sub-menu">
                             <ul>
                                 <div class="in-sub-menu">
@@ -112,20 +107,20 @@
                                             <li> <a href="#">Triết học Phương Đông</a></li>
                                             <li> <a href="#">Triết học Phương Tây</a></li>
 
-                                            
+
                                         </div>
 
                                     </div>
                                     <div class="sub-menu3">
-                                       <li> <a href="#">Chính trị </a></li>
-                                            <li> <a href="#">Lịch sử thế giới</a></li>
-                                            <li> <a href="#">Tôn giáo</a></li>
-                                            <li> <a href="#">Kỹ năng sống</a></li>
-                                            <li> <a href="web1.html">Tất cả sách ></a></li>
-                                         
+                                        <li> <a href="#">Chính trị </a></li>
+                                        <li> <a href="#">Lịch sử thế giới</a></li>
+                                        <li> <a href="#">Tôn giáo</a></li>
+                                        <li> <a href="#">Kỹ năng sống</a></li>
+                                        <li> <a href="web1.html">Tất cả sách ></a></li>
+
                                     </div>
 
-                                    
+
 
                                     <div class="sub-menu-pic">
                                         <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
@@ -135,8 +130,7 @@
                             </ul>
                         </div>
                     </li>
-                    <li><a href="#"><i class="fa-solid fa-tablet"></i> Truyện tranh - Thiếu nhi <i
-                                class="fa-solid fa-caret-down"></i></a>
+                    <li><a href="#"><i class="fa-solid fa-tablet"></i> Truyện tranh - Thiếu nhi <i class="fa-solid fa-caret-down"></i></a>
                         <div class="sub-menu">
                             <ul>
                                 <div class="in-sub-menu">
@@ -167,8 +161,7 @@
                         </div>
                     </li>
 
-                    <li><a href="#"><i class="fa-solid fa-gift"></i> Sách giáo khoa <i
-                                class="fa-solid fa-caret-down"></i></a>
+                    <li><a href="#"><i class="fa-solid fa-gift"></i> Sách giáo khoa <i class="fa-solid fa-caret-down"></i></a>
                         <div class="sub-menu">
                             <ul>
                                 <div class="in-sub-menu">
@@ -210,7 +203,7 @@
     </header>
 
     <main>
-    
+
 
         <!----------------------------------slider1--------------------------->
         <div class="slider1">
@@ -244,59 +237,88 @@
 
         <!------------------------------------------------------------------>
         <div class="slider5">
-    <div class="in-slider5">
-        <section class="slider-product-one">
-            <div class="slider-product-one-content">
-                <div class="slider-product-one-content-items" id="bookListContainer">
-                    <?php
-                    require_once 'db/dbhelper.php'; // Đảm bảo rằng bạn đã định nghĩa hàm executeResult trong dbhelper.php
+            <div class="in-slider5">
+                <section class="slider-product-one">
+                    <div class="slider-product-one-content">
+                        <div class="slider-product-one-content-items" id="bookListContainer">
+                            <?php
+                            require_once 'db/dbhelper.php'; // Đảm bảo rằng bạn đã định nghĩa hàm executeResult trong dbhelper.php
 
-                    // Thư mục chứa hình ảnh trên máy chủ
-                    $imageDirectory = '.../IMG/'; // Đường dẫn tương đối đến thư mục IMG
+                            // Thư mục chứa hình ảnh trên máy chủ
+                            $imageDirectory = '.../IMG/'; // Đường dẫn tương đối đến thư mục IMG
 
-                    // Truy vấn danh sách sách từ cơ sở dữ liệu
-                    $sql = "SELECT * FROM books";
-                    $books = executeResult($sql);
+                            // Truy vấn danh sách sách từ cơ sở dữ liệu
+                            $sql = "SELECT * FROM books";
+                            $books = executeResult($sql);
 
-                    // Kiểm tra nếu có sách trong danh sách
-                    if ($books) {
-                        foreach ($books as $index => $book) {
-                            $bookName = $book['book_name'];
-                            $author = $book['author'];
-                            $price = number_format($book['price'], 0, ',', '.');
-                            $imagePath = $imageDirectory . $book['book_image']; // Đường dẫn đến hình ảnh trên máy chủ
-                    
-                            // Bắt đầu một phần tử sách
-                            echo '<div class="slider-product-one-content-item">';
-                            echo '<a href="product.html"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
-                            echo '<div class="slider-product-one-content-item-text">';
-                            echo '<div class="slider-text1">';
-                            echo '<li><a href="product.html"><p>' . $bookName . '</p></a></li>';
-                            echo '</div>';
-                            echo '<div class="slider-text2">';
-                            echo '<li><a href="#">' . $author . '</a></li>';
-                            echo '</div>';
-                            echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
-                            echo '</div>';
-                            echo '</div>';
-                    
-                            // Chỉnh sửa CSS trực tiếp tại đây
-                            echo '<style>';
-                            echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                            echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
-                            echo '</style>';
-                        }
-                    } else {
-                        echo '<p>Không tìm thấy sách nào.</p>';
-                    }
-                    
-                    ?>
-                </div>
+                            // Kiểm tra nếu có sách trong danh sách
+                            if ($books) {
+                                foreach ($books as $book) {
+                                    $bookName = $book['book_name'];
+                                    $author = $book['author'];
+                                    $price = number_format($book['price'], 0, ',', '.');
+                                    $imagePath = $imageDirectory . $book['book_image']; // Đường dẫn đến hình ảnh trên máy chủ
+
+                                    // Hiển thị thông tin của từng cuốn sách
+                                    echo '<div class="slider-product-one-content-item">';
+                                    echo '<a href="product.html"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                                    echo '<div class="slider-product-one-content-item-text">';
+                                    echo '<div class="slider-text1">';
+                                    echo '<li><a href="product.html"><p>' . $bookName . '</p></a></li>';
+                                    echo '</div>';
+                                    echo '<div class="slider-text2">';
+                                    echo '<li><a href="#">' . $author . '</a></li>';
+                                    echo '</div>';
+                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                                    echo '</div>';
+                                    echo '</div>';
+                                }
+                            } else {
+                                echo '<p>Không tìm thấy sách nào.</p>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </section>
             </div>
-        </section>
-    </div>
-</div>
+        </div>
+        <script>
+            $(document).ready(function() {
+                // Sử dụng AJAX để lấy danh sách sách từ server
+                $.ajax({
+                    type: 'GET',
+                    url: 'get_books.php', // Đường dẫn đến tập tin xử lý lấy danh sách sách
+                    success: function(response) {
+                        var books = JSON.parse(response);
+                        var html = '';
 
+                        // Duyệt qua từng cuốn sách và tạo HTML để hiển thị
+                        books.forEach(function(book) {
+                            html += `
+                        <div class="slider-product-one-content-item">
+                            <a href="product.html"><img src="${book.book_image}" alt="" width="500"></a>
+                            <div class="slider-product-one-content-item-text">
+                                <div class="slider-text1">
+                                    <li><a href="product.html"><p>${book.book_name}</p></a></li>
+                                </div>
+                                <div class="slider-text2">
+                                    <li><a href="#">${book.author}</a></li>
+                                </div>
+                                <li>${book.price}<sup><u>đ</u></sup></li>
+                            </div>
+                        </div>
+                    `;
+                        });
+
+                        // Thêm HTML vào vùng chứa danh sách sách trên trang
+                        $('#bookListContainer').html(html);
+                    },
+                    error: function(error) {
+                        console.log('Lỗi khi lấy dữ liệu sách:', error);
+                    }
+                });
+            });
+        </script>
         <!----------------------------------------------->
         <div class="slider2">
             <div class="in-slider2">
@@ -319,8 +341,35 @@
                 <button type="button" onclick="showCategory('category2')">Live Novel mới</button>
             </div>
             <div class="in-slider6">
-            <section id="category1" class="product_love">
-                <div class="in-product-love">
+                <section id="category1" class="product_love">
+                    <div class="in-product-love">
+                        <!-------------------------------------------->
+                        <div class="in-slider6-picture">
+                            <div class="in-slider6-picture-product">
+                                <div class="in-slider6-picture-product-image">
+                                    <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                                </div>
+                                <div class="in-slider6-picture-product-image-bottom">
+                                    <div class="in-slider6-title">
+                                        <a href="#">Thỏ bảy màu </a>
+                                    </div>
+                                    <div class="in-slider6-price">
+
+                                        <p>130.000d</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-------------------------------------------->
+
+                    </div>
+                </section>
+                <!--------------Section2---------------->
+
+                <section id="category2" class="product_love">
+
                     <!-------------------------------------------->
                     <div class="in-slider6-picture">
                         <div class="in-slider6-picture-product">
@@ -329,7 +378,7 @@
                             </div>
                             <div class="in-slider6-picture-product-image-bottom">
                                 <div class="in-slider6-title">
-                                    <a href="#">Thỏ bảy màu </a>
+                                    <a href="#">Spy X Family - Tập 9</a>
                                 </div>
                                 <div class="in-slider6-price">
 
@@ -341,34 +390,7 @@
                     </div>
 
                     <!-------------------------------------------->
-
-                </div>
-            </section>
-            <!--------------Section2---------------->
-
-            <section id="category2" class="product_love">
-
-                <!-------------------------------------------->
-                <div class="in-slider6-picture">
-                    <div class="in-slider6-picture-product">
-                        <div class="in-slider6-picture-product-image">
-                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
-                        </div>
-                        <div class="in-slider6-picture-product-image-bottom">
-                            <div class="in-slider6-title">
-                                <a href="#">Spy X Family - Tập 9</a>
-                            </div>
-                            <div class="in-slider6-price">
-
-                                <p>130.000d</p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-------------------------------------------->
-            </section>
+                </section>
             </div>
 
             <script>
@@ -380,7 +402,6 @@
                     // Show the selected category
                     document.getElementById(categoryId).style.display = 'block';
                 }
-
             </script>
         </div>
     </main>
@@ -412,13 +433,12 @@
                         <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
                         <li><a href="">GOODREADS trên Facebook</a></li>
                         <li><a href="">Liên hệ GOODREADS</a></li>
-                        <li><a href="">Đặt hàng theo yêu cầu</a</li>
+                        <li><a href="">Đặt hàng theo yêu cầu</a< /li>
                 </div>
                 <div class="in-footer-body-right">
                     <p>Kết nối với chúng tôi</p>
                     <li><a href="#"><img src="IMG/contact1.webp"></a></li>
-                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img
-                                src="IMG/contact2.webp"></a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
                     <li><a href="#"><img src="IMG/contact3.webp"></a></li>
                     <li><a href="#"><img src="IMG/contact4.webp"></a></li>
                     <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
