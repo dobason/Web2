@@ -2,4 +2,5 @@
 define('HOST', 'localhost');
 define('USERNAME', 'root');
 define('PASSWORD', '');
-define('DATABASE', 'doan');
+define('DATABASE', 'web2');
+?>

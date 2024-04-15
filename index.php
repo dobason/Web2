@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookstore</title>
+    <title>sachtore</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="vendor/fontawesome/js/all.min.js"></script>
@@ -20,8 +20,9 @@
 
 <body>
     <header>
-
-
+        <?php
+        require('./php/classes/database.php');
+        ?>
         <div class="big-menu">
 
 
@@ -255,16 +256,16 @@
                     $imageDirectory = '.../IMG/'; // Đường dẫn tương đối đến thư mục IMG
 
                     // Truy vấn danh sách sách từ cơ sở dữ liệu
-                    $sql = "SELECT * FROM books";
-                    $books = executeResult($sql);
+                    $sql = "SELECT * FROM sach";
+                    $sach = executeResult($sql);
 
                     // Kiểm tra nếu có sách trong danh sách
-                    if ($books) {
-                        foreach ($books as $index => $book) {
-                            $bookName = $book['book_name'];
-                            $author = $book['author'];
-                            $price = number_format($book['price'], 0, ',', '.');
-                            $imagePath = $imageDirectory . $book['book_image']; // Đường dẫn đến hình ảnh trên máy chủ
+                    if ($sach) {
+                        foreach ($sach as $index => $book) {
+                            $bookName = $book['Ma_Sach'];
+                            $Tac_Gia = $book['Ten_Tac_Gia'];
+                            $price = number_format($book['Don_Gia'], 0, ',', '.');
+                            $imagePath =  $book['Hinh_Anh']; // Đường dẫn đến hình ảnh trên máy chủ
                     
                             // Bắt đầu một phần tử sách
                             echo '<div class="slider-product-one-content-item">';
@@ -274,7 +275,7 @@
                             echo '<li><a href="product.html"><p>' . $bookName . '</p></a></li>';
                             echo '</div>';
                             echo '<div class="slider-text2">';
-                            echo '<li><a href="#">' . $author . '</a></li>';
+                            echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
                             echo '</div>';
                             echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
                             echo '</div>';
@@ -296,7 +297,43 @@
         </section>
     </div>
 </div>
+  <script>
+            $(document).ready(function() {
+                // Sử dụng AJAX để lấy danh sách sách từ server
+                $.ajax({
+                    type: 'GET',
+                    url: 'get_books.php', // Đường dẫn đến tập tin xử lý lấy danh sách sách
+                    success: function(response) {
+                        var books = JSON.parse(response);
+                        var html = '';
 
+                        // Duyệt qua từng cuốn sách và tạo HTML để hiển thị
+                        sach.forEach(function(sach) {
+                            html += `
+                        <div class="slider-product-one-content-item">
+                            <a href="product.html"><img src="${sach.Hinh_Anh}" alt="" width="500"></a>
+                            <div class="slider-product-one-content-item-text">
+                                <div class="slider-text1">
+                                    <li><a href="product.html"><p>${book.Ten_Tac_Gia}</p></a></li>
+                                </div>
+                                <div class="slider-text2">
+                                    <li><a href="#">${book.author}</a></li>
+                                </div>
+                                <li>${book.price}<sup><u>đ</u></sup></li>
+                            </div>
+                        </div>
+                    `;
+                        });
+
+                        // Thêm HTML vào vùng chứa danh sách sách trên trang
+                        $('#bookListContainer').html(html);
+                    },
+                    error: function(error) {
+                        console.log('Lỗi khi lấy dữ liệu sách:', error);
+                    }
+                });
+            });
+        </script>
         <!----------------------------------------------->
         <div class="slider2">
             <div class="in-slider2">
@@ -435,7 +472,7 @@
 
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2023 Bookstore</p>
+            <p>&copy; 2023 sachtore</p>
         </div>
 
 
