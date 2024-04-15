@@ -21,9 +21,8 @@
    <body>
       <?php
          require('./php/classes/database.php');
-         include('./php/classes/sach.php');
-         $books = Sach::getAllBooksWithTypes();
-         Sach::closeConnection();
+         $result = Database::getAllRows('hoa_don');
+         Database::closeConnection();
       ?>
       <!-- loader Start -->
       <div id="loading">
@@ -55,7 +54,7 @@
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                   <li><a href="admin-dashboard.html"><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.html"><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
-                     <li><a href="admin-invoice-details.html"><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
+                     <li><a href="admin-dashboard.html"><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
                      <li><a href="admin-user.html"><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.html"><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.html"><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
@@ -92,11 +91,11 @@
                      </div>
                   </div>
                   <div class="navbar-breadcrumb">
-                     <h5 class="mb-0">Sách</h5>
+                     <h5 class="mb-0">Hóa Đơn</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Sách</li>
+                           <li class="breadcrumb-item active" aria-current="page">Hóa Đơn</li>
                         </ul>
                      </nav>
                   </div>
@@ -196,41 +195,42 @@
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Danh sách sách</h4>
+                              <h4 class="card-title">Danh sách hóa đơn</h4>
                            </div>
-                           <div class="iq-card-header-toolbar d-flex align-items-center">
+                           <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
                               <a href="admin-add-book.html" class="btn btn-primary">Thêm sách</a>
-                           </div>
+                           </div> -->
                         </div>
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 3%;">STT</th>
-                                        <th style="width: 12%;">Hình ảnh</th>
-                                        <th style="width: 15%;">Tên sách</th>
-                                        <th style="width: 15%;">Thể loại sách</th>
-                                        <th style="width: 15%;">Tác giả sách</th>
-                                        <th style="width: 18%;">Mô tả sách</th>
-                                        <th style="width: 12%;">Giá</th>
-                                        <th style="width: 10%;">Hoạt động</th>
+                                        <th style="width: 15%;">Mã hóa đơn</th>
+                                        <th style="width: 12%;">Mã khách hàng</th>
+                                        <th style="width: 15%;">Tên người nhận hàng</th>
+                                        <th style="width: 3%;">SĐT</th>
+                                        <th style="width: 15%;">Địa chỉ</th>
+                                        <th style="width: 12%;">Tổng tiền</th>
+                                        <th style="width: 12%;">Ngày giao</th>
+                                        <th style="width: 18%;">Ngày đặt</th>
+                                        <th style="width: 10%;">Tình trạng</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                       foreach ($books as $key => $row) {
+                                       foreach ($result as $key => $row) {
                                           echo "
                                              <tr>
-                                                <td>{$row['Ma_Sach']}</td>
-                                                <td><img class='img-fluid rounded' src='{$row['Hinh_Anh']}' alt=''></td>
-                                                <td>{$row['Ten_Sach']}</td>
-                                                <td>{$row['Ten_Loai']}</td>
-                                                <td>{$row['Ten_Tac_Gia']}</td>
-                                                <td>
-                                                   <p class='mb-0'>{$row['Mo_Ta_Sach']}</p>
-                                                </td>
-                                                <td>{$row['Don_Gia']}</td>                                     
+                                                <td>{$row['MaHD']}</td>
+                                                <td>{$row['Ma_KH']}</td>
+                                                <td>{$row['Ten_Nguoi_Nhan_Hang']}</td>
+                                                <td>{$row['SDT']}</td>
+                                                <td>{$row['Dia_Chi_Nhan_Hang']}</td>
+                                                <td>{$row['Tong_Tien']}</td>
+                                                <td>{$row['Ngay_GH']}</td>
+                                                <td>{$row['Ngay_DH']}</td>
+                                                <td>{$row['Tinh_Trang']}</td>                                     
                                                 <td>
                                                    <div class='flex align-items-center list-user-action'>
                                                       <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>

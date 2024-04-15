@@ -19,6 +19,11 @@
 
    </head>
    <body>
+      <?php
+            require('./php/classes/database.php');
+            $result = Database::getAllRows('loai_sach');
+            Database::closeConnection();
+      ?>
       <!-- loader Start -->
       <div id="loading">
          <div id="loading-center">
@@ -48,9 +53,11 @@
                <nav class="iq-sidebar-menu">
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                      <li><a href="admin-dashboard.html"><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
-                     <li><a href="admin-category.html"><i class="ri-record-circle-line"></i>Danh Mục Sách</a></li>
-                     <li><a href="admin-author.html"><i class="ri-record-circle-line"></i>Tác Giả</a></li>
+                     <li><a href="admin-bill.html"><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
+                     <li><a href="admin-invoice-details.html"><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
+                     <li><a href="admin-user.html"><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.html"><i class="ri-record-circle-line"></i>Sách</a></li>
+                     <li><a href="admin-category.html"><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
                      <li><a href="dangnhap.html"><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
@@ -84,11 +91,11 @@
                      </div>
                   </div>
                   <div class="navbar-breadcrumb">
-                     <h5 class="mb-0">Danh sách danh mục</h5>
+                     <h5 class="mb-0">Danh sách thể loại</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Danh sách danh mục</li>
+                           <li class="breadcrumb-item active" aria-current="page">Danh sách thể loại</li>
                         </ul>
                      </nav>
                   </div>
@@ -189,7 +196,7 @@
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Danh sách danh mục</h4>
+                              <h4 class="card-title">Thể loại sách</h4>
                            </div>
                            <div class="iq-card-header-toolbar d-flex align-items-center">
                               <a href="admin-add-category.html" class="btn btn-primary">Thêm danh mục mới</a>
@@ -207,136 +214,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Sách chung</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một khái niệm mở, hình thức sách còn được thay đổi và cấu thành các dạng khác nhau theo các phương thức chế tác và nhân bản khác nhau, tùy thuộc vào môi trường sống và sự phát triển của khoa học công nghệ ở mỗi thời đại.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xoá" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Sách lịch sử</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một khái niệm mở, hình thức sách còn được thay đổi và cấu thành các dạng khác nhau theo các phương thức chế tác và nhân bản khác nhau, tùy thuộc vào môi trường sống và sự phát triển của khoa học công nghệ ở mỗi thời đại.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xoá" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Truyện kinh dị</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xoá" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Sách nghệ thuật</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xoá" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Phim & Nhiếp ảnh</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xoá" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Kinh doanh & Kinh tế</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Xoá" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>Truyện tranh & Mangas</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>Máy tính & Internet</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>Các môn thể thao</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>Du lịch lữ hành</td>
-                                        <td>
-                                          <p class="mb-0">Sách là một loạt các tờ giấy có chữ hoặc hình ảnh được viết tay hoặc in ấn, được buộc hoặc dán với nhau về một phía. Một tờ trong cuốn sách được gọi là một trang sách. Sách ở dạng điện tử được gọi là sách điện tử hoặc e-book.</p>
-                                        </td>
-                                        <td>
-                                           <div class="flex align-items-center list-user-action">
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Sửa" href="admin-add-category.html"><i class="ri-pencil-line"></i></a>
-                                             <a class="bg-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
-                                          </div>
-                                        </td>
-                                    </tr>
+                                 <?php 
+                                    foreach($result as $key => $row){
+                                       echo "
+                                       <tr>
+                                          <td>{$row['Ma_Loai']}</td>
+                                          <td>{$row['Ten_Loai']}</td>
+
+                                          <td>
+                                             <p  class='mb-0'>{$row['Mo_Ta']}</p>
+                                          </td>
+                                          <td>
+                                             <div class='flex align-items-center list-user-action'>
+                                                <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
+                                                <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       ";
+                                    }
+                                 ?>
                                 </tbody>
                             </table>
                            </div>

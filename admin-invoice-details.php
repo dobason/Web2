@@ -4,7 +4,7 @@
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Admin Dashboard - goodreads</title>
+      <title>goodreads - Danh mục sách</title>
       <!-- Favicon -->
       <link rel="shortcut icon" href="images/favicon.ico" />
       <!-- Bootstrap CSS -->
@@ -20,10 +20,9 @@
    </head>
    <body>
       <?php
-         require('./php/classes/database.php');
-         include('./php/classes/sach.php');
-         $books = Sach::getAllBooksWithTypes();
-         Sach::closeConnection();
+            require('./php/classes/database.php');
+            $result = Database::getAllRows('chi_tiet_hoa_don');
+            Database::closeConnection();
       ?>
       <!-- loader Start -->
       <div id="loading">
@@ -53,7 +52,7 @@
             <div id="sidebar-scrollbar">
                <nav class="iq-sidebar-menu">
                   <ul id="iq-sidebar-toggle" class="iq-menu">
-                  <li><a href="admin-dashboard.html"><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
+                     <li><a href="admin-dashboard.html"><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.html"><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
                      <li><a href="admin-invoice-details.html"><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
                      <li><a href="admin-user.html"><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
@@ -67,7 +66,7 @@
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
                            <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
+                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">Become Membership</button>
                         </div>
                      </div>
                   </div>
@@ -92,11 +91,11 @@
                      </div>
                   </div>
                   <div class="navbar-breadcrumb">
-                     <h5 class="mb-0">Sách</h5>
+                     <h5 class="mb-0">Chi tiết hóa đơn</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Sách</li>
+                           <li class="breadcrumb-item active" aria-current="page">Chi tiết hóa đơn</li>
                         </ul>
                      </nav>
                   </div>
@@ -120,7 +119,8 @@
                               <a class="search-link" href="#"><i class="ri-search-line"></i></a>
                            </form>
                         </li>
-                        
+                        <li class="nav-item nav-icon">
+                         
                         <li class="line-height pt-3">
                            <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
                               <img src="IMG/user.png" class="img-fluid rounded-circle mr-3" alt="user">
@@ -133,7 +133,7 @@
                               <div class="iq-card shadow-none m-0">
                                  <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                       <h5 class="mb-0 text-white line-height">Admin</h5>
+                                       <h5 class="mb-0 text-white line-height">Xin Chào Admin</h5>
                                     </div>
                                     <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
@@ -196,51 +196,38 @@
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Danh sách sách</h4>
+                              <h4 class="card-title">Chi tiết hóa đơn</h4>
                            </div>
-                           <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.html" class="btn btn-primary">Thêm sách</a>
-                           </div>
+                           <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
+                              <a href="admin-add-category.html" class="btn btn-primary">Thêm danh mục mới</a>
+                           </div> -->
                         </div>
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 3%;">STT</th>
-                                        <th style="width: 12%;">Hình ảnh</th>
-                                        <th style="width: 15%;">Tên sách</th>
-                                        <th style="width: 15%;">Thể loại sách</th>
-                                        <th style="width: 15%;">Tác giả sách</th>
-                                        <th style="width: 18%;">Mô tả sách</th>
-                                        <th style="width: 12%;">Giá</th>
-                                        <th style="width: 10%;">Hoạt động</th>
+                                        <th width="15%">Mã hóa đơn</th>
+                                        <th width="55%">Mã chi tiết hóa đơn</th>
+                                        <th width="20%">Mã sách</th>
+                                        <th width="10%">Số lượng</th>
+                                        <th width="10%">Đơn giá</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($books as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['Ma_Sach']}</td>
-                                                <td><img class='img-fluid rounded' src='{$row['Hinh_Anh']}' alt=''></td>
-                                                <td>{$row['Ten_Sach']}</td>
-                                                <td>{$row['Ten_Loai']}</td>
-                                                <td>{$row['Ten_Tac_Gia']}</td>
-                                                <td>
-                                                   <p class='mb-0'>{$row['Mo_Ta_Sach']}</p>
-                                                </td>
-                                                <td>{$row['Don_Gia']}</td>                                     
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                                 <?php 
+                                    foreach($result as $key => $row){
+                                       echo "
+                                       <tr>
+                                          <td>{$row['MaHD']}</td>
+                                          <td>{$row['Ma_Chi_Tiet_HD']}</td>
+                                          <td>{$row['Ma_Sach']}</td>
+                                          <td>{$row['So_Luong']}</td>
+                                          <td>{$row['Don_Gia']}</td>
+                                       </tr>
+                                       ";
+                                    }
+                                 ?>
                                 </tbody>
                             </table>
                            </div>
@@ -267,6 +254,7 @@
       </footer>
       <!-- Footer END -->
       <!-- color-customizer -->
+     
       <!-- color-customizer END -->
       <!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->

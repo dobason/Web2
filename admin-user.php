@@ -21,9 +21,8 @@
    <body>
       <?php
          require('./php/classes/database.php');
-         include('./php/classes/sach.php');
-         $books = Sach::getAllBooksWithTypes();
-         Sach::closeConnection();
+         $result = Database::getAllRows('khach_hang');
+         Database::closeConnection();
       ?>
       <!-- loader Start -->
       <div id="loading">
@@ -92,11 +91,11 @@
                      </div>
                   </div>
                   <div class="navbar-breadcrumb">
-                     <h5 class="mb-0">Sách</h5>
+                     <h5 class="mb-0">Khách Hàng</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
                            <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Sách</li>
+                           <li class="breadcrumb-item active" aria-current="page">Khách Hàng</li>
                         </ul>
                      </nav>
                   </div>
@@ -196,41 +195,39 @@
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Danh sách sách</h4>
+                              <h4 class="card-title">Danh sách khách hàng</h4>
                            </div>
-                           <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.html" class="btn btn-primary">Thêm sách</a>
-                           </div>
+                           <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
+                              <a href="admin-add-book.html" class="btn btn-primary">Thêm Khách Hàng</a>
+                           </div> -->
                         </div>
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 3%;">STT</th>
-                                        <th style="width: 12%;">Hình ảnh</th>
-                                        <th style="width: 15%;">Tên sách</th>
-                                        <th style="width: 15%;">Thể loại sách</th>
-                                        <th style="width: 15%;">Tác giả sách</th>
-                                        <th style="width: 18%;">Mô tả sách</th>
-                                        <th style="width: 12%;">Giá</th>
+                                        <th style="width: 1%;">Mã</th>
+                                        <th style="width: 16%;">Họ và tên</th>
+                                        <th style="width: 15%;">Tài khoản</th>
+                                        <th style="width: 15%;">Mật Khẩu</th>
+                                        <th style="width: 13%;">Ngày sinh</th>
+                                        <th style="width: 18%;">Địa chỉ</th>
+                                        <th style="width: 12%;">SĐT</th>
                                         <th style="width: 10%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
-                                       foreach ($books as $key => $row) {
+                                       foreach ($result as $key => $row) {
                                           echo "
                                              <tr>
-                                                <td>{$row['Ma_Sach']}</td>
-                                                <td><img class='img-fluid rounded' src='{$row['Hinh_Anh']}' alt=''></td>
-                                                <td>{$row['Ten_Sach']}</td>
-                                                <td>{$row['Ten_Loai']}</td>
-                                                <td>{$row['Ten_Tac_Gia']}</td>
-                                                <td>
-                                                   <p class='mb-0'>{$row['Mo_Ta_Sach']}</p>
-                                                </td>
-                                                <td>{$row['Don_Gia']}</td>                                     
+                                                <td>{$row['Ma_KH']}</td>
+                                                <td>{$row['Ten_KH']}</td>
+                                                <td>{$row['Tai_Khoan']}</td>
+                                                <td>{$row['Mat_Khau']}</td>
+                                                <td>{$row['Ngay_Sinh']}</td>
+                                                <td>{$row['Dia_Chi']}</td>
+                                                <td>{$row['SDT']}</td>                                      
                                                 <td>
                                                    <div class='flex align-items-center list-user-action'>
                                                       <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
