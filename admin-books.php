@@ -215,7 +215,7 @@
            </div>
            <div class="form-group">
              <label for="bookCategory">Thể loại sách</label>
-             <input type="text" class="form-control" id="bookCategory" name="bookCategory" required>
+             <input type="number" class="form-control" id="bookCategory" name="bookCategory" required>
            </div>
            <div class="form-group">
              <label for="bookAuthor">Tác giả sách</label>

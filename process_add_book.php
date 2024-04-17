@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $imagePath = $targetDir . basename($_FILES["bookImage"]["name"]);
 
                 // Thêm thông tin sách vào cơ sở dữ liệu
-                $sql = "INSERT INTO sach (Ten_Sach, The_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh)
+                $sql = "INSERT INTO sach (Ten_Sach, Ma_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh)
                         VALUES ('$bookTitle', '$bookCategory', '$bookAuthor', '$bookDescription', '$bookPrice', '$imagePath')";
                 execute($sql);
 
