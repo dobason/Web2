@@ -212,104 +212,60 @@
 
         </div>                      
 
-        <div class="product">
-            <div class="product-left">
+      
+        <?php
+require_once 'db/dbhelper.php';
+
+if (isset($_GET['id'])) {
+    $productID = $_GET['id'];
+
+    // Truy vấn cơ sở dữ liệu để lấy thông tin chi tiết của sản phẩm với ID là $productID
+    $sql = "SELECT * FROM sach WHERE Ma_Sach = '$productID'";
+    $product = executeSingleResult($sql);
+
+    // Kiểm tra nếu sản phẩm tồn tại và hiển thị thông tin sản phẩm
+    if ($product) {
+        $productName = $product['Ten_Sach'];
+        $imagePath =  $product['Hinh_Anh'];
+        $author = $product['Ten_Tac_Gia'];
+        $price = number_format($product['Don_Gia'], 0, ',', '.');
+        $description = $product['Mo_Ta'];
+
+        // Hiển thị thông tin chi tiết của sản phẩm
+        echo '<div class="product">';
+        echo '<div class="product-left">';
+        echo '<div class="product-top">';
+        echo '<img src="' . $imagePath . '" id="main-img">';
+        echo '</div>';
+        echo '</div>';
+        echo '<div class="product-right">';
+        echo '<div class="product-right-top">';
+        echo '<h2>' . $productName . '</h2>';
+        echo '<p>' . $price . 'đ</p>';
+        echo '<div class="product-shopping">';
+        echo '<input type="number" style="height:38px; width: 100px; margin:14px; border-radius: 10px;">';
+        echo '<button class="buyNowButton" data-image="' . $imagePath . '" data-title="' . $productName . '" data-quantity="1" onclick="addToCart(this)">Mua ngay</button>';
+        echo '</div>';
+        echo '</div>';
+        echo '<h3>Thông tin & Khuyến mãi:</h3>';
+        echo '<ul>';
+        echo '<li>Đổi trả hàng trong vòng 7 ngày</li>';
+        echo '<li>Freeship nội thành Sài Gòn từ 150.000đ</li>';
+        echo '<li>Freeship toàn quốc từ 250.000đ</li>';
+        echo '</ul>';
+        echo '</div>';
+        echo '</div>';
+        echo '<div class="middle2">';
+        echo '<h3>Mô tả sản phẩm: </h3>';
+        echo '<p>' . $description . '</p>';
+        echo '</div>';
+    } else {
+        echo '<p>Sản phẩm không tồn tại.</p>';
+    }
+}
+?>
 
 
-                <div class="product-top">
-                    <img src="IMG/product1.3.webp" id="main-img">
-                    <p>
-                        <img src="IMG/product1.3.webp">
-                        <img src="IMG/product1.1.webp">
-                    </p>
-                </div>
-
-                
-            </div>
-
-            <div class="product-right">
-                <div class="product-right-top">
-                    <h2>Những Người Hàng Xóm</h2>
-                    <ul>
-                        <h2>169,000 đ</h2>
-                        <li style="margin-top:15px;font-size:20px;color:green">Còn hàng: 47 sản phẩm</li>
-                        <div class="product-shopping">
-                            <input type="number" style="height:38px; width: 100px; margin:14px; border-radius: 10px;">
-                            <button class="buyNowButton" 
-                                    data-image="IMG/product1.3.webp" 
-                                    data-title="Những Người Hàng Xóm" 
-                                    data-quantity="1"
-                                    onclick="addToCart(this)">Mua ngay</button>
-                        </div>
-                    </ul>
-                </div>
-                <div class="product-right-down">
-                    <h3>Thông tin & Khuyến mãi:</h3>
-                    <li>Đổi trả hàng trong vòng 7 ngày</li>
-                    <li>Freeship nội thành Sài Gòn từ 150.000đ</li>
-                    <li>Freeship toàn quốc từ 250.000đ</li>
-                </div>
-                </ul>
-                <hr>
-                <div class="middle1">
-                    <div class="middle1-top">
-                        <h4>Thông tin sản phẩm:</h4>
-                    </div>
-                    <div class="middle1-bottom">
-        
-        
-                        <div class="middle1-left">
-                            <ul>
-        
-                                <li>Loại sản phẩm</li>
-                                <li>Ngày xuất bản</li>
-                                <li>Kích thước</li>
-                                <li>Số trang</li>
-                                <li>Tác giả</li>
-                                <li>Nhà xuất bản</li>
-                            </ul>
-                        </div>
-        
-                        <div class="middle1-right">
-                            <ul>
-                                <li>Bìa mềm</li>
-                                <li>03/12/2022</li>
-                                <li>13 x 20cm</li>
-                                <li>232</li>
-                                <li><a href="#">Nguyễn Nhật Ánh</a></li>
-                                <li>NXB Trẻ</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-    
-
-
-            </div>
-
-        </div>
-
-       
-           
-     
-
-        <div class="middle2">
-            <h3>Mô tả sản phẩm: </h3>
-            <p>Câu chuyện đi theo lời kể của một anh chàng mới lấy vợ, chuẩn bị đi làm và có ý thích viết văn. Anh chàng
-                yêu vợ theo cách của mình, khen ngợi sùng bái người yêu cũng theo cách của mình, nhưng nhìn cuộc đời
-                theo cách sống của những người hàng xóm. Sống trong tình yêu của vợ đầy mùi thơm và nhiều vị ngọt. Chứng
-                kiến tình yêu của anh cảnh sát với cô bạn gái ngành y; mối tình thứ hai của người phụ nữ tốt bụng phát
-                thanh viên ngôn ngữ ký hiệu. Và được chiêm nghiệm trong tình yêu đắm đuối mỗi ngày của ông họa sĩ già
-                thương nhớ người vợ xinh đẹp-người mẫu, nàng thơ của ông.</p>
-
-            <p>Như một cuốn phim đầy màu sắc với âm điệu dịu dàng, êm ả. Cuộc sống bình yên của những người yêu thương
-                nhau. Bài học về tình người đứng phía sau bài học về nghề viết, và cả trong câu chuyện về… một lối kinh
-                doanh nhà cực kỳ đặc biệt!</p>
-
-            <p>Câu chuyện mở ra sẽ là bất ngờ với bạn đọc “ruột” của Nguyễn Nhật Ánh, và kết thúc trong một sự dịu dàng
-                nhẹ nhõm lòng, bởi nhà văn đã nhắc lại cho ta nhớ: cuộc sống luôn thật là tươi đẹp biết bao. Khép sách
-                lại, bạn sẽ nhận được niềm vui bình yên.</p>
-        </div>
 
         <div class="slider5">
 

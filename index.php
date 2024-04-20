@@ -252,8 +252,7 @@
                     <?php
                     require_once 'db/dbhelper.php'; // Đảm bảo rằng bạn đã định nghĩa hàm executeResult trong dbhelper.php
 
-                    // Thư mục chứa hình ảnh trên máy chủ
-                    $imageDirectory = '.../IMG/'; // Đường dẫn tương đối đến thư mục IMG
+                  
 
                     // Truy vấn danh sách sách từ cơ sở dữ liệu
                     $sql = "SELECT * FROM sach";
@@ -267,19 +266,20 @@
                             $price = number_format($book['Don_Gia'], 0, ',', '.');
                             $imagePath =  $book['Hinh_Anh']; // Đường dẫn đến hình ảnh trên máy chủ
                     
-                            // Bắt đầu một phần tử sách
-                            echo '<div class="slider-product-one-content-item">';
-                            echo '<a href="product.html"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
-                            echo '<div class="slider-product-one-content-item-text">';
-                            echo '<div class="slider-text1">';
-                            echo '<li><a href="product.html"><p>' . $bookName . '</p></a></li>';
-                            echo '</div>';
-                            echo '<div class="slider-text2">';
-                            echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
-                            echo '</div>';
-                            echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
-                            echo '</div>';
-                            echo '</div>';
+                           // Bắt đầu một phần tử sách
+echo '<div class="slider-product-one-content-item">';
+echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+echo '<div class="slider-product-one-content-item-text">';
+echo '<div class="slider-text1">';
+echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
+echo '</div>';
+echo '<div class="slider-text2">';
+echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
+echo '</div>';
+echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+echo '</div>';
+echo '</div>';
+
                     
                             // Chỉnh sửa CSS trực tiếp tại đây
                             echo '<style>';
@@ -297,43 +297,7 @@
         </section>
     </div>
 </div>
-  <script>
-            $(document).ready(function() {
-                // Sử dụng AJAX để lấy danh sách sách từ server
-                $.ajax({
-                    type: 'GET',
-                    url: 'get_books.php', // Đường dẫn đến tập tin xử lý lấy danh sách sách
-                    success: function(response) {
-                        var books = JSON.parse(response);
-                        var html = '';
-
-                        // Duyệt qua từng cuốn sách và tạo HTML để hiển thị
-                        sach.forEach(function(sach) {
-                            html += `
-                        <div class="slider-product-one-content-item">
-                            <a href="product.html"><img src="${sach.Hinh_Anh}" alt="" width="500"></a>
-                            <div class="slider-product-one-content-item-text">
-                                <div class="slider-text1">
-                                    <li><a href="product.html"><p>${book.Ten_Tac_Gia}</p></a></li>
-                                </div>
-                                <div class="slider-text2">
-                                    <li><a href="#">${book.author}</a></li>
-                                </div>
-                                <li>${book.price}<sup><u>đ</u></sup></li>
-                            </div>
-                        </div>
-                    `;
-                        });
-
-                        // Thêm HTML vào vùng chứa danh sách sách trên trang
-                        $('#bookListContainer').html(html);
-                    },
-                    error: function(error) {
-                        console.log('Lỗi khi lấy dữ liệu sách:', error);
-                    }
-                });
-            });
-        </script>
+ 
         <!----------------------------------------------->
         <div class="slider2">
             <div class="in-slider2">
