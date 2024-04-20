@@ -152,9 +152,9 @@
                     <span class="text-tk">
                         <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
                         <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
+                            <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
                                 nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
+                            <a href="dangki.php" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
                         </div>
                     </span>
 
