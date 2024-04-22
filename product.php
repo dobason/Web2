@@ -214,6 +214,7 @@
 
       
         <?php
+
 require_once 'db/dbhelper.php';
 
 if (isset($_GET['id'])) {
@@ -223,47 +224,49 @@ if (isset($_GET['id'])) {
     $sql = "SELECT * FROM sach WHERE Ma_Sach = '$productID'";
     $product = executeSingleResult($sql);
 
-    // Kiểm tra nếu sản phẩm tồn tại và hiển thị thông tin sản phẩm
+    // Hiển thị thông tin chi tiết của sản phẩm
     if ($product) {
-        $productName = $product['Ten_Sach'];
-        $imagePath =  $product['Hinh_Anh'];
-        $author = $product['Ten_Tac_Gia'];
-        $price = number_format($product['Don_Gia'], 0, ',', '.');
-        $description = $product['Mo_Ta'];
-
-        // Hiển thị thông tin chi tiết của sản phẩm
-        echo '<div class="product">';
-        echo '<div class="product-left">';
-        echo '<div class="product-top">';
-        echo '<img src="' . $imagePath . '" id="main-img">';
-        echo '</div>';
-        echo '</div>';
-        echo '<div class="product-right">';
-        echo '<div class="product-right-top">';
-        echo '<h2>' . $productName . '</h2>';
-        echo '<p>' . $price . 'đ</p>';
-        echo '<div class="product-shopping">';
-        echo '<input type="number" style="height:38px; width: 100px; margin:14px; border-radius: 10px;">';
-        echo '<button class="buyNowButton" data-image="' . $imagePath . '" data-title="' . $productName . '" data-quantity="1" onclick="addToCart(this)">Mua ngay</button>';
-        echo '</div>';
-        echo '</div>';
-        echo '<h3>Thông tin & Khuyến mãi:</h3>';
-        echo '<ul>';
-        echo '<li>Đổi trả hàng trong vòng 7 ngày</li>';
-        echo '<li>Freeship nội thành Sài Gòn từ 150.000đ</li>';
-        echo '<li>Freeship toàn quốc từ 250.000đ</li>';
-        echo '</ul>';
-        echo '</div>';
-        echo '</div>';
-        echo '<div class="middle2">';
-        echo '<h3>Mô tả sản phẩm: </h3>';
-        echo '<p>' . $description . '</p>';
-        echo '</div>';
+        displayProductDetail($product);
     } else {
         echo '<p>Sản phẩm không tồn tại.</p>';
     }
 }
+
+function displayProductDetail($product) {
+    echo '<div class="product">';
+    echo '<div class="product-left">';
+    echo '<div class="product-top">';
+    echo '<img src="' . htmlentities($product['Hinh_Anh']) . '" id="main-img">';
+    echo '</div>';
+    echo '</div>';
+    echo '<div class="product-right">';
+    echo '<div class="product-right-top">';
+    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>';
+    echo '<p>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
+    echo '<div class="product-shopping">';
+    echo '<form action="add_to_cart.php" method="post">';
+    echo '<input type="hidden" name="product_id" value="' . $product['Ma_Sach'] . '">';
+    echo '<button type="submit" class="buyNowButton">Mua ngay</button>';
+    echo '</form>';
+    echo '</div>';
+    echo '</div>';
+    echo '<h3>Thông tin & Khuyến mãi:</h3>';
+    echo '<ul>';
+    echo '<li>Đổi trả hàng trong vòng 7 ngày</li>';
+    echo '<li>Freeship nội thành Sài Gòn từ 150.000đ</li>';
+    echo '<li>Freeship toàn quốc từ 250.000đ</li>';
+    echo '</ul>';
+    echo '</div>';
+    echo '</div>';
+    echo '<div class="middle2">';
+    echo '<h3>Mô tả sản phẩm: </h3>';
+    echo '<p>' . htmlentities($product['Mo_Ta']) . '</p>';
+    echo '</div>';
+}
 ?>
+
+
+
 
 
 
@@ -465,6 +468,10 @@ if (isset($_GET['id'])) {
     </script>
     <script src="js/p.js"></script>
     <script>
+        
+
+
+
         function addToCart(button) {
             // Kiểm tra trạng thái đăng nhập ở đây
             var isLoggedIn = checkLoginStatus(); // Hàm kiểm tra đăng nhập

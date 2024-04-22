@@ -1,16 +1,22 @@
 <?php
 require_once('config.php');
 
-// Hàm thực thi truy vấn không trả về kết quả (INSERT, UPDATE, DELETE)
-function execute($sql, $params = []) {
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    if (!$con) {
+// Khởi tạo kết nối CSDL
+function openDatabaseConnection() {
+    $conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
+    if (!$conn) {
         die("Không thể kết nối đến cơ sở dữ liệu: " . mysqli_connect_error());
     }
+    return $conn;
+}
 
-    $stmt = mysqli_prepare($con, $sql);
+// Hàm thực thi truy vấn không trả về kết quả (INSERT, UPDATE, DELETE)
+function execute($sql, $params = []) {
+    $conn = openDatabaseConnection();
+
+    $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
-        die("Lỗi truy vấn SQL: " . mysqli_error($con));
+        die("Lỗi truy vấn SQL: " . mysqli_error($conn));
     }
 
     if (!empty($params)) {
@@ -19,21 +25,18 @@ function execute($sql, $params = []) {
 
     $result = mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
-    mysqli_close($con);
+    mysqli_close($conn);
 
     return $result;
 }
 
 // Hàm thực thi truy vấn và trả về mảng kết quả (SELECT)
 function executeResult($sql, $params = []) {
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    if (!$con) {
-        die("Không thể kết nối đến cơ sở dữ liệu: " . mysqli_connect_error());
-    }
+    $conn = openDatabaseConnection();
 
-    $stmt = mysqli_prepare($con, $sql);
+    $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
-        die("Lỗi truy vấn SQL: " . mysqli_error($con));
+        die("Lỗi truy vấn SQL: " . mysqli_error($conn));
     }
 
     if (!empty($params)) {
@@ -45,21 +48,18 @@ function executeResult($sql, $params = []) {
     $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
     
     mysqli_stmt_close($stmt);
-    mysqli_close($con);
+    mysqli_close($conn);
 
     return $data;
 }
 
 // Hàm thực thi truy vấn và trả về một dòng kết quả duy nhất (SELECT)
 function executeSingleResult($sql, $params = []) {
-    $con = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-    if (!$con) {
-        die("Không thể kết nối đến cơ sở dữ liệu: " . mysqli_connect_error());
-    }
+    $conn = openDatabaseConnection();
 
-    $stmt = mysqli_prepare($con, $sql);
+    $stmt = mysqli_prepare($conn, $sql);
     if ($stmt === false) {
-        die("Lỗi truy vấn SQL: " . mysqli_error($con));
+        die("Lỗi truy vấn SQL: " . mysqli_error($conn));
     }
 
     if (!empty($params)) {
@@ -71,8 +71,35 @@ function executeSingleResult($sql, $params = []) {
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     
     mysqli_stmt_close($stmt);
-    mysqli_close($con);
+    mysqli_close($conn);
 
     return $row;
+}
+
+// Hàm để lấy thông tin sản phẩm từ CSDL dựa trên id
+function getProductById($productId)
+{
+    $sql = "SELECT * FROM `product` WHERE `id` = ?";
+    $params = ['i', $productId]; // i là kiểu integer
+
+    $product = executeSingleResult($sql, $params);
+    return $product;
+}
+
+// Hàm lấy thông tin tất cả các sản phẩm trong giỏ hàng
+function getAllCartItems() {
+    $conn = openDatabaseConnection();
+
+    $sql = "SELECT * FROM gio_hang";
+    $result = mysqli_query($conn, $sql);
+
+    if (!$result) {
+        die("Query failed: " . mysqli_error($conn));
+    }
+
+    $cartItems = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    mysqli_close($conn); // Đóng kết nối sau khi sử dụng
+
+    return $cartItems;
 }
 ?>
