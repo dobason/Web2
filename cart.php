@@ -240,33 +240,24 @@ width: 16%;
                     <div class="in-slider1-products">
 
                     <div class="cart-container">
+
                     <?php
 require_once 'db/dbhelper.php';
 
-// Thực hiện truy vấn SQL để lấy thông tin sản phẩm trong giỏ hàng
 $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
         FROM gio_hang 
         LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach";
 
-// Thực hiện truy vấn và kiểm tra kết quả
 $cartItems = executeResult($sql);
 
-// Kiểm tra nếu $cartItems không null và là một mảng hợp lệ
 if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
-    // Duyệt qua từng sản phẩm trong giỏ hàng và hiển thị
     foreach ($cartItems as $item) {
         $productName = $item['Ten_Sach'];
         $imagePath = $item['Hinh_Anh'];
         $price = $item['Don_Gia'];
         $quantity = $item['So_Luong'];
         $productId = $item['Ma_Sach'];
-
-        // Tính toán giá trị total theo yêu cầu
-        if ($quantity == 1) {
-            $total = $price; // Nếu là sản phẩm đầu tiên, total bằng price
-        } else {
-            $total = $price * $quantity; // Nếu sản phẩm đã có trước đó, total là price nhân số lượng
-        }
+        $total = $price * $quantity;
 
         echo '<div class="in-slider1-product">';
         echo '<div class="product-left">';
@@ -285,70 +276,77 @@ if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
         echo '<div class="product-price">';
         echo '<p>' . number_format($price, 0, ',', '.') . 'đ</p>';
         echo '</div>';
-        echo '<div class="product-price">';
-        echo '<p>' . number_format($total, 0, ',', '.') . 'đ</p>'; // Hiển thị giá trị total
+        echo '<div class="product-total" id="total_' . $productId . '">';
+        echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</p>'; // Hiển thị giá trị total
         echo '</div>';
+        
         echo '<div class="product-right">';
         echo '<button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button>';
         echo '</div>';
         echo '</div>';
     }
 } else {
-    // Hiển thị thông báo nếu không có sản phẩm trong giỏ hàng
     echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
 }
 ?>
 
-
-
 <script>
 function updateQuantity(productId, action) {
     let quantityElement = document.getElementById('quantity' + productId);
-    let priceElement = document.getElementById('price' + productId);
     let currentQuantity = parseInt(quantityElement.value);
 
     if (action === 'increment') {
-        // Tăng số lượng lên 1
         quantityElement.value = currentQuantity + 1;
     } else if (action === 'decrement') {
-        // Giảm số lượng đi 1 nếu số lượng hiện tại lớn hơn 1
         if (currentQuantity > 1) {
             quantityElement.value = currentQuantity - 1;
         }
     }
 
-    // Gọi hàm AJAX để cập nhật số lượng trên server khi cần
-    updateCartQuantity(productId, quantityElement.value);
-
-    // Tính toán đơn giá mới dựa trên số lượng mới
+    // Tính lại tổng giá trị mới
     let newQuantity = parseInt(quantityElement.value);
-    let unitPrice = parseFloat(priceElement.innerText.replace(/\D/g, '')); // Lấy giá trị số trong đơn giá hiện tại
-    let newPrice = newQuantity * unitPrice;
+    let priceElement = document.querySelector('#total_' + productId + ' p');
+    let price = parseFloat(priceElement.getAttribute('data-price')); // Lấy giá trị đơn giá từ thuộc tính data-price
+    let newTotal = price * newQuantity;
 
-    // Hiển thị đơn giá mới đã tính toán
-    priceElement.innerText = newPrice.toLocaleString() + 'đ';
+    // Cập nhật tổng giá trị trên giao diện người dùng
+    priceElement.innerText = newTotal.toLocaleString() + 'đ';
+
+    // Gọi AJAX để cập nhật số lượng trên máy chủ
+    updateCartQuantity(productId, newQuantity);
 }
 
-
-// Function to update cart quantity on the server using AJAX
 function updateCartQuantity(productId, newQuantity) {
-    // Gọi AJAX để cập nhật số lượng trên server
     $.ajax({
-        url: 'update_quantity.php', // Đường dẫn cập nhật số lượng
+        url: 'update_quantity.php',
         type: 'POST',
         data: {
             product_id: productId,
             quantity: newQuantity
         },
         success: function(response) {
-            console.log('Đã cập nhật số lượng sản phẩm có ID: ' + productId);
-            // Thực hiện các hành động sau khi cập nhật thành công (nếu cần)
+            if (response && response.success) {
+                console.log('Đã cập nhật số lượng sản phẩm có ID: ' + productId);
+                // Cập nhật thành công, có thể xử lý dữ liệu response.total nếu cần
+            } else {
+                console.log('Có lỗi xảy ra khi cập nhật số lượng sản phẩm');
+            }
         },
         error: function() {
-            console.log('Lỗi khi cập nhật số lượng sản phẩm');
+            console.log('Lỗi khi gửi yêu cầu cập nhật số lượng sản phẩm');
         }
     });
 }
+
+
+
+
+
+
+
+
+
+
 
 
 function confirmDelete(productId) {
