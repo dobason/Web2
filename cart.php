@@ -16,24 +16,14 @@
    <style>
     .in-slider1-bottom-top-left{
         text-align: center;
+        justify-content: center;
     }
-.cart-in-slider1{
-width: 36%;
-
-}
-.cart-in-slider2{
-width: 9%;
-}
-.cart-in-slider3{
-    text-align: left;
-width: 10%;
-}
-.product-right{
-width: 16%;
-}
-.in-slider1-product{
-    text-align: center;
-}
+    .product-right{
+        width: 16%;
+    }
+    .in-slider1-product{
+        text-align: center;
+    }
    </style>
 </head>
 
@@ -230,11 +220,14 @@ width: 16%;
             <div class="in-slider1-bottom">
                 <div class="in-slider1-bottom-left">
                     <div class="in-slider1-bottom-top-left">
-                        <div class="cart-in-slider1">Thông tin sản phẩm</div>
-
-                        <div class="cart-in-slider2">Số lượng</div>
-                        <div class="cart-in-slider2">Đơn giá</div>
-                        <div class="cart-in-slider3">Thành tiền</div>
+                        <div style="width: 9%">Mã</div>
+                        <div style="width: 10%">Tên sách</div>
+                        <div style="width: 10%">Hình ảnh</div>
+                        <div style="width: 20%, text-alig = left">Thông tin sản phẩm</div>
+                        <div style="width: 22%">Số lượng</div>
+                        <div style="width: 20%">Đơn giá</div>
+                        <div style="width: 20%">Thành tiền</div>
+                        <div style="width: 20%">Trạng thái</div>
 
                     </div>
                     <div class="in-slider1-products">
@@ -269,12 +262,13 @@ if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
         }
 
         echo '<div class="in-slider1-product">';
-        echo '<div class="product-left">';
-        echo '<img src="' . $imagePath . '" alt="' . $productName . '">';
-        echo '</div>';
         echo '<div class="product-title">';
         echo '<p>' . $productName . '</p>';
         echo '</div>';
+        echo '<div class="product-left">';
+        echo '<img src="' . $imagePath . '" alt="' . $productName . '">';
+        echo '</div>';
+
         echo '<div class="product-mid">';
         echo '<div class="in-product-mid">';
         echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'decrement\')">-</div>';
