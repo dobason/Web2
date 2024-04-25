@@ -214,27 +214,8 @@
 
         </div>
     </header>
+    <?php
 
-    <div class="cart-slider1">
-        <div class="in-slider1">
-            <div class="in-slider1-bottom">
-                <div class="in-slider1-bottom-left">
-                    <div class="in-slider1-bottom-top-left">
-                        <div style="width: 9%">Mã</div>
-                        <div style="width: 10%">Tên sách</div>
-                        <div style="width: 10%">Hình ảnh</div>
-                        <div style="width: 20%, text-alig = left">Thông tin sản phẩm</div>
-                        <div style="width: 22%">Số lượng</div>
-                        <div style="width: 20%">Đơn giá</div>
-                        <div style="width: 20%">Thành tiền</div>
-                        <div style="width: 20%">Trạng thái</div>
-
-                    </div>
-                    <div class="in-slider1-products">
-
-                    <div class="cart-container">
-
-                    <?php
 require_once 'db/dbhelper.php';
 
 $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
@@ -242,7 +223,15 @@ $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia
         LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach";
 
 $cartItems = executeResult($sql);
-
+    echo'<table width="600" align="center" border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">';
+    echo"<tr>";
+    echo"<th>Tên sách</th>";
+    echo"<th>Hình ảnh</th>";
+    echo"<th>Số lượng</th>";
+    echo"<th>Đơn giá</th>";
+    echo"<th>Tổng tiền</th>";
+    echo"<th>Trạng thái</th>";
+    echo"<tr>";
 if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
     foreach ($cartItems as $item) {
         $productName = $item['Ten_Sach'];
@@ -252,35 +241,20 @@ if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
         $productId = $item['Ma_Sach'];
         $total = $price * $quantity;
 
-        echo '<div class="in-slider1-product">';
-        echo '<div class="product-title">';
-        echo '<p>' . $productName . '</p>';
-        echo '</div>';
-        echo '<div class="product-left">';
-        echo '<img src="' . $imagePath . '" alt="' . $productName . '">';
-        echo '</div>';
-
-        echo '<div class="product-mid">';
-        echo '<div class="in-product-mid">';
+        echo '<tr>';
+        echo '<td>' . $productName . '</td>';
+        echo '<td><img src="' . $imagePath . '" alt="' . $productName . '"></td>';
         echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'decrement\')">-</div>';
-        echo '<input type="text" value="' . $quantity . '" class="number" id="quantity' . $productId . '" readonly>';
-        echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'increment\')">+</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '<div class="product-price">';
-        echo '<p>' . number_format($price, 0, ',', '.') . 'đ</p>';
-        echo '</div>';
-        echo '<div class="product-total" id="total_' . $productId . '">';
-        echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</p>'; // Hiển thị giá trị total
-        echo '</div>';
-        
-        echo '<div class="product-right">';
-        echo '<button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button>';
-        echo '</div>';
-        echo '</div>';
+        echo '<td><input type="text" value="' . $quantity . '" class="number" id="quantity' . $productId . '" readonly>';
+        echo '<p class="button" onclick="updateQuantity(' . $productId . ', \'increment\')">+</td>';
+        echo '<td>' . number_format($price, 0, ',', '.') . 'đ</td>';
+        echo '<td class="product-total" id="total_' . $productId . '">';
+        echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</td>'; // Hiển thị giá trị total
+        echo '<td><button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button></td>';
+        echo"</tr>";
     }
-} else {
-    echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
+    } else {
+        echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
 }
 ?>
 
