@@ -214,7 +214,6 @@
 
       
         <?php
-
 require_once 'db/dbhelper.php';
 
 if (isset($_GET['id'])) {
@@ -246,6 +245,9 @@ function displayProductDetail($product) {
     echo '<div class="product-shopping">';
     echo '<form action="add_to_cart.php" method="post">';
     echo '<input type="hidden" name="product_id" value="' . $product['Ma_Sach'] . '">';
+    echo '<input type="hidden" name="product_name" value="' . htmlentities($product['Ten_Sach']) . '">';
+    echo '<input type="hidden" name="product_image" value="' . htmlentities($product['Hinh_Anh']) . '">';
+    echo '<input type="hidden" name="product_price" value="' . $product['Don_Gia'] . '">';
     echo '<button type="submit" class="buyNowButton">Mua ngay</button>';
     echo '</form>';
     echo '</div>';
@@ -264,6 +266,7 @@ function displayProductDetail($product) {
     echo '</div>';
 }
 ?>
+
 
 
 
