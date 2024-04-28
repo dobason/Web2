@@ -38,19 +38,10 @@
 
 
 
-                <div class="top-right-item">
-
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
-
-                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
                 <div class="top-right-item">
                     <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
@@ -214,6 +205,8 @@
 
       
         <?php
+
+
 require_once 'db/dbhelper.php';
 
 if (isset($_GET['id'])) {
@@ -248,7 +241,20 @@ function displayProductDetail($product) {
     echo '<input type="hidden" name="product_name" value="' . htmlentities($product['Ten_Sach']) . '">';
     echo '<input type="hidden" name="product_image" value="' . htmlentities($product['Hinh_Anh']) . '">';
     echo '<input type="hidden" name="product_price" value="' . $product['Don_Gia'] . '">';
-    echo '<button type="submit" class="buyNowButton">Mua ngay</button>';
+
+    // Kiểm tra Ma_KH trong session và hiển thị nút "Mua ngay" chỉ khi Ma_KH tồn tại
+    if (isset($_SESSION['Ma_KH'])) {
+        echo '<button type="submit" class="buyNowButton">Mua ngay</button>';
+    } else {
+        // Nếu Ma_KH không tồn tại trong session, hiển thị thông báo JavaScript
+        echo '<button type="button" class="buyNowButton" onclick="showLoginAlert()">Mua ngay</button>';
+        echo '<script>';
+        echo 'function showLoginAlert() {';
+        echo '    alert("Vui lòng đăng nhập trước khi mua hàng.");';
+        echo '}';
+        echo '</script>';
+    }
+
     echo '</form>';
     echo '</div>';
     echo '</div>';
@@ -265,7 +271,13 @@ function displayProductDetail($product) {
     echo '<p>' . htmlentities($product['Mo_Ta']) . '</p>';
     echo '</div>';
 }
+
 ?>
+
+
+
+
+
 
 
 
@@ -470,40 +482,7 @@ function displayProductDetail($product) {
 
     </script>
     <script src="js/p.js"></script>
-    <script>
-        
-
-
-
-        function addToCart(button) {
-            // Kiểm tra trạng thái đăng nhập ở đây
-            var isLoggedIn = checkLoginStatus(); // Hàm kiểm tra đăng nhập
     
-            if (isLoggedIn) {
-                // Thực hiện thêm sản phẩm vào giỏ hàng
-                var image = button.getAttribute('data-image');
-                var title = button.getAttribute('data-title');
-                var quantity = button.getAttribute('data-quantity');
-    
-                // Gọi hàm thêm sản phẩm vào giỏ hàng
-                addToCartFunction(image, title, quantity);
-            } else {
-                // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-                alert('Vui lòng đăng nhập trước khi mua hàng!');
-                window.location.href = 'dangnhap.html'; // Điều hướng đến trang đăng nhập
-            }
-        }
-    
-        function checkLoginStatus() {
-            // Hàm kiểm tra đăng nhập, trả về true nếu đã đăng nhập và ngược lại
-            var loggedInUser = localStorage.getItem('loggedInUser');
-            return loggedInUser !== null;
-        }
-    
-        // Các hàm khác ở đây, bao gồm đăng nhập và thêm sản phẩm vào giỏ hàng
-        // ...
-    
-    </script>
 </body>
 
 </html>

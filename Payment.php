@@ -40,19 +40,10 @@
 
 
 
-                <div class="top-right-item">
-
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
-
-                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
                 <div class="top-right-item">
                     <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
@@ -323,72 +314,55 @@
     </div>
     <div class="transport">
         <div class="in-checkout">
+        <?php
+require_once 'db/dbhelper.php';
 
-            <div class="in-transport-bottom">
-                <div class="in-slider1-product" id="product1">
-                    <div class="product-left">
-                        <img src="IMG/in-pic1.jpg">
-                    </div>
-                    <div class="product-title">
-                        <p>Thỏ bảy màu và những người nghĩ nó là bạn</p>
-                    </div>
-                    <div class="product-mid">
-                            <p>1</p>
-                    </div>
-                    <div class="product-mid">
-                        <p>19.000 đ</p>
-                    </div>
+$sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
+        FROM gio_hang 
+        LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach";
 
-                    <div class="product-price">
-                        <p>19.000 đ</p>
-                    </div>
-                    
-                </div>
-            </div>
+$cartItems = executeResult($sql);
 
-            <div class="in-transport-bottom">
-                <div class="in-slider1-product" id="product1">
-                    <div class="product-left">
-                        <img src="IMG/in-pic2.jpg">
-                    </div>
-                    <div class="product-title">
-                        <p>Và rồi, tháng 9 khôn có cậu đã tới</p>
-                    </div>
-                    <div class="product-mid">
-                            <p>2</p>
-                    </div>
-                    <div class="product-mid">
-                        <p>38.000 đ</p>
-                    </div>
+if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
+    foreach ($cartItems as $item) {
+        $productName = $item['Ten_Sach'];
+        $imagePath = $item['Hinh_Anh'];
+        $price = $item['Don_Gia'];
+        $quantity = $item['So_Luong'];
+        $productId = $item['Ma_Sach'];
+        $total = $price * $quantity;
+        echo '<div class="in-transport-bottom">';
+        echo ' <div class="in-slider1-product" id="product1">';
+        echo ' <div class="product-left">';
+        echo '<img src="' . $imagePath . '" alt="' . $productName . '">';
+        echo '    </div>';
+        echo '    <div class="product-title">';
+              echo '   <p>' . $productName . '</p>';
+              echo '   </div>';
+              echo ' <div class="product-mid">';
+              echo '   <p>' . $quantity . '</p>';
+              echo '</div>';
+              echo '  <div class="product-mid">';
+              echo '<p>' . number_format($price, 0, ',', '.') . 'đ</p>';
+              echo '  </div>';
 
-                    <div class="product-price">
-                        <p class="total">76.000 đ</p>
-                    </div>
-                    
-                </div>
-            </div>
+              echo '<div class="product-price">';
+              echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</p>';
+              echo '   </div>';
+             
+              echo '   </div>';
+              echo ' </div>';
+       
+} 
+}
+           
+            else {
+                echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
+            }
+?>
+        
 
-            <div class="in-transport-bottom">
-                <div class="in-slider1-product" id="product1">
-                    <div class="product-left">
-                        <img src="IMG/in-pic3.jpg">
-                    </div>
-                    <div class="product-title">
-                        <p>Tôi thấy hoa vàng trên cỏ xanh</p>
-                    </div>
-                    <div class="product-mid">
-                            <p>3</p>
-                    </div>
-                    <div class="product-mid">
-                        <p>51.000 đ</p>
-                    </div>
-
-                    <div class="product-price">
-                        <p>153.000 đ</p>
-                    </div>
-                    
-                </div>
-            </div>
+       
         </div>
     </div>
 </div>
@@ -401,20 +375,32 @@
     </main>
     <footer>
         <div class="footer">
-            <div class="in-footer-body1">
-                <div class="in-footer-price">
-                    <div class="in-footer-price-top">
-                        <p>Thành tiền</p><span><p>248.000đ</p></span>
-                    </div>
+        <?php
+// Kết nối đến cơ sở dữ liệu
+require_once 'db/dbhelper.php';
 
-                    <div class="in-footer-price-mid">
-                        <p>Phí vận chuyển</p><span><p>10.000đ</p></span>
-                    </div>
-                    <div class="in-footer-price-total">
-                        <p>Tổng tiền</p><span><p>258.000đ</p></span>
-                    </div>
-                </div>
-            </div>
+// Lấy thông tin giá trị Tong_HD từ bảng gio_hang (ví dụ: dựa trên id khách hàng)
+$idKhachHang = 1; // Ví dụ id của khách hàng
+
+// Truy vấn để lấy Tong_HD từ bảng gio_hang
+$sql = "SELECT Tong_HD FROM gio_hang WHERE id_khach_hang = $idKhachHang";
+$result = executeSingleResult($sql);
+
+// Kiểm tra nếu có kết quả trả về từ truy vấn
+if ($result) {
+    $tongHoaDon = $result['Tong_HD'];
+
+    // Hiển thị giá trị Tong_HD trong thẻ <span>
+    echo '<div class="in-footer-body1">';
+    echo '<div class="in-footer-price-total">';
+    echo '<p>Tổng tiền</p><span><p>' . number_format($tongHoaDon) . 'đ</p></span>';
+    echo '</div>';
+    echo '</div>';
+} else {
+    echo '<p>Không có dữ liệu hoặc có lỗi xảy ra.</p>';
+}
+?>
+
             <div class="out">
                 <a href="cart.html"><div class="return"><p>Trở lại</p></div></a>
                 <button class="show-popup-button" onclick="confirmPayment()">Xác nhận thanh toán</button>

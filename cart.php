@@ -63,19 +63,10 @@ width: 16%;
 
 
 
-                <div class="top-right-item">
-
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
-
-                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
                 <div class="top-right-item">
                     <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
@@ -242,53 +233,65 @@ width: 16%;
                     <div class="cart-container">
 
                     <?php
+
 require_once 'db/dbhelper.php';
 
-$sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
-        FROM gio_hang 
-        LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach";
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (isset($_SESSION['Ma_KH'])) {
+    $maKhachHang = $_SESSION['Ma_KH'];
 
-$cartItems = executeResult($sql);
+    // Truy vấn dữ liệu từ bảng gio_hang theo Ma_KH
+    $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
+            FROM gio_hang 
+            LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach
+            WHERE gio_hang.Ma_KH = $maKhachHang";
 
-if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
-    foreach ($cartItems as $item) {
-        $productName = $item['Ten_Sach'];
-        $imagePath = $item['Hinh_Anh'];
-        $price = $item['Don_Gia'];
-        $quantity = $item['So_Luong'];
-        $productId = $item['Ma_Sach'];
-        $total = $price * $quantity;
+    $cartItems = executeResult($sql);
 
-        echo '<div class="in-slider1-product">';
-        echo '<div class="product-left">';
-        echo '<img src="' . $imagePath . '" alt="' . $productName . '">';
-        echo '</div>';
-        echo '<div class="product-title">';
-        echo '<p>' . $productName . '</p>';
-        echo '</div>';
-        echo '<div class="product-mid">';
-        echo '<div class="in-product-mid">';
-        echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'decrement\')">-</div>';
-        echo '<input type="text" value="' . $quantity . '" class="number" id="quantity' . $productId . '" readonly>';
-        echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'increment\')">+</div>';
-        echo '</div>';
-        echo '</div>';
-        echo '<div class="product-price">';
-        echo '<p>' . number_format($price, 0, ',', '.') . 'đ</p>';
-        echo '</div>';
-        echo '<div class="product-total" id="total_' . $productId . '">';
-        echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</p>'; // Hiển thị giá trị total
-        echo '</div>';
-        
-        echo '<div class="product-right">';
-        echo '<button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button>';
-        echo '</div>';
-        echo '</div>';
+    if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
+        foreach ($cartItems as $item) {
+            $productName = $item['Ten_Sach'];
+            $imagePath = $item['Hinh_Anh'];
+            $price = $item['Don_Gia'];
+            $quantity = $item['So_Luong'];
+            $productId = $item['Ma_Sach'];
+            $total = $price * $quantity;
+    
+            echo '<div class="in-slider1-product">';
+            echo '<div class="product-left">';
+            echo '<img src="' . $imagePath . '" alt="' . $productName . '">';
+            echo '</div>';
+            echo '<div class="product-title">';
+            echo '<p>' . $productName . '</p>';
+            echo '</div>';
+            echo '<div class="product-mid">';
+            echo '<div class="in-product-mid">';
+            echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'decrement\')">-</div>';
+            echo '<input type="text" value="' . $quantity . '" class="number" id="quantity' . $productId . '" readonly>';
+            echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'increment\')">+</div>';
+            echo '</div>';
+            echo '</div>';
+            echo '<div class="product-price">';
+            echo '<p>' . number_format($price, 0, ',', '.') . 'đ</p>';
+            echo '</div>';
+            echo '<div class="product-total" id="total_' . $productId . '">';
+            echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</p>'; // Hiển thị giá trị total
+            echo '</div>';
+            
+            echo '<div class="product-right">';
+            echo '<button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button>';
+            echo '</div>';
+            echo '</div>';
+        }
+    }  else {
+        echo '<p>Giỏ hàng của bạn đang trống.</p>';
     }
 } else {
-    echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
+    echo '<p>Vui lòng đăng nhập để xem giỏ hàng.</p>';
 }
 ?>
+
+
 
 <script>
 function updateQuantity(productId, action) {
@@ -429,21 +432,33 @@ function deleteProduct(productId) {
                     <div class="total-price">
                         <div class="in-total-price">
                             <div id="total" class="total-info">
-                                <div class="total-row">
-                                    <span class="total-label">Tổng cộng:</span>
-                                    <span id="total-price">0 đ</span>
-                                </div>
-                                <div class="total-row">
-                                    <span class="total-label">Thuế (10%):</span>
-                                    <span id="tax">0 đ</span>
-                                </div>
-                                <div class="total-row">
-                                    <span class="total-label">Tổng cộng kèm thuế:</span>
-                                    <span id="total-with-tax">0 đ</span>
-                                </div>
-                            </div>
+                            <?php
+require_once 'db/dbhelper.php';
 
-                            <a href="/Payment.html">
+// Truy vấn SQL để lấy giá trị của cột Tong_HD từ bảng gio_hang
+$sqlGetTotalAmount = "SELECT Tong_HD FROM gio_hang";
+
+// Thực thi truy vấn để lấy giá trị Tong_HD
+$totalResult = executeSingleResult($sqlGetTotalAmount);
+
+// Kiểm tra nếu có kết quả trả về và tồn tại cột Tong_HD
+if ($totalResult && isset($totalResult['Tong_HD'])) {
+    $totalAmount = $totalResult['Tong_HD'];
+
+    // Hiển thị giá trị Tong_HD trong phần tử HTML
+    echo '
+        <div class="total-row">
+            <span class="total-label">Tổng cộng:</span>
+            <span id="total-price">' . number_format($totalAmount, 0, ',', '.') . ' đ</span>
+        </div>';
+} else {
+    // Hiển thị thông báo nếu không có giá trị Tong_HD
+    echo '<div class="total-row"><span class="total-label">Tổng cộng:</span><span id="total-price">0 đ</span></div>';
+}
+?>
+
+
+                            <a href="Payment.php">
                                 <div class="pay">
                                     <p>THANH TOÁN</p>
                                 </div>

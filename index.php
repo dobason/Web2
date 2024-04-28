@@ -9,7 +9,7 @@
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="js/main.js"> </script>
     <script src="js/search.js"></script>
-
+    <script src="js/dangky"></script>
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
     <!-- Đường dẫn tới tệp CSS bạn đã chỉnh sửa -->
 
@@ -79,19 +79,12 @@
 
 
 
-                <div class="top-right-item">
 
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
-                </div>
 
                 <div class="top-right-item">
                     <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
@@ -405,7 +398,8 @@
 
 
     </footer>
-    <script src="js/p.js"></script>
+    
+
 </body>
 
 </html>

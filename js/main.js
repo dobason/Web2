@@ -1,32 +1,36 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // Lưu trữ số lượng sản phẩm trong giỏ hàng trong local storage
-    let cartItemCount = localStorage.getItem("cartItemCount") || 0;
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Gửi yêu cầu đăng nhập và xử lý phản hồi
+        const form = document.getElementById('formDangNhap');
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-    // Hiển thị số lượng sản phẩm trong giỏ hàng
-    const cartItemCountElement = document.getElementById("cartItemCount");
-    cartItemCountElement.textContent = cartItemCount;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
 
-    // Sự kiện click cho nút "Mua ngay"
-    function addToCart(button) {
-        // Kiểm tra xem sự kiện đã được xử lý chưa
-        if (button.getAttribute("data-clicked") === "true") {
-            return;
-        }
+            try {
+                const response = await fetch('process_login.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, password })
+                });
 
-        // Đánh dấu sự kiện đã được xử lý
-     
-
-        // Tăng số lượng sản phẩm trong giỏ hàng
-        cartItemCount++;
-        cartItemCountElement.textContent = cartItemCount;
-
-        // Lưu trữ số lượng sản phẩm trong local storage
-        localStorage.setItem("cartItemCount", cartItemCount);
-    }
-
-    // Gắn sự kiện click cho nút "Mua ngay"
-    const buyNowButton = document.querySelector('.buyNowButton');
-    buyNowButton.addEventListener('click', function () {
-        addToCart(this);
+                const data = await response.json();
+                if (data.success) {
+                    // Đăng nhập thành công, thay đổi nội dung phần tử #namelogin
+                    const namelogin = document.getElementById('namelogin');
+                    namelogin.innerHTML = `${data.username}<i class="fa fa-caret-down"></i>`;
+                    
+                    // Chuyển hướng đến trang index.php hoặc trang khác
+                    window.location.href = 'index.php';
+                } else {
+                    alert(data.message); // Hiển thị thông báo lỗi
+                }
+            } catch (error) {
+                console.error('Đã xảy ra lỗi:', error);
+            }
+        });
     });
-});
+</script>
