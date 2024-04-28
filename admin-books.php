@@ -60,6 +60,20 @@
                      <li><a href="admin-author.html"><i class="ri-record-circle-line"></i>Tác Giả</a></li>
                      <li><a href="admin-books.html"><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="dangnhap.html"><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
+                  <li><a href="admin-dashboard.php
+                  "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
+                     <li><a href="admin-bill.php
+                     "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
+                     <li><a href="admin-invoice-details.php
+                     "><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
+                     <li><a href="admin-user.php
+                     "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
+                     <li><a href="admin-books.php
+                     "><i class="ri-record-circle-line"></i>Sách</a></li>
+                     <li><a href="admin-category.php
+                     "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
+                     <li><a href="dangnhap.php
+                     "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
                <div id="sidebar-bottom" class="p-3 position-relative">
@@ -135,7 +149,7 @@
                                     <div class="bg-primary p-3">
                                        <h5 class="mb-0 text-white line-height">Admin</h5>
                                     </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>

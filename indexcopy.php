@@ -348,17 +348,56 @@
                     <div class="slider-product-one-content">
                         <div class="slider-product-one-content-items" id="bookListContainer">
                             <?php
+                            $param = "";
+                            $sortParam = "";
+                            $orderConditon = "";
+                            //Tìm kiếm
+                            $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
+                            if ($search) {
+                                $where = "WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                                $param .= "Ten_Sach=" . $search . "&";
+                                $sortParam = "Ten_Sach=" . $search . "&";
+                            }
+
+                            //Sắp xếp
+                            $orderField = isset($_GET['field']) ? $_GET['field'] : "";
+                            $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
+                            if (!empty($orderField) && !empty($orderSort)) {
+                                $orderConditon = "ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
+                                $param .= "field=" . $orderField . "&sort=" . $orderSort . "&";
+                            }
+
                             include 'connect_db.php';
                             $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
-                            $current_page = !empty($_GET['page']) ? $_GET['page'] : 1; //Trang hiện tại
+                             $current_page = !empty($_GET['page']) ? $_GET['page'] : 1; //Trang hiện tại
                             $offset = ($current_page - 1) * $item_per_page;
-                            $products = mysqli_query($con, "SELECT * FROM `sach` ORDER BY `Ma_Sach` ASC  LIMIT " . $item_per_page . " OFFSET " . $offset);
-                            $totalRecords = mysqli_query($con, "SELECT * FROM `sach`");
+                            if ($search) {
+                                $products = mysqli_query($con, "SELECT * FROM `sach` WHERE `Ten_Sach` LIKE '%" . $search . "%' " . $orderConditon . " LIMIT " . $item_per_page . " OFFSET " . $offset);
+                                $totalRecords = mysqli_query($con, "SELECT * FROM `sach` WHERE 'Ten_Sach' LIKE '%" . $search . "%'");
+                            } else {
+                                $products = mysqli_query($con, "SELECT * FROM `sach` " . $orderConditon . " LIMIT " . $item_per_page . " OFFSET " . $offset);
+                                $totalRecords = mysqli_query($con, "SELECT * FROM `sach`");
+                            }
+
+
                             $totalRecords = $totalRecords->num_rows;
                             $totalPages = ceil($totalRecords / $item_per_page);
                             ?>
                             <div class="container">
-                                
+                                <div id="filter-box">
+                                    <form id="product-search" method="GET">
+                                        <label>Tìm kiếm sản phẩm</label>
+                                        <input type="text" value="<?= isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "" ?>" name="Ten_Sach" />
+                                        <input type="submit" value="Tìm kiếm" />
+                                    </form>
+                                    <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                        <option value="">Sắp xếp giá</option>
+                                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
+                                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
+                                    </select>
+                                    <div style="clear: both;"></div>
+                                </div>
+
                                 <div class="product-items">
                                     <?php
                                     while ($row = mysqli_fetch_array($products)) {

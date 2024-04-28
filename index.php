@@ -21,14 +21,17 @@
             width: 1200px;
             margin: 0 auto;
         }
+
         .product-items {
             border: 1px solid #ccc;
             padding: 30px;
         }
+
         .clear-both {
             clear: both;
         }
-         a {
+
+        a {
             text-decoration: none;
         }
 
@@ -48,10 +51,11 @@
             background: #000;
             color: #FFF;
         }
-        .slider-product-one-content-items
-        {
+
+        .slider-product-one-content-items {
             margin-top: 10px;
         }
+
         
     </style>
     <header>
@@ -65,17 +69,69 @@
                 <div class="logo">
                     <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
+                <?php
+                require_once 'db/dbhelper.php';
 
+                $param = "";
+                $sortParam = "";
+                $orderCondition = "";
+
+                // Tìm kiếm
+                $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
+                if ($search) {
+                    $where = "WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                    $param .= "Ten_Sach=" . $search . "&";
+                    $sortParam = "Ten_Sach=" . $search . "&";
+                }
+
+                // Sắp xếp
+                $orderField = isset($_GET['field']) ? $_GET['field'] : "";
+                $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
+                if (!empty($orderField) && !empty($orderSort)) {
+                    $orderCondition = "ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
+                    $param .= "field=" . $orderField . "&sort=" . $orderSort . "&";
+                }
+
+                include 'connect_db.php';
+
+                $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+                $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+                $offset = ($current_page - 1) * $item_per_page;
+
+                // Thực hiện truy vấn sử dụng executeResult
+                $sql = "SELECT * FROM `sach`";
+                if ($search) {
+                    $sql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                }
+                $sql .= " " . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
+
+                $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
+
+                // Đếm tổng số bản ghi
+                $countSql = "SELECT COUNT(*) as total FROM `sach`";
+                if ($search) {
+                    $countSql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                }
+
+                $totalRecords = executeResult($countSql);
+                $totalRecords = $totalRecords[0]['total'];
+                $totalPages = ceil($totalRecords / $item_per_page);
+                ?>
 
 
 
                 <div class="box">
-                    <div class="container-1">
-                        <span class="icon"><i class="fa fa-search"></i></span>
-                        <input type="search" id="search" placeholder="Search..." />
-                        <ul id="searchSuggestions" class="search-suggestions"></ul>
-                    </div>
+                    <form class="container-1" method="GET">
+                        <button type="submit"><span class="icon"><i class="fa fa-search"></i></span></button>
+                        <input type="text" id="search" value="<?= isset($_GET['Ten_Sach']) ? ($_GET['Ten_Sach']) : "" ?>" name="Ten_Sach" placeholder="Tìm kiếm...">
+                    </form>
+                    <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        <option value="">Sắp xếp giá</option>
+                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
+                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
+                    </select>
                 </div>
+            </div>
 
 
 
@@ -86,12 +142,12 @@ require_once 'header.php';
 ?>
 
 
-                <div class="top-right-item">
-                    <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-                    <p id="cartItemCount">0</p>
-                </div>
-
+            <div class="top-right-item">
+                <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                <p id="cartItemCount">0</p>
             </div>
+
+        </div>
         </div>
         <div class="menu-bar">
             <div class="menu-bar-content">
@@ -269,79 +325,64 @@ require_once 'header.php';
 
         <!------------------------------------------------------------------>
         <div class="slider5">
-    <div class="in-slider5">
-        <section class="slider-product-one">
-            <div class="slider-product-one-content">
-            
-                <div class="slider-product-one-content-items" id="bookListContainer">
-                    <?php
-                    require_once 'db/dbhelper.php'; // Đảm bảo rằng bạn đã định nghĩa hàm executeResult trong dbhelper.php
+            <div class="in-slider5">
+                <section class="slider-product-one">
+                    <div class="slider-product-one-content">
 
-                    include 'connect_db.php';
+                        <div class="slider-product-one-content-items" id="bookListContainer">
+                            <?php
+                            // Kiểm tra nếu có sản phẩm trong danh sách
+                            if ($sach) {
+                                foreach ($sach as $index => $book) {
+                                    $bookName = $book['Ten_Sach'];
+                                    $Tac_Gia = $book['Ten_Tac_Gia'];
+                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
+                                    $imagePath = $book['Hinh_Anh'];
 
-                    $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
-                    $current_page = !empty($_GET['page']) ? $_GET['page'] : 1; //Trang hiện tại
-                    $offset = ($current_page - 1) * $item_per_page;
-                    
-                    $totalRecords = mysqli_query($con, "SELECT * FROM `sach`");
-                    $totalRecords = $totalRecords->num_rows;
-                    $totalPages = ceil($totalRecords / $item_per_page);
+                                    // Hiển thị sản phẩm
+                                    echo '<div class="slider-product-one-content-item">';
+                                    echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                                    echo '<div class="slider-product-one-content-item-text">';
+                                    echo '<div class="slider-text1">';
+                                    echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
+                                    echo '</div>';
+                                    echo '<div class="slider-text2">';
+                                    echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
+                                    echo '</div>';
+                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                                    echo '</div>';
+                                    echo '</div>';
 
-                    // Truy vấn danh sách sản phẩm từ cơ sở dữ liệu với LIMIT và OFFSET
-                    $sql = "SELECT * FROM `sach` ORDER BY `Ma_Sach` ASC LIMIT $item_per_page OFFSET $offset";
-                    $sach = executeResult($sql);
+                                    // Chỉnh sửa CSS trực tiếp tại đây
+                                    echo '<style>';
+                                    echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
+                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
+                                    echo '</style>';
+                                }
+                            } else {
+                                echo '<p>Không tìm thấy sách nào.</p>';
+                            }
+                            ?>
 
-                    // Kiểm tra nếu có sản phẩm trong danh sách
-                    if ($sach) {
-                        foreach ($sach as $index => $book) {
-                            $bookName = $book['Ten_Sach'];
-                            $Tac_Gia = $book['Ten_Tac_Gia'];
-                            $price = number_format($book['Don_Gia'], 0, ',', '.');
-                            $imagePath = $book['Hinh_Anh'];
+                        </div>
+                        <?php include './pagination.php'; // Hiển thị phân trang 
+                        ?>
 
-                            // Hiển thị sản phẩm
-                            echo '<div class="slider-product-one-content-item">';
-                            echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
-                            echo '<div class="slider-product-one-content-item-text">';
-                            echo '<div class="slider-text1">';
-                            echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
-                            echo '</div>';
-                            echo '<div class="slider-text2">';
-                            echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
-                            echo '</div>';
-                            echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
-                            echo '</div>';
-                            echo '</div>';
+                    </div>
 
-                            // Chỉnh sửa CSS trực tiếp tại đây
-                            echo '<style>';
-                            echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                            echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
-                            echo '</style>';
-                        }
-                    } else {
-                        echo '<p>Không tìm thấy sách nào.</p>';
-                    }
-                    ?>
+                </section>
 
-                </div>
-                <?php include './pagination.php'; // Hiển thị phân trang ?>
-            
             </div>
-             
-        </section>
-       
-    </div>
-    
-</div>
 
-
-      
+        </div>
 
 
 
 
-        
+
+
+
+
     </main>
     <footer>
         <div class="footer">
