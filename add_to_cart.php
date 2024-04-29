@@ -22,25 +22,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'], $_POST['
             $updateQuantitySql = "UPDATE gio_hang SET So_Luong = So_Luong + 1 WHERE Ma_KH = $maKH AND Ma_Sach = $productId";
             $result = execute($updateQuantitySql);
 
-            if (!$result) {
-                echo "Lỗi khi cập nhật số lượng sản phẩm trong giỏ hàng.";
-                exit();
-            }
+            header('Location: cart.php');
         } else {
             // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới vào giỏ hàng
             $insertCartItemSql = "INSERT INTO gio_hang (Ma_KH, Ma_Sach, Ten_Sach, Hinh_Anh, Don_Gia, So_Luong) 
                                   VALUES ($maKH, $productId, '$productName', '$productImage', $productPrice, 1)";
             $result = execute($insertCartItemSql);
 
-            if (!$result) {
+            if ($result) {
+                // Nếu thêm mới thành công, chuyển hướng người dùng đến trang giỏ hàng
+                header('Location: cart.php');
+                exit();
+            } else {
+                // Nếu có lỗi khi thêm mới vào giỏ hàng
                 echo "Lỗi khi thêm sản phẩm vào giỏ hàng.";
                 exit();
             }
         }
-
-        // Chuyển hướng người dùng đến trang giỏ hàng sau khi thêm sản phẩm thành công
-        header('Location: cart.php');
-        exit();
     } else {
         // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
         header('Location: dangnhap.php');
