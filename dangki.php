@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<script>alert("Mật khẩu không khớp!");</script>';
     } else {
         // Thực hiện đăng ký
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO khach_hang (Ten_KH, Tai_Khoan, Mat_Khau, Trang_Thai) VALUES ('$fullname', '$username', '$hashedPassword', 1)";
+        
+        $sql = "INSERT INTO khach_hang (Ten_KH, Tai_Khoan, Mat_Khau, Trang_Thai) VALUES ('$fullname', '$username', '$password', 1)";
 
         // Thực thi truy vấn
         execute($sql);

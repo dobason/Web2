@@ -1,67 +1,54 @@
 <?php
+session_start();
 require_once 'db/dbhelper.php';
 
-// Kiểm tra nếu là phương thức POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Kiểm tra các thông tin sản phẩm được gửi từ form
-    if (isset($_POST['product_id'], $_POST['product_name'], $_POST['product_image'], $_POST['product_price'])) {
-        // Lấy thông tin sản phẩm từ form
-        $productId = $_POST['product_id'];
-        $productName = $_POST['product_name'];
-        $productImage = $_POST['product_image'];
-        $productPrice = $_POST['product_price'];
+// Kiểm tra nếu là phương thức POST và có đủ dữ liệu sản phẩm từ form
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'], $_POST['product_name'], $_POST['product_image'], $_POST['product_price'])) {
+    // Lấy thông tin sản phẩm từ form
+    $productId = $_POST['product_id'];
+    $productName = $_POST['product_name'];
+    $productImage = $_POST['product_image'];
+    $productPrice = $_POST['product_price'];
 
-        // Tránh SQL Injection bằng cách sử dụng Prepared Statements
-        $productId = intval($productId);
-        $productName = htmlspecialchars($productName);
-        $productImage = htmlspecialchars($productImage);
-        $productPrice = intval($productPrice);
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    if (isset($_SESSION['Ma_KH'])) {
+        $maKH = $_SESSION['Ma_KH'];
 
-        session_start();
-        // Kiểm tra nếu khách hàng đã đăng nhập
-        if (isset($_SESSION['Ma_KH'])) {
-            $maKH = $_SESSION['Ma_KH'];
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng chưa
+        $existingCartItem = executeSingleResult("SELECT * FROM gio_hang WHERE Ma_KH = $maKH AND Ma_Sach = $productId");
 
-            // Kiểm tra sự tồn tại của giỏ hàng của khách hàng
-            $existingCart = executeSingleResult("SELECT * FROM gio_hang WHERE Ma_KH = $maKH");
+        if ($existingCartItem) {
+            // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
+            $updateQuantitySql = "UPDATE gio_hang SET So_Luong = So_Luong + 1 WHERE Ma_KH = $maKH AND Ma_Sach = $productId";
+            $result = execute($updateQuantitySql);
 
-            if (!$existingCart) {
-                // Nếu chưa có giỏ hàng cho khách hàng này, thêm mới
-                $insertCartSql = "INSERT INTO gio_hang (Ma_KH) VALUES ($maKH)";
-                $result = execute($insertCartSql);
-
-                if (!$result) {
-                    echo "Lỗi khi tạo giỏ hàng mới.";
-                    exit(); // Dừng thực thi nếu có lỗi
-                }
-                
-                // Lấy Ma_GH của giỏ hàng mới được tạo
-                $newMaGH = mysqli_insert_id(openDatabaseConnection());
-            } else {
-                // Giỏ hàng của khách hàng đã tồn tại
-                $newMaGH = $existingCart['Ma_GH'];
-            }
-
-            // Thêm sản phẩm vào giỏ hàng
-            $sqlInsert = "INSERT INTO gio_hang (Ma_KH, Ma_Sach, Ten_Sach, Hinh_Anh, Don_Gia, So_Luong) 
-                          VALUES ($maKH, $productId, '$productName', '$productImage', $productPrice, 1)";
-
-            $result = execute($sqlInsert);
-
-            if ($result) {
-                // Chuyển hướng người dùng đến trang giỏ hàng sau khi thêm sản phẩm thành công
-                header('Location: cart.php');
+            if (!$result) {
+                echo "Lỗi khi cập nhật số lượng sản phẩm trong giỏ hàng.";
                 exit();
-            } else {
-                echo "Lỗi khi thêm sản phẩm vào giỏ hàng.";
             }
         } else {
-            echo "Vui lòng đăng nhập để mua hàng.";
+            // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới vào giỏ hàng
+            $insertCartItemSql = "INSERT INTO gio_hang (Ma_KH, Ma_Sach, Ten_Sach, Hinh_Anh, Don_Gia, So_Luong) 
+                                  VALUES ($maKH, $productId, '$productName', '$productImage', $productPrice, 1)";
+            $result = execute($insertCartItemSql);
+
+            if (!$result) {
+                echo "Lỗi khi thêm sản phẩm vào giỏ hàng.";
+                exit();
+            }
         }
+
+        // Chuyển hướng người dùng đến trang giỏ hàng sau khi thêm sản phẩm thành công
+        header('Location: cart.php');
+        exit();
     } else {
-        echo "Thiếu thông tin sản phẩm.";
+        // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        header('Location: dangnhap.php');
+        exit();
     }
 } else {
-    echo "Yêu cầu không hợp lệ.";
+    // Nếu không phải phương thức POST hoặc thiếu dữ liệu sản phẩm từ form, chuyển hướng về trang chủ
+    header('Location: index.php');
+    exit();
 }
 ?>

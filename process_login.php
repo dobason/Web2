@@ -31,32 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Mật khẩu hợp lệ, đăng nhập thành công
             $_SESSION['Ma_KH'] = $user['Ma_KH']; // Lưu Ma_KH vào session
 
-            // Lấy Ma_KH của người dùng
-            $ma_khach_hang = $user['Ma_KH'];
-
-            // Kiểm tra xem đã có giỏ hàng nào của người dùng này chưa
-            $check_sql = "SELECT * FROM gio_hang WHERE Ma_KH = ?";
-            $check_params = ['i', $ma_khach_hang];
-            $existing_cart = executeSingleResult($check_sql, $check_params);
-
-            if (!$existing_cart) {
-                // Nếu chưa có giỏ hàng, thêm mới vào bảng gio_hang
-                $insert_sql = "INSERT INTO gio_hang (Ma_KH) VALUES (?)";
-                $insert_params = ['i', $ma_khach_hang];
-                $result = execute($insert_sql, $insert_params);
-
-                if ($result) {
-                    // Chuyển hướng người dùng đến trang chính sau khi đăng nhập thành công
-                    header('Location: index.php');
-                    exit();
-                } else {
-                    echo "Có lỗi khi thêm giỏ hàng mới: " . getDbError();
-                }
-            } else {
-                // Đã có giỏ hàng của người dùng này
-                header('Location: index.php');
-                exit();
-            }
+            header('Location: index.php');
+            exit();
         } else {
             // Mật khẩu không đúng
             echo "Mật khẩu không chính xác.";

@@ -1,55 +1,41 @@
 <?php
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
 session_start();
-require_once 'db/dbhelper.php';
-
 if (isset($_SESSION['Ma_KH'])) {
+    require_once 'db/dbhelper.php'; // Import file dbhelper.php nếu cần
+
+    // Lấy mã khách hàng từ session
     $ma_khach_hang = $_SESSION['Ma_KH'];
 
-    // Truy vấn SQL để cập nhật gio_hang
-    $sql = "UPDATE gio_hang SET Ma_KH = ? WHERE Ma_KH IS NULL";
-    $params = ['i', $ma_khach_hang]; // i: integer (kiểu số nguyên)
+    // Truy vấn SQL để lấy thông tin tài khoản của người dùng từ Ma_KH
+    $sql = "SELECT Tai_Khoan FROM khach_hang WHERE Ma_KH = $ma_khach_hang";
+    $user = executeSingleResult($sql);
 
-    // Thực thi truy vấn SQL
-    execute($sql, $params);
-
-    // Kiểm tra và hiển thị thông báo sau khi cập nhật thành công
-    $affectedRows = mysqli_affected_rows(openDatabaseConnection());
-    if ($affectedRows > 0) {
-        echo "Đăng nhập thành công và đã liên kết với giỏ hàng.";
-    } else {
-        echo "Không có bản ghi nào được cập nhật trong giỏ hàng.";
-    }
-} else {
-    echo "Người dùng chưa đăng nhập.";
-}
-?>
-
-
-<?php
-if (isset($_SESSION['username'])) {
-    $loggedInUsername = $_SESSION['username'];
+    if ($user) {
+        $tai_khoan = $user['Tai_Khoan']; // Lấy tên tài khoản từ kết quả truy vấn
 ?>
     <div class="top-right-item">
         <i class="fa fa-user"></i>
         <span class="text-tk">
-            <p id="namelogin"><?php echo $loggedInUsername; ?><i class="fa fa-caret-down"></i></p>
+            <p id="namelogin"><?php echo $tai_khoan; ?><i class="fa fa-caret-down"></i></p>
             <div class="dropdown-content">
-                <!-- Đây là dropdown chỉ hiển thị khi người dùng đã đăng nhập -->
+                <!-- Hiển thị các liên kết cho người dùng đã đăng nhập -->
                 <a href="logout.php" class="dropdown-item"><i class="np fa fa-sign-out-alt"></i>Đăng xuất</a>
-                <a href="giohang.php" class="dropdown-item"><i class="np fa fa-cart-plus"></i>Giỏ hàng</a>
+                <a href="cart.php" class="dropdown-item"><i class="np fa fa-cart-plus"></i>Giỏ hàng</a>
             </div>
         </span>
     </div>
 <?php
+    }
 } else {
-    // Người dùng chưa đăng nhập, hiển thị phần đăng nhập và đăng ký
+    // Người dùng chưa đăng nhập, hiển thị nội dung đăng nhập và đăng ký
 ?>
     <div class="top-right-item">
         <i class="fa fa-user"></i>
         <span class="text-tk">
             <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
             <div class="dropdown-content">
+                <!-- Hiển thị các liên kết cho người dùng chưa đăng nhập -->
                 <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng nhập</a>
                 <a href="dangki.php" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
             </div>
@@ -58,4 +44,3 @@ if (isset($_SESSION['username'])) {
 <?php
 }
 ?>
-
