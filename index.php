@@ -67,7 +67,7 @@
 
             <div class="in-big-menu">
                 <div class="logo">
-                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
                 <?php
                 require_once 'db/dbhelper.php';
@@ -141,16 +141,16 @@
                 <span class="text-tk">
                     <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
                     <div class="dropdown-content">
-                        <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
+                        <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
                             nhập</a>
-                        <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
+                        <a href="dangki.php" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
                     </div>
                 </span>
 
             </div>
 
             <div class="top-right-item">
-                <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                <a href="cart.php" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
                 <p id="cartItemCount">0</p>
             </div>
 
@@ -159,7 +159,7 @@
         <div class="menu-bar">
             <div class="menu-bar-content">
                 <ul>
-                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
+                    <li><a href="web1.php"><i class="fa-solid fa-book"></i> Văn học trong nước <span class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
                         <div class="sub-menu">
                             <ul>
                                 <div class="in-sub-menu">
@@ -329,14 +329,70 @@
                 </div>
             </div>
         </div>
+    
+        <script>
+        // Set the date and time for the countdown
+        var countdownDate = new Date("Apr 30, 2024 00:00:00").getTime();
+
+        // Update the countdown every second
+        var countdown = setInterval(function() {
+            // Get the current date and time
+            var now = new Date().getTime();
+
+            // Calculate the remaining time
+            var distance = countdownDate - now;
+
+            // Calculate hours, minutes, and seconds
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("hours").innerHTML = formatTime(hours);
+            document.getElementById("minutes").innerHTML = formatTime(minutes);
+            document.getElementById("seconds").innerHTML = formatTime(seconds);
+
+            // If the countdown is finished, display a message
+            if (distance < 0) {
+                clearInterval(countdown);
+                document.getElementById("hours").innerHTML = "00";
+                document.getElementById("minutes").innerHTML = "00";
+                document.getElementById("seconds").innerHTML = "00";
+                // You can add code here to display a message when the countdown is finished
+            }
+        }, 1000);
+
+        // Function to add leading zeros if needed
+        function formatTime(time) {
+            return time < 10 ? "0" + time : time;
+        }
+
+        </script>
 
         <!------------------------------------------------------------------>
         <div class="slider5">
             <div class="in-slider5">
                 <section class="slider-product-one">
                     <div class="slider-product-one-content">
-
-                        <div class="slider-product-one-content-items" id="bookListContainer">
+                        <div class="slider-product-one-content-items" style="justify-content:center" id="bookListContainer">
+                            <!------Flash Sales------------------->
+                            <div id="flashsale-slider" style="display:block; width:100%; overflow-x:auto;justify-content:center; height: 60px; width:100%">
+                                <div class="flash-sale-header" style="display:flex; align-items:center; justify-content:center;">
+                                    <div class="fhs-center-space">
+                                        <a style="position:relative; display:flex; align-items:center;" class="flashsale-slider-title" href="#">
+                                            <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/flashsale/label-flashsale.svg?q=" style="margin-right:5px;">
+                                            <span style="color:#000; font-weight:600; font-size:1.2em; font-family:'Nunito Sans';">Kết thúc trong</span>
+                                            <div class="flashsale-countdown" style="display:flex; align-items:center; margin-left:10px;">
+                                                <span id="hours" class="flashsale-countdown-number"></span>
+                                                <span>:</span>    
+                                                <span id="minutes" class="flashsale-countdown-number"></span>
+                                                <span>:</span>  
+                                                <span id="seconds" class="flashsale-countdown-number"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                             <?php
                             // Kiểm tra nếu có sản phẩm trong danh sách
                             if ($sach) {
@@ -382,7 +438,7 @@
             </div>
 
         </div>
-
+    
 
 
 

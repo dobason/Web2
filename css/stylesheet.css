@@ -416,7 +416,7 @@ width: 75em;
 .slider-product-one-content-items {
    display: flex;
    flex-wrap: wrap; /* Cho phép các phần tử chuyển dòng khi không đủ không gian */
-   justify-content: flex-start; /* Các phần tử sẽ được căn bên trái */
+   justify-content: flex-start;
 
 }
 

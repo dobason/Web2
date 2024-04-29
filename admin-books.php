@@ -1,6 +1,10 @@
+
+
 <!doctype html>
 <html lang="en">
    <head>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -19,12 +23,10 @@
 
    </head>
    <body>
-      <?php
-         require('./php/classes/database.php');
-         include('./php/classes/sach.php');
-         $books = Sach::getAllBooksWithTypes();
-         Sach::closeConnection();
-      ?>
+
+
+
+
       <!-- loader Start -->
       <div id="loading">
          <div id="loading-center">
@@ -36,7 +38,7 @@
          <!-- Sidebar  -->
          <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
-               <a href="index.html" class="header-logo">
+               <a href="index.php" class="header-logo">
                   <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                   <div class="logo-title">
                      <span class="text-primary text-uppercase">goodreads</span>
@@ -53,8 +55,8 @@
             <div id="sidebar-scrollbar">
                <nav class="iq-sidebar-menu">
                   <ul id="iq-sidebar-toggle" class="iq-menu">
-                  <li><a href="admin-dashboard.php
-                  "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
+                  <li><a href="admin-dashboard.php">
+                  <i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
                      <li><a href="admin-invoice-details.php
@@ -90,7 +92,7 @@
                         <div class="main-circle"><i class="las la-bars"></i></div>
                      </div>
                      <div class="iq-navbar-logo d-flex justify-content-between">
-                        <a href="index.html" class="header-logo">
+                        <a href="index.php" class="header-logo">
                            <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                            <div class="logo-title">
                               <span class="text-primary text-uppercase">goodreads</span>
@@ -102,7 +104,7 @@
                      <h5 class="mb-0">Sách</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+                           <li class="breadcrumb-item"><a href="index.php">Admin</a></li>
                            <li class="breadcrumb-item active" aria-current="page">Sách</li>
                         </ul>
                      </nav>
@@ -142,7 +144,7 @@
                                     <div class="bg-primary p-3">
                                        <h5 class="mb-0 text-white line-height">Admin</h5>
                                     </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>
@@ -197,6 +199,55 @@
          <!-- TOP Nav Bar END -->
          <!-- Page Content  -->
          <div id="content-page" class="content-page">
+
+
+
+<!-- Modal for adding a new book -->
+<div class="modal fade" id="addBookModal" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="addBookModalLabel">Thêm sách mới</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+         <form id="addBookForm" action="process_add_book.php" method="post" enctype="multipart/form-data">
+           <div class="form-group">
+             <label for="bookImage">Hình ảnh</label>
+             <input type="file" class="form-control-file" id="bookImage" name="bookImage">
+           </div>
+           <div class="form-group">
+             <label for="bookTitle">Tên sách</label>
+             <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
+           </div>
+           <div class="form-group">
+             <label for="bookCategory">Thể loại sách</label>
+             <input type="text" class="form-control" id="bookCategory" name="bookCategory" required>
+           </div>
+           <div class="form-group">
+             <label for="bookAuthor">Tác giả sách</label>
+             <input type="text" class="form-control" id="bookAuthor" name="bookAuthor" required>
+           </div>
+           <div class="form-group">
+             <label for="bookDescription">Mô tả sách</label>
+             <textarea class="form-control" id="bookDescription" name="bookDescription" rows="3" required></textarea>
+           </div>
+           <div class="form-group">
+             <label for="bookPrice">Giá tiền</label>
+             <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
+           </div>
+           <button type="submit" class="btn btn-primary">Lưu</button>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>
+
+ 
+ 
+
             <div class="container-fluid">
                <div class="row">
                   <div class="col-sm-12">
@@ -206,7 +257,9 @@
                               <h4 class="card-title">Danh sách sách</h4>
                            </div>
                            <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.html" class="btn btn-primary">Thêm sách</a>
+                              <a href="#" id="addBookButton" class="btn btn-primary">Thêm sách</a>
+
+
                            </div>
                         </div>
                         <div class="iq-card-body">
@@ -220,34 +273,54 @@
                                         <th style="width: 15%;">Thể loại sách</th>
                                         <th style="width: 15%;">Tác giả sách</th>
                                         <th style="width: 18%;">Mô tả sách</th>
-                                        <th style="width: 12%;">Giá</th>
-                                        <th style="width: 10%;">Hoạt động</th>
+                                        <th style="width: 7%;">Giá</th>
+                                        <th style="width: 15%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($books as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['Ma_Sach']}</td>
-                                                <td><img class='img-fluid rounded' src='{$row['Hinh_Anh']}' alt=''></td>
-                                                <td>{$row['Ten_Sach']}</td>
-                                                <td>{$row['Ten_Loai']}</td>
-                                                <td>{$row['Ten_Tac_Gia']}</td>
-                                                <td>
-                                                   <p class='mb-0'>{$row['Mo_Ta_Sach']}</p>
-                                                </td>
-                                                <td>{$row['Don_Gia']}</td>                                     
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                                <?php
+require_once('db/dbhelper.php');
+
+// Truy vấn dữ liệu sách từ cơ sở dữ liệu
+$sql = "SELECT * FROM sach";
+$books = executeResult($sql);
+
+foreach ($books as $index => $book) {
+   $stt = $index + 1; // Số thứ tự
+   $bookName = $book['Ten_Sach'];
+   $category = $book['Ma_Loai'];
+   $author = $book['Ten_Tac_Gia'];
+   $description = $book['Mo_Ta'];
+   $price = number_format($book['Don_Gia'], 0, ',', '.'); // Định dạng giá tiền thành 15.000
+   $image = $book['Hinh_Anh'];
+   $bookId = $book['Ma_Sach']; // ID của sách
+
+   echo '<tr>';
+   echo '<td>' . $stt . '</td>'; // STT
+   echo '<td><img src="' . $image . '" alt="Book Image" style="width: 100px;"></td>'; // Hình ảnh
+   echo '<td>' . $bookName . '</td>'; // Tên sách
+   echo '<td>' . $category . '</td>'; // Thể loại sách
+   echo '<td>' . $author . '</td>'; // Tác giả sách
+   echo '<td>' . $description . '</td>'; // Mô tả sách
+   echo '<td>' . $price . '</td>'; // Giá đã định dạng
+   echo '<td>';
+   
+   echo '<a href="#" class="edit-book" data-book-id="' . $bookId . '">Sửa</a> | ';
+
+
+
+   
+   // Liên kết xóa với xác nhận trước khi thực hiện
+   echo '<a href="delete-book.php?id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';
+
+   
+   echo '</td>';
+   echo '</tr>';
+}
+
+?>
+
+                                    
                                 </tbody>
                             </table>
                            </div>
@@ -331,5 +404,55 @@
       <script src="js/chart-custom.js"></script>
       <!-- Custom JavaScript -->
       <script src="js/custom.js"></script>
+
+      <script>
+        $(document).ready(function() {
+   // Xử lý sự kiện khi nhấp vào nút "Thêm sách"
+   $('#addBookButton').click(function(e) {
+      e.preventDefault();
+      $('#addBookModal').modal('show'); // Hiển thị modal để thêm sách
+   });
+
+
+});
+
+       </script>
+<script>
+$(document).ready(function() {
+    // Xử lý sự kiện khi nhấp vào liên kết "Chỉnh sửa"
+    $('.edit-book').click(function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
+
+        // Lấy bookId từ thuộc tính data-book-id của liên kết
+        var bookId = $(this).data('book-id');
+
+        // Gửi yêu cầu AJAX để lấy thông tin sách từ server
+        $.ajax({
+            url: 'get_book_info.php', // Đường dẫn tới script xử lý AJAX để lấy thông tin sách
+            method: 'POST',
+            data: { id: bookId }, // Gửi bookId đến server
+            success: function(response) {
+                // Thành công: Hiển thị thông tin sách trong modal
+                $('#bookId').val(response.id);
+                $('#bookTitle').val(response.bookTitle);
+                $('#bookCategory').val(response.bookCategory);
+                $('#bookAuthor').val(response.author);
+                $('#bookDescription').val(response.description);
+                $('#bookPrice').val(response.price);
+                $('#editBookModal').modal('show'); // Hiển thị modal chỉnh sửa
+            },
+            error: function() {
+                // Xử lý lỗi nếu có
+                alert('Đã xảy ra lỗi. Vui lòng thử lại sau.');
+            }
+        });
+    });
+});
+
+
+</script>
+
+
+       
    </body>
 </html>

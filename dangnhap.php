@@ -16,7 +16,7 @@
         <form id="formDangNhap">
             <h1>Đăng Nhập</h1>
             <div class="input-box">
-                <input type="email" id="emailDangNhap" placeholder="Email" required />
+                <input type="email" id="emailDangNhap" placeholder="Tài Khoản" required />
                 <i class="bx bxs-user"></i>
             </div>
 
@@ -36,8 +36,8 @@
             </button>
 
             <div class="register">
-                <p>Không có tài khoản? <a href="dangki.html">Đăng ký</a></p><br>
-                <p><a href="index.html"><i class="fa-solid fa-house"></i></a></p>
+                <p>Không có tài khoản? <a href="dangki.php">Đăng ký</a></p><br>
+                <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
             </div>
         </form>
     </div>

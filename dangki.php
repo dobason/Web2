@@ -39,8 +39,8 @@
             </button>
 
             <div class="login">
-                <p>Đã có tài khoản? <a href="dangnhap.html">Đăng nhập</a></p>
-                <p><a href="index.html"><i class="fa-solid fa-house"></i></a></p>
+                <p>Đã có tài khoản? <a href="dangnhap.php">Đăng nhập</a></p>
+                <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
             </div>
         </form>
     </div>

@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         if (move_uploaded_file($_FILES["bookImage"]["tmp_name"], $targetFile)) {
             // Thêm thông tin sách vào cơ sở dữ liệu
-            $sql = "INSERT INTO books (book_name, category, author, description, price, book_image)
+            $sql = "INSERT INTO books (Ten_Sach,Ma_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh)
                     VALUES ('$bookTitle', '$bookCategory', '$bookAuthor', '$bookDescription', '$bookPrice', '$targetFile')";
             execute($sql);
 

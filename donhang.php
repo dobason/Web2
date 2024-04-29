@@ -25,7 +25,7 @@
 
             <div class="in-big-menu">
                 <div class="logo">
-                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
 
 
@@ -47,16 +47,16 @@
                     <span class="text-tk">
                         <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
                         <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
+                            <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
                                 nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
+                            <a href="dangki.php" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
                         </div>
                     </span>
 
                 </div>
 
                 <div class="top-right-item">
-                    <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                    <a href="cart.php"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
                     <p id="cartItemCount">0</p>
                 </div>
 
@@ -65,29 +65,29 @@
         <div class="menu-bar">
             <div class="menu-bar-content">
                 <ul>
-                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span
+                    <li><a href="web1.php"><i class="fa-solid fa-book"></i> Văn học trong nước <span
                                 class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
                         <div class="sub-menu">
                             <ul>
                                 <div class="in-sub-menu">
                                     <div class="sub-menu1">
-                                        <li> <a href="web1.html">Tiểu thuyết</a></li>
-                                        <li> <a href="web1.html">Truyện ngắn</a></li>
-                                        <li> <a href="web1.html">Light Novel</a></li>
-                                        <li> <a href="web1.html">Trinh thám</a></li>
+                                        <li> <a href="web1.php">Tiểu thuyết</a></li>
+                                        <li> <a href="web1.php">Truyện ngắn</a></li>
+                                        <li> <a href="web1.php">Light Novel</a></li>
+                                        <li> <a href="web1.php">Trinh thám</a></li>
                                       
 
                                     </div>
                                     <div class="sub-menu3">
-                                        <li> <a href="web1.html">Ngôn Tình
+                                        <li> <a href="web1.php">Ngôn Tình
                                             </a></li>
-                                        <li> <a href="web1.html">Thơ Ca
+                                        <li> <a href="web1.php">Thơ Ca
                                             </a></li>
-                                        <li> <a href="web1.html">Huyền bí
+                                        <li> <a href="web1.php">Huyền bí
                                             </a></li>
-                                        <li> <a href="web1.html">Combo Văn Học
+                                        <li> <a href="web1.php">Combo Văn Học
                                             </a></li>
-                                            <li> <a href="web1.html"> Tất cả sách ></a></li>
+                                            <li> <a href="web1.php"> Tất cả sách ></a></li>
                                     </div>
 
                                     <div class="sub-menu-pic">
@@ -216,6 +216,27 @@
                             
                         </div>
                         <div class="in-slider1-products">
+                        
+                        <div class="in-slider1-product" id="product1">
+                                <div class="product-left">
+                                    <p>Hình ảnh</p>
+                                </div>
+                                <div class="product-title">
+                                    <p>Tên sách</p>
+                                </div>
+                                <div class="product-mid">
+                                    <div class="in-product-mid">
+                                       <a>Số lượng</a>
+                                    </div>
+                                </div>
+                                <div class="product-price">
+                                    <p>Giá</p>
+                                </div>
+                                <div class="product-right">
+                                    <p style="color: green;"></i> Trạng thái</p>
+                                </div>
+                            </div>
+
 
                             <div class="in-slider1-product" id="product1">
                                 <div class="product-left">
