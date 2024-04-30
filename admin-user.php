@@ -35,7 +35,7 @@
          <!-- Sidebar  -->
          <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
-               <a href="index.html" class="header-logo">
+               <a href="index.php" class="header-logo">
                   <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                   <div class="logo-title">
                      <span class="text-primary text-uppercase">goodreads</span>
@@ -216,11 +216,13 @@
                                         <th style="width: 1%;">Mã</th>
                                         <th style="width: 16%;">Họ và tên</th>
                                         <th style="width: 15%;">Tài khoản</th>
-                                        <th style="width: 15%;">Mật Khẩu</th>
+                                        <th style="width: 5%;">Mật Khẩu</th>
                                         <th style="width: 13%;">Ngày sinh</th>
                                         <th style="width: 18%;">Địa chỉ</th>
+                                        <th style="width: 18%;">Quận</th>
+                                        <th style="width: 18%;">Thành Phố</th>
                                         <th style="width: 12%;">SĐT</th>
-                                        <th style="width: 10%;">Hoạt động</th>
+                                        <th style="width: 20%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -234,11 +236,13 @@
                                                 <td>{$row['Mat_Khau']}</td>
                                                 <td>{$row['Ngay_Sinh']}</td>
                                                 <td>{$row['Dia_Chi']}</td>
+                                                <td>{$row['Quan']}</td>
+                                                <td>{$row['Thanh_Pho']}</td>
                                                 <td>{$row['SDT']}</td>                                      
                                                 <td>
                                                    <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
+                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Chỉnh sửa' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
+                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Cấm' href='#'><i class='ri-delete-bin-line'></i></a>
                                                    </div>
                                                 </td>
                                              </tr>

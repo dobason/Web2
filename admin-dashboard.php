@@ -28,7 +28,7 @@
          <!-- Sidebar  -->
          <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
-               <a href="index.html" class="header-logo">
+               <a href="index.php" class="header-logo">
                   <img src="" class="img-fluid rounded-normal" alt="">
                   <div class="logo-title">
                      <span  class="text-primary text-uppercase">goodreads</span>
@@ -116,7 +116,7 @@
                                     <div class="bg-primary p-3">
                                        <h5 class="mb-0 text-white line-height">Xin Chào Admin</h5>
                                     </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>

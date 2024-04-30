@@ -37,7 +37,7 @@
 
             <div class="in-big-menu">
                 <div class="logo">
-                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
 
 
@@ -53,10 +53,19 @@
 
 
 
-                <?php
-// Include file header.php để sử dụng giao diện phía trên
-require_once 'header.php';
-?>
+                <div class="top-right-item">
+
+                    <i class="fa fa-user"></i>
+                    <span class="text-tk">
+                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
+                        <div class="dropdown-content">
+                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
+                                nhập</a>
+                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
+                        </div>
+                    </span>
+
+                </div>
 
                 <div class="top-right-item">
                     <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
@@ -206,24 +215,7 @@ require_once 'header.php';
         </div>
     </header>
 
-    <div class="cart-slider1">
-        <div class="in-slider1">
-            <div class="in-slider1-bottom">
-                <div class="in-slider1-bottom-left">
-                    <div class="in-slider1-bottom-top-left">
-                        <div class="cart-in-slider1">Thông tin sản phẩm</div>
-
-                        <div class="cart-in-slider2">Số lượng</div>
-                        <div class="cart-in-slider2">Đơn giá</div>
-                        <div class="cart-in-slider3">Thành tiền</div>
-
-                    </div>
-                    <div class="in-slider1-products">
-
-                    <div class="cart-container">
-
-                    <?php
-
+<?php
 require_once 'db/dbhelper.php';
 
 $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
@@ -231,16 +223,18 @@ $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia
         LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach";
 
 $cartItems = executeResult($sql);
-    echo'<table width="600" align="center" border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">';
-    echo"<tr>";
-    echo"<th>Tên sách</th>";
-    echo"<th>Hình ảnh</th>";
-    echo"<th>Số lượng</th>";
-    echo"<th>Đơn giá</th>";
-    echo"<th>Tổng tiền</th>";
-    echo"<th>Trạng thái</th>";
-    echo"<tr>";
-if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
+
+if (!empty($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
+    echo '<table width="600" align="center" border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">';
+    echo '<tr>';
+    echo '<th>Tên sách</th>';
+    echo '<th>Hình ảnh</th>';
+    echo '<th>Số lượng</th>';
+    echo '<th>Đơn giá</th>';
+    echo '<th>Tổng tiền</th>';
+    echo '<th>Trạng thái</th>';
+    echo '</tr>';
+    
     foreach ($cartItems as $item) {
         $productName = $item['Ten_Sach'];
         $imagePath = $item['Hinh_Anh'];
@@ -259,12 +253,13 @@ if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
         echo '<td class="product-total" id="total_' . $productId . '">';
         echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</td>'; // Hiển thị giá trị total
         echo '<td><button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button></td>';
-        echo"</tr>";
+        echo '</tr>';
     }
-    } else {
-        echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
+} else {
+    echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
 }
 ?>
+
 
 <script>
 function updateQuantity(productId, action) {
@@ -303,7 +298,6 @@ function updateCartQuantity(productId, newQuantity) {
         success: function(response) {
             if (response && response.success) {
                 console.log('Đã cập nhật số lượng sản phẩm có ID: ' + productId);
-                window.location.reload();
                 // Cập nhật thành công, có thể xử lý dữ liệu response.total nếu cần
             } else {
                 console.log('Có lỗi xảy ra khi cập nhật số lượng sản phẩm');
@@ -313,8 +307,18 @@ function updateCartQuantity(productId, newQuantity) {
             console.log('Lỗi khi gửi yêu cầu cập nhật số lượng sản phẩm');
         }
     });
-    calculateTotalPrice();
 }
+
+
+
+
+
+
+
+
+
+
+
 
 function confirmDelete(productId) {
     // Hiển thị hộp thoại xác nhận xóa sản phẩm
@@ -335,67 +339,59 @@ function deleteProduct(productId) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            
+            if (xhr.status === 200) {
                 console.log('Đã xóa sản phẩm có ID: ' + productId);
                 window.location.reload(); // Tải lại trang để cập nhật danh sách giỏ hàng
-            
+            } else {
+                console.log('Lỗi khi xóa sản phẩm');
+            }
         }
     };
     var data = 'product_id=' + encodeURIComponent(productId);
     xhr.send(data);
 }
 
-function calculateTotalPrice() {
-    let totalPrice = 0;
-
-    // Lặp qua từng sản phẩm trong giỏ hàng
-    let productElements = document.querySelectorAll('.product-total p');
-    productElements.forEach((element) => {
-        let priceText = element.innerText; // Ví dụ: "890.000đ"
-        let price = parseInt(priceText.replace('đ', '').replace('.', '').replace(',', ''), 10); // Chuyển đổi về số nguyên (loại bỏ dấu chấm và dấu phẩy)
-        totalPrice += price; // Cộng dồn tổng số tiền
-    });
-
-    // Hiển thị tổng hóa đơn trong thẻ span có id="total-price"
-    let totalPriceElement = document.getElementById('total-price');
-    totalPriceElement.innerText = totalPrice.toLocaleString() + 'đ'; // Hiển thị số tiền đã tính toán với định dạng số nguyên, ba chữ số thập phân và kèm đơn vị VNĐ
-}
 
 
-// Gọi hàm calculateTotalPrice() khi trang web được tải
-document.addEventListener('DOMContentLoaded', function() {
-    calculateTotalPrice();
-});
 
-
-function updateCustomerTotal(totalPrice) {
-    let maKhachHang = <?php echo isset($_SESSION['Ma_KH']) ? $_SESSION['Ma_KH'] : 'null'; ?>;
-    
-    if (maKhachHang) {
-        $.ajax({
-            url: 'update_customer_total.php',
-            type: 'POST',
-            data: {
-                ma_khach_hang: maKhachHang,
-                tong_hoa_don: totalPrice
-            },
-            success: function(response) {
-                if (response && response.success) {
-                    console.log('Đã cập nhật tổng hóa đơn cho khách hàng có ID: ' + maKhachHang);
-                } else {
-                    console.log('Có lỗi xảy ra khi cập nhật tổng hóa đơn cho khách hàng');
-                }
-            },
-            error: function() {
-                console.log('Lỗi khi gửi yêu cầu cập nhật tổng hóa đơn cho khách hàng');
-            }
-        });
-    }
-}
 
 
 </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                     </div>
                 </div>
@@ -404,53 +400,21 @@ function updateCustomerTotal(totalPrice) {
                     <div class="total-price">
                         <div class="in-total-price">
                             <div id="total" class="total-info">
-                            <?php
-require_once 'db/dbhelper.php';
+                                <div class="total-row">
+                                    <span class="total-label">Tổng cộng:</span>
+                                    <span id="total-price">0 đ</span>
+                                </div>
+                                <div class="total-row">
+                                    <span class="total-label">Thuế (10%):</span>
+                                    <span id="tax">0 đ</span>
+                                </div>
+                                <div class="total-row">
+                                    <span class="total-label">Tổng cộng kèm thuế:</span>
+                                    <span id="total-with-tax">0 đ</span>
+                                </div>
+                            </div>
 
-// Truy vấn SQL để tính tổng hóa đơn của mỗi khách hàng từ bảng gio_hang
-$sql = "
-    SELECT Ma_KH, SUM(Tong_Tien) AS Tong_Hoa_Don
-    FROM gio_hang
-    GROUP BY Ma_KH;
-";
-
-// Thực thi truy vấn để lấy kết quả
-$results = executeResult($sql);
-
-$allCustomersUpdated = true;
-
-// Duyệt qua kết quả để cập nhật cột Tong_Hoa_Don trong bảng khach_hang
-foreach ($results as $result) {
-    $maKH = $result['Ma_KH'];
-    $tongHoaDon = $result['Tong_Hoa_Don'];
-
-    // Truy vấn SQL để cập nhật cột Tong_Hoa_Don trong bảng khach_hang
-    $updateSql = "
-        UPDATE khach_hang
-        SET Tong_Hoa_Don = $tongHoaDon
-        WHERE Ma_KH = $maKH;
-    ";
-
-    // Thực thi truy vấn cập nhật
-    execute($updateSql);
-
-  
-}
-
-
-?>
-
-
-    
-        <div class="total-row">
-            <span class="total-label">Tổng cộng:</span>
-            <span id="total-price"> </span>
-        </div>
-
-
-
-
-                            <a href="Payment.php">
+                            <a href="/Payment.html">
                                 <div class="pay">
                                     <p>THANH TOÁN</p>
                                 </div>

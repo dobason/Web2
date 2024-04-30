@@ -55,13 +55,8 @@
             <div id="sidebar-scrollbar">
                <nav class="iq-sidebar-menu">
                   <ul id="iq-sidebar-toggle" class="iq-menu">
-                     <li><a href="admin-dashboard.php"><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
-                     <li><a href="admin-category.php"><i class="ri-record-circle-line"></i>Danh Mục Sách</a></li>
-                     <li><a href="admin-author.php"><i class="ri-record-circle-line"></i>Tác Giả</a></li>
-                     <li><a href="admin-books.php"><i class="ri-record-circle-line"></i>Sách</a></li>
-                     <li><a href="dangnhap.php"><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
-                  <li><a href="admin-dashboard.php
-                  "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
+                  <li><a href="admin-dashboard.php">
+                  <i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
                      <li><a href="admin-invoice-details.php
@@ -243,7 +238,7 @@
              <label for="bookPrice">Giá tiền</label>
              <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
            </div>
-           <button type="submit" class="btn btn-primary">Lưu</button>
+           <button type="submit" class="btn btn-primary">Thêm</button>
          </form>
        </div>
      </div>
@@ -316,9 +311,7 @@ foreach ($books as $index => $book) {
 
    
    // Liên kết xóa với xác nhận trước khi thực hiện
-   echo '<a href="delete-book.php?id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';
-
-   
+   echo '<a href="delete-book.php?id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';   
    echo '</td>';
    echo '</tr>';
 }

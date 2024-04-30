@@ -12,8 +12,6 @@
 </head>
 
 <body>
-<?php require_once 'db/dbhelper.php'; ?>
-
 <div class="wrapper">
     <form id="formDangNhap" method="post" action="process_login.php">
         <h1>Đăng Nhập</h1>
@@ -37,10 +35,9 @@
 </div>
 
 <script src="js/dangky.js"></script>
-
-
-
-    
+        </form>
+    </div>
+    <script src="js/p.js"></script>
 </body>
 
 </html>

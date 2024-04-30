@@ -1,6 +1,6 @@
 <?php
-// Kiểm tra xem người dùng đã đăng nhập hay chưa
 session_start();
+// Kiểm tra xem người dùng đã đăng nhập hay chưa
 if (isset($_SESSION['Ma_KH'])) {
     require_once 'db/dbhelper.php'; // Import file dbhelper.php nếu cần
 
