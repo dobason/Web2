@@ -4,18 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sachtore</title>
+    <title>Cửa hàng sách</title>
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="js/main.js"> </script>
     <script src="js/search.js"></script>
-
+    <script src="js/dangky"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/StylesBT.css">
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-    <!-- Đường dẫn tới tệp CSS bạn đã chỉnh sửa -->
-
 </head>
 
 <body>
+    <!--Index CSS-->
     <style>
         .container {
             width: 1200px;
@@ -54,261 +55,53 @@
 
         .slider-product-one-content-items {
             margin-top: 10px;
-        }
-
-        
+        }        
     </style>
+
+
+
     <header>
-        <?php
-        require('./php/classes/database.php');
-        ?>
-        <div class="big-menu">
-
-
-            <div class="in-big-menu">
-                <div class="logo">
-                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
-                </div>
-                <?php
-                require_once 'db/dbhelper.php';
-
-                $param = "";
-                $sortParam = "";
-                $orderCondition = "";
-
-                // Tìm kiếm
-                $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
-                if ($search) {
-                    $where = "WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                    $param .= "Ten_Sach=" . $search . "&";
-                    $sortParam = "Ten_Sach=" . $search . "&";
-                }
-
-                // Sắp xếp
-                $orderField = isset($_GET['field']) ? $_GET['field'] : "";
-                $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
-                if (!empty($orderField) && !empty($orderSort)) {
-                    $orderCondition = "ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
-                    $param .= "field=" . $orderField . "&sort=" . $orderSort . "&";
-                }
-
-                include 'connect_db.php';
-
-                $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
-                $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
-                $offset = ($current_page - 1) * $item_per_page;
-
-                // Thực hiện truy vấn sử dụng executeResult
-                $sql = "SELECT * FROM `sach`";
-                if ($search) {
-                    $sql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                }
-                $sql .= " " . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
-
-                $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
-
-                // Đếm tổng số bản ghi
-                $countSql = "SELECT COUNT(*) as total FROM `sach`";
-                if ($search) {
-                    $countSql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                }
-
-                $totalRecords = executeResult($countSql);
-                $totalRecords = $totalRecords[0]['total'];
-                $totalPages = ceil($totalRecords / $item_per_page);
-                ?>
-
-
-
-                <div class="box">
-                    <form class="container-1" method="GET">
-                        <button type="submit"><span class="icon"><i class="fa fa-search"></i></span></button>
-                        <input type="text" id="search" value="<?= isset($_GET['Ten_Sach']) ? ($_GET['Ten_Sach']) : "" ?>" name="Ten_Sach" placeholder="Tìm kiếm...">
-                    </form>
-                    <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                        <option value="">Sắp xếp giá</option>
-                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
-                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
-                    </select>
-                </div>
-            </div>
-
-
-
-            <div class="top-right-item">
-
-                <i class="fa fa-user"></i>
-                <span class="text-tk">
-                    <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                    <div class="dropdown-content">
-                        <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                            nhập</a>
-                        <a href="dangki.php" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
+        
+          <!--Navbar-->
+          <nav class="navbar navbar-expand-lg fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="#"><img src="IMG/logo.jpg"></a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
-                </span>
-
+                    <form class="d-flex" method="GET">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>         
+                </div>
+                <div class="top-right-item">
+                    <a href="cart.php" id="gioHangLink"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <p id="cartItemCount">0</p>
+                </div>
+                <?php require_once 'header.php';?>
+                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </div>
-
-            <div class="top-right-item">
-                <a href="cart.php" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-                <p id="cartItemCount">0</p>
-            </div>
-
-        </div>
-        </div>
-        <div class="menu-bar">
-            <div class="menu-bar-content">
-                <ul>
-                    <li><a href="web1.php"><i class="fa-solid fa-book"></i> Văn học trong nước <span class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="web1.html">Tiểu thuyết</a></li>
-                                        <li> <a href="web1.html">Truyện ngắn</a></li>
-                                        <li> <a href="web1.html">Light Novel</a></li>
-                                        <li> <a href="web1.html">Trinh thám</a></li>
-
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="web1.html">Ngôn Tình
-                                            </a></li>
-                                        <li> <a href="web1.html">Thơ Ca
-                                            </a></li>
-                                        <li> <a href="web1.html">Huyền bí
-                                            </a></li>
-                                        <li> <a href="web1.html">Combo Văn Học
-                                            </a></li>
-                                        <li> <a href="web1.html"> Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-paintbrush"></i> Sách theo chủ đề <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Trí tuệ Do Thái</a></li>
-                                            <li> <a href="#">Ngoại ngữ</a></li>
-                                            <li> <a href="#">Triết học Phương Đông</a></li>
-                                            <li> <a href="#">Triết học Phương Tây</a></li>
-
-
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Chính trị </a></li>
-                                        <li> <a href="#">Lịch sử thế giới</a></li>
-                                        <li> <a href="#">Tôn giáo</a></li>
-                                        <li> <a href="#">Kỹ năng sống</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-
-                                    </div>
-
-
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-tablet"></i> Truyện tranh - Thiếu nhi <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="#">Sách truyện thiếu nhi</a></li>
-                                        <li> <a href="#">Sách teen</a></li>
-                                        <li> <a href="#">Doraemon</a></li>
-                                        <li> <a href="#">Conan</a></li>
-                                        <li> <a href="#">Tặng kèm poster</a></li>
-                                    </div>
-
-
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Sách ảnh</a></li>
-                                        <li> <a href="#">Triết học cho trẻ</a></li>
-                                        <li> <a href="#">Nhập môn lập trình</a></li>
-                                        <li> <a href="#">Tư tưởng Hồ Chí Minh</a></li>
-                                        <li> <a href="#">Triết học Mác - Lênin</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li><a href="#"><i class="fa-solid fa-gift"></i> Sách giáo khoa <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Sách giáo khoa cấp 1</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 2</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 3</a></li>
-                                            <li> <a href="#">Sách giáo khoa nâng cao</a></li>
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Bộ đề thi các năm</a></li>
-                                        <li> <a href="#">Luyện đề Ielts</a></li>
-                                        <li> <a href="#">Sách bài tập nâng cao</a></li>
-                                        <li> <a href="#">Sách Mai Lan Hương</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-
-                </ul>
-            </div>
-        </div>
-
-        <div id="backtop">
-            <i class="fa-solid fa-arrow-up"></i>
-
-        </div>
-    </header>
-
-    <main>
-
-
-        <!----------------------------------slider1--------------------------->
+        </nav>
         <div class="slider1">
+            <img src="IMG/0e882cb6cd424a1a43bf572912a86425.jpg" style="width:100%">
+            
             <div class="in-slider1">
                 <div class="slidebody">
                     <div class="in-slidebody-left">
                         <a href="#"><img src="IMG/left-top.jpg"></a>
                         <a href="#"><img src="IMG/slide2.jpg"></a>
                     </div>
+                    
                     <div class="in-slidebody-right">
+                        <div class="in-slidebody-left">
+                            <a href="#"><img src="IMG/left-top.jpg"></a>
+                            <a href="#"><img src="IMG/slide2.jpg"></a>
+                        </div>
+                        
                         <div id="slideshow">
                             <div class="slide-wrapper">
                                 <div class="slide">
@@ -326,120 +119,148 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
+            
         </div>
-    
-        <script>
-        // Set the date and time for the countdown
-        var countdownDate = new Date("Apr 30, 2024 00:00:00").getTime();
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+       
+       <!---Kết nối database-->
+       <?php require('./php/classes/database.php');?>
+                  
+    </header>
 
-        // Update the countdown every second
-        var countdown = setInterval(function() {
-            // Get the current date and time
-            var now = new Date().getTime();
-
-            // Calculate the remaining time
-            var distance = countdownDate - now;
-
-            // Calculate hours, minutes, and seconds
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Display the countdown
-            document.getElementById("hours").innerHTML = formatTime(hours);
-            document.getElementById("minutes").innerHTML = formatTime(minutes);
-            document.getElementById("seconds").innerHTML = formatTime(seconds);
-
-            // If the countdown is finished, display a message
-            if (distance < 0) {
-                clearInterval(countdown);
-                document.getElementById("hours").innerHTML = "00";
-                document.getElementById("minutes").innerHTML = "00";
-                document.getElementById("seconds").innerHTML = "00";
-                // You can add code here to display a message when the countdown is finished
-            }
-        }, 1000);
-
-        // Function to add leading zeros if needed
-        function formatTime(time) {
-            return time < 10 ? "0" + time : time;
-        }
-
-        </script>
-
+    <main>
         <!------------------------------------------------------------------>
         <div class="slider5">
             <div class="in-slider5">
                 <section class="slider-product-one">
                     <div class="slider-product-one-content">
-                        <div class="slider-product-one-content-items" style="justify-content:center" id="bookListContainer">
-                            <!------Flash Sales------------------->
-                            <div id="flashsale-slider" style="display:block; width:100%; overflow-x:auto;justify-content:center; height: 60px; width:100%">
-                                <div class="flash-sale-header" style="display:flex; align-items:center; justify-content:center;">
-                                    <div class="fhs-center-space">
-                                        <a style="position:relative; display:flex; align-items:center;" class="flashsale-slider-title" href="#">
-                                            <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/flashsale/label-flashsale.svg?q=" style="margin-right:5px;">
-                                            <span style="color:#000; font-weight:600; font-size:1.2em; font-family:'Nunito Sans';">Kết thúc trong</span>
-                                            <div class="flashsale-countdown" style="display:flex; align-items:center; margin-left:10px;">
-                                                <span id="hours" class="flashsale-countdown-number"></span>
-                                                <span>:</span>    
-                                                <span id="minutes" class="flashsale-countdown-number"></span>
-                                                <span>:</span>  
-                                                <span id="seconds" class="flashsale-countdown-number"></span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                            // Kiểm tra nếu có sản phẩm trong danh sách
-                            if ($sach) {
-                                foreach ($sach as $index => $book) {
-                                    $bookName = $book['Ten_Sach'];
-                                    $Tac_Gia = $book['Ten_Tac_Gia'];
-                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
-                                    $imagePath = $book['Hinh_Anh'];
+                        <div class="slider-product-one-content-items" id="bookListContainer">
+                            <div class="box">
+                            <h1>Danh Mục Sản Phẩm</h1>
+                            <?php 
+                              require_once 'db/dbhelper.php';
 
-                                    // Hiển thị sản phẩm
-                                    echo '<div class="slider-product-one-content-item">';
-                                    echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
-                                    echo '<div class="slider-product-one-content-item-text">';
-                                    echo '<div class="slider-text1">';
-                                    echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
-                                    echo '</div>';
-                                    echo '<div class="slider-text2">';
-                                    echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
-                                    echo '</div>';
-                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
-                                    echo '</div>';
-                                    echo '</div>';
+                              $param = "";
+                              $sortParam = "";
+                              $orderCondition = "";
 
-                                    // Chỉnh sửa CSS trực tiếp tại đây
-                                    echo '<style>';
-                                    echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
-                                    echo '</style>';
+                              // Tìm kiếm tên sách
+                              $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
+                              $theme = isset($_GET['Ten_Loai']) ? $_GET['Ten_Loai'] : ""; // Thêm dòng này để lấy giá trị của chủ đề
+                              if ($search) {
+                                  $where = "WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                                  $param .= "Ten_Sach=" . $search . "&";
+                                  $sortParam = "Ten_Sach=" . $search . "&";
+                              }
+                              //Tìm kiếm theo chủ đề
+                              if ($theme) { 
+                                if ($where !== "") {
+                                    $where .= " AND ";
+                                } else {
+                                    $where = "WHERE ";
                                 }
-                            } else {
-                                echo '<p>Không tìm thấy sách nào.</p>';
+                                $where .= "`Chu_De` = '" . $theme . "'";
                             }
-                            ?>
 
+                              // Sắp xếp
+                              $orderField = isset($_GET['field']) ? $_GET['field'] : "";
+                              $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
+                              if (!empty($orderField) && !empty($orderSort)) {
+                                  $orderCondition = "ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
+                                  $param .= "field=" . $orderField . "&sort=" . $orderSort . "&";
+                              }
+
+                              include 'connect_db.php';
+
+                              $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+                              $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+                              $offset = ($current_page - 1) * $item_per_page;
+
+                              // Thực hiện truy vấn sử dụng executeResult
+                              $sql = "SELECT * FROM `sach`";
+                              if ($search) {
+                                  $sql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                              }
+                              $sql .= " " . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
+
+                              $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
+
+                              // Đếm tổng số bản ghi
+                              $countSql = "SELECT COUNT(*) as total FROM `sach`";
+                              if ($search) {
+                                  $countSql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                              }
+
+                              $totalRecords = executeResult($countSql);
+                              $totalRecords = $totalRecords[0]['total'];
+                              $totalPages = ceil($totalRecords / $item_per_page);
+                              ?>
+                              <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Sắp xếp giá</option>
+                                <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
+                                <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
+                              </select>
+                              <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Chọn chủ đề</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "1") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 1">Chung</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "2") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 2">Lịch Sử</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "3") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 3">Truyện tranh & Mangas</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "4") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 4">Phim & Nhiếp Ảnh</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "5") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 5">Kinh dị</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "6") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 6">Máy tính & Internet</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "7") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 7">Thể thao</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "8") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 8">Du lịch lữ hành</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "9") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 9">Kinh doanh & Kinh tế</option>
+                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "10") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 10">Nghệ thuật</option>
+                                
+
+                              </select>
+
+      
+                          </div>                          
+                    <?php
+                      // Kiểm tra nếu có sản phẩm trong danh sách
+                      if ($sach) {
+                      foreach ($sach as $index => $book) {
+                      $bookName = $book['Ten_Sach'];
+                      $Tac_Gia = $book['Ten_Tac_Gia'];
+                      $price = number_format($book['Don_Gia'], 0, ',', '.');
+                      $imagePath = $book['Hinh_Anh'];
+
+                      // Hiển thị sản phẩm
+                      echo '<div class="slider-product-one-content-item">';
+                      echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                      echo '<div class="slider-product-one-content-item-text">';
+                      echo '<div class="slider-text1">';
+                      echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
+                      echo '</div>';
+                      echo '<div class="slider-text2">';
+                      echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
+                      echo '</div>';
+                      echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                      echo '</div>';
+                      echo '</div>';
+
+                      // Chỉnh sửa CSS trực tiếp tại đây
+                      echo '<style>';
+                      echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
+                      echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
+                      echo '</style>';
+                  }
+              } else {
+                  echo '<p>Không tìm thấy sách nào.</p>';
+              }
+              ?>
+                      
                         </div>
-                        <?php include './pagination.php'; // Hiển thị phân trang 
-                        ?>
-
+                        <?php include './pagination.php';?>  
                     </div>
-
                 </section>
-
             </div>
-
         </div>
-    
-
 
 
 
@@ -447,19 +268,11 @@
 
 
     </main>
+
+    <!---Footer----->
     <footer>
         <div class="footer">
-
-
             <div class="in-footer-body">
-                <div class="in-footer-body-left">
-                    <p>Phương thức thanh toán</p>
-                    <li><img src="IMG/pay1.png"></li>
-                    <li><img src="IMG/pay2.png"></li>
-                    <li><img src="IMG/pay3.png"></li>
-                    <li><img src="IMG/pay4.png"></li>
-                    <li><img src="IMG/pay5.webp"></li>
-                </div>
 
                 <div class="in-footer-body-mid">
                     <p>Tài khoản của bạn</p>
@@ -479,10 +292,6 @@
                 </div>
                 <div class="in-footer-body-right">
                     <p>Kết nối với chúng tôi</p>
-                    <li><a href="#"><img src="IMG/contact1.webp"></a></li>
-                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
-                    <li><a href="#"><img src="IMG/contact3.webp"></a></li>
-                    <li><a href="#"><img src="IMG/contact4.webp"></a></li>
                     <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
                     <li><a href="#">Tuyển dụng</a></li><br>
                     <li><a href="#">Chính sách đổi - trả</a></li>
@@ -502,7 +311,8 @@
 
 
     </footer>
-    <script src="js/p.js"></script>
+    
+
 </body>
 
 </html>

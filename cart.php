@@ -24,8 +24,6 @@
     .in-slider1-product{
         text-align: center;
     }
-
-
    </style>
 </head>
 
@@ -55,19 +53,10 @@
 
 
 
-                <div class="top-right-item">
-
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
-
-                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
                 <div class="top-right-item">
                     <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
@@ -216,16 +205,33 @@
 
         </div>
     </header>
-    <?php
+
+    <div class="cart-slider1">
+        <div class="in-slider1">
+            <div class="in-slider1-bottom">
+                <div class="in-slider1-bottom-left">
+                    <div class="in-slider1-bottom-top-left">
+                        <div class="cart-in-slider1">Thông tin sản phẩm</div>
+
+                        <div class="cart-in-slider2">Số lượng</div>
+                        <div class="cart-in-slider2">Đơn giá</div>
+                        <div class="cart-in-slider3">Thành tiền</div>
+
+                    </div>
+                    <div class="in-slider1-products">
+
+                    <div class="cart-container">
+
+                    <?php
 
 require_once 'db/dbhelper.php';
 
 $sql = "SELECT gio_hang.*, sach.Ten_Sach, sach.Hinh_Anh, sach.Don_Gia 
         FROM gio_hang 
         LEFT JOIN sach ON gio_hang.Ma_Sach = sach.Ma_Sach";
-echo '<div class=container>';
 
-    echo '<table width="1000" align="center" border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">';
+$cartItems = executeResult($sql);
+    echo'<table width="600" align="center" border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">';
     echo"<tr>";
     echo"<th>Tên sách</th>";
     echo"<th>Hình ảnh</th>";
@@ -233,68 +239,33 @@ echo '<div class=container>';
     echo"<th>Đơn giá</th>";
     echo"<th>Tổng tiền</th>";
     echo"<th>Trạng thái</th>";
-    echo"</tr>";
-    if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
-        foreach ($cartItems as $item) {
-            $productName = $item['Ten_Sach'];
-            $imagePath = $item['Hinh_Anh'];
-            $price = $item['Don_Gia'];
-            $quantity = $item['So_Luong'];
-            $productId = $item['Ma_Sach'];
-            $total = $price * $quantity;
+    echo"<tr>";
+if (!is_null($cartItems) && is_array($cartItems) && count($cartItems) > 0) {
+    foreach ($cartItems as $item) {
+        $productName = $item['Ten_Sach'];
+        $imagePath = $item['Hinh_Anh'];
+        $price = $item['Don_Gia'];
+        $quantity = $item['So_Luong'];
+        $productId = $item['Ma_Sach'];
+        $total = $price * $quantity;
 
-            echo '<tr>';
-            echo '<td>' . $productName . '</td>';
-            echo '<td><img src="' . $imagePath . '" alt="' . $productName . '"></td>';
-
-            echo '<td>';
-            echo '<p class="button" onclick="updateQuantity(' . $productId . ', \'decrement\')">-</p>';
-            echo '<input type="text" value="' . $quantity . '" class="number" id="quantity' . $productId . '" readonly>';
-            echo '<p class="button" onclick="updateQuantity(' . $productId . ', \'increment\')">+</p>';
-            echo '</td>';
-
-            echo '<td>' . number_format($price, 0, ',', '.') . 'đ</td>';
-
-            echo '<td class="product-total" id="total_' . $productId . '">';
-            echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</td>'; // Hiển thị giá trị total
-
-            echo '<td><button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button></td>';
-            echo '</tr>';
-        }
-    } else {
-        echo '<tr><td colspan="6">Không có sản phẩm nào trong giỏ hàng.</td></tr>';
+        echo '<tr>';
+        echo '<td>' . $productName . '</td>';
+        echo '<td><img src="' . $imagePath . '" alt="' . $productName . '"></td>';
+        echo '<div class="button" onclick="updateQuantity(' . $productId . ', \'decrement\')">-</div>';
+        echo '<td><input type="text" value="' . $quantity . '" class="number" id="quantity' . $productId . '" readonly>';
+        echo '<p class="button" onclick="updateQuantity(' . $productId . ', \'increment\')">+</td>';
+        echo '<td>' . number_format($price, 0, ',', '.') . 'đ</td>';
+        echo '<td class="product-total" id="total_' . $productId . '">';
+        echo '<p data-price="' . $price . '">' . number_format($total, 0, ',', '.') . 'đ</td>'; // Hiển thị giá trị total
+        echo '<td><button class="fa-solid fa-trash" onclick="confirmDelete(' . $productId . ')"></button></td>';
+        echo"</tr>";
     }
+    } else {
+        echo '<p>Không có sản phẩm nào trong giỏ hàng.</p>';
+}
 ?>
-</table>
-    </div>
-        <div class="payment-section">
-          <div class="total-price">
-           <div class="in-total-price">
-              <div id="total" class="total-info">
-                 <div class="total-row">
-                    <span class="total-label">Tổng cộng:</span>
-                    <span id="total-price">0 đ</span>
-                    </div>
-                    <div class="total-row">
-                      <span class="total-label">Thuế (10%):</span>
-                      <span id="tax">0 đ</span>
-                      </div>
-                      <div class="total-row">
-                       <span class="total-label">Tổng cộng kèm thuế:</span>
-                       <span id="total-with-tax">0 đ</span>
-                       </div>
-                       </div>
-                       <a href="/Payment.html">
-                        <div class="pay">
-                         <p>THANH TOÁN</p>
-                          </div>
-                        </a>
-                 <div class="bottom-pay">
-                <p>(Giảm giá trên web chỉ áp dụng cho bán lẻ)</p>
-            </div>
-        </div>
-    </div>
-</div>
+
 <script>
 function updateQuantity(productId, action) {
     let quantityElement = document.getElementById('quantity' + productId);
@@ -378,7 +349,40 @@ function deleteProduct(productId) {
                     </div>
                 </div>
 
+                <div class="in-slider1-bottom-right">
+                    <div class="total-price">
+                        <div class="in-total-price">
+                            <div id="total" class="total-info">
+                                <div class="total-row">
+                                    <span class="total-label">Tổng cộng:</span>
+                                    <span id="total-price">0 đ</span>
+                                </div>
+                                <div class="total-row">
+                                    <span class="total-label">Thuế (10%):</span>
+                                    <span id="tax">0 đ</span>
+                                </div>
+                                <div class="total-row">
+                                    <span class="total-label">Tổng cộng kèm thuế:</span>
+                                    <span id="total-with-tax">0 đ</span>
+                                </div>
+                            </div>
 
+                            <a href="/Payment.html">
+                                <div class="pay">
+                                    <p>THANH TOÁN</p>
+                                </div>
+                            </a>
+                            <div class="bottom-pay">
+                                <p>(Giảm giá trên web chỉ áp dụng cho bán lẻ)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
         </div>
     </div>
 

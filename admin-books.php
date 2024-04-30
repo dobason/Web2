@@ -238,7 +238,7 @@
              <label for="bookPrice">Giá tiền</label>
              <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
            </div>
-           <button type="submit" class="btn btn-primary">Lưu</button>
+           <button type="submit" class="btn btn-primary">Thêm</button>
          </form>
        </div>
      </div>
@@ -311,9 +311,7 @@ foreach ($books as $index => $book) {
 
    
    // Liên kết xóa với xác nhận trước khi thực hiện
-   echo '<a href="delete-book.php?id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';
-
-   
+   echo '<a href="delete-book.php?id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';   
    echo '</td>';
    echo '</tr>';
 }

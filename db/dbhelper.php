@@ -11,6 +11,7 @@ function openDatabaseConnection() {
 }
 
 // Hàm thực thi truy vấn không trả về kết quả (INSERT, UPDATE, DELETE)
+// Hàm thực thi truy vấn và trả về ID của bản ghi vừa chèn (INSERT)
 function execute($sql, $params = []) {
     $conn = openDatabaseConnection();
 
@@ -24,11 +25,19 @@ function execute($sql, $params = []) {
     }
 
     $result = mysqli_stmt_execute($stmt);
+
+    // Lấy ID của bản ghi vừa chèn
+    $lastInsertedId = mysqli_insert_id($conn);
+
     mysqli_stmt_close($stmt);
     mysqli_close($conn);
 
-    return $result;
+    return $lastInsertedId; // Trả về ID của bản ghi vừa chèn
 }
+
+
+
+
 
 // Hàm thực thi truy vấn và trả về mảng kết quả (SELECT)
 function executeResult($sql, $params = []) {
@@ -102,4 +111,10 @@ function getAllCartItems() {
 
     return $cartItems;
 }
+
+// Hàm kiểm tra xem người dùng đã đăng nhập hay chưa
+function isLoggedIn() {
+    return isset($_SESSION['Ma_KH']);
+}
+
 ?>

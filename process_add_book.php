@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $bookDescription = $_POST['bookDescription'];
     $bookPrice = $_POST['bookPrice'];
 
-    $targetDir = "IMG/";
+    $targetDir = "img/";
     $targetFile = $targetDir . basename($_FILES["bookImage"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         if (move_uploaded_file($_FILES["bookImage"]["tmp_name"], $targetFile)) {
             // Thêm thông tin sách vào cơ sở dữ liệu
-            $sql = "INSERT INTO books (Ten_Sach,Ma_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh)
+            $sql = "INSERT INTO sach (Ten_Sach, Ma_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh)
                     VALUES ('$bookTitle', '$bookCategory', '$bookAuthor', '$bookDescription', '$bookPrice', '$targetFile')";
             execute($sql);
 

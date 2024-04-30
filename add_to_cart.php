@@ -1,52 +1,52 @@
 <?php
+session_start();
 require_once 'db/dbhelper.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Kiểm tra xem các thông tin sản phẩm cần thiết đã được gửi từ form hay chưa
-    if (isset($_POST['product_id'], $_POST['product_name'], $_POST['product_image'], $_POST['product_price'])) {
-        $productId = $_POST['product_id'];
-        $productName = $_POST['product_name'];
-        $productImage = $_POST['product_image'];
-        $productPrice = $_POST['product_price'];
+// Kiểm tra nếu là phương thức POST và có đủ dữ liệu sản phẩm từ form
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['product_id'], $_POST['product_name'], $_POST['product_image'], $_POST['product_price'])) {
+    // Lấy thông tin sản phẩm từ form
+    $productId = $_POST['product_id'];
+    $productName = $_POST['product_name'];
+    $productImage = $_POST['product_image'];
+    $productPrice = $_POST['product_price'];
 
-        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
-        $existingItem = executeSingleResult("SELECT * FROM gio_hang WHERE Ma_Sach = '$productId'");
+    // Kiểm tra xem người dùng đã đăng nhập chưa
+    if (isset($_SESSION['Ma_KH'])) {
+        $maKH = $_SESSION['Ma_KH'];
 
-        if ($existingItem) {
-            // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1 đơn vị
-            $currentQuantity = $existingItem['So_Luong'];
-            $newQuantity = $currentQuantity + 1;
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng của người dùng chưa
+        $existingCartItem = executeSingleResult("SELECT * FROM gio_hang WHERE Ma_KH = $maKH AND Ma_Sach = $productId");
 
-            // Cập nhật số lượng sản phẩm trong giỏ hàng
-            $sqlUpdateQuantity = "UPDATE gio_hang SET So_Luong = $newQuantity WHERE Ma_Sach = '$productId'";
-            $result = execute($sqlUpdateQuantity);
+        if ($existingCartItem) {
+            // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng lên 1
+            $updateQuantitySql = "UPDATE gio_hang SET So_Luong = So_Luong + 1 WHERE Ma_KH = $maKH AND Ma_Sach = $productId";
+            $result = execute($updateQuantitySql);
 
-            if ($result) {
-                // Chuyển hướng người dùng đến trang giỏ hàng sau khi cập nhật số lượng thành công
-                header('Location: cart.php');
-                exit();
-            } else {
-                echo "Lỗi khi cập nhật số lượng sản phẩm trong giỏ hàng.";
-            }
+            header('Location: cart.php');
         } else {
-            // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thực hiện thêm mới
-            $sqlInsert = "INSERT INTO gio_hang (Ma_Sach, Ten_Sach, Hinh_Anh, So_Luong, Don_Gia) 
-                          VALUES ('$productId', '$productName', '$productImage', 1, '$productPrice')";
-
-            $result = execute($sqlInsert);
+            // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới vào giỏ hàng
+            $insertCartItemSql = "INSERT INTO gio_hang (Ma_KH, Ma_Sach, Ten_Sach, Hinh_Anh, Don_Gia, So_Luong) 
+                                  VALUES ($maKH, $productId, '$productName', '$productImage', $productPrice, 1)";
+            $result = execute($insertCartItemSql);
 
             if ($result) {
-                // Chuyển hướng người dùng đến trang giỏ hàng sau khi thêm sản phẩm thành công
+                // Nếu thêm mới thành công, chuyển hướng người dùng đến trang giỏ hàng
                 header('Location: cart.php');
                 exit();
             } else {
+                // Nếu có lỗi khi thêm mới vào giỏ hàng
                 echo "Lỗi khi thêm sản phẩm vào giỏ hàng.";
+                exit();
             }
         }
     } else {
-        echo "Thiếu thông tin sản phẩm.";
+        // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
+        header('Location: dangnhap.php');
+        exit();
     }
 } else {
-    echo "Yêu cầu không hợp lệ.";
+    // Nếu không phải phương thức POST hoặc thiếu dữ liệu sản phẩm từ form, chuyển hướng về trang chủ
+    header('Location: index.php');
+    exit();
 }
 ?>

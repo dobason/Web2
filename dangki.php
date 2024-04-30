@@ -13,38 +13,60 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <form id="formDangKy">
-            <h1>Đăng ký</h1>
-            <div class="input-box">
-                <input type="text" id="fullname" placeholder="Họ và tên" required />
-            </div>
-            <div class="input-box">
-                <input type="email" id="email" placeholder="Email" required />
-                <i class="bx bxs-user"></i>
-            </div>
+<?php
+require_once 'db/dbhelper.php';
 
-            <div class="input-box">
-                <input type="password" id="password" placeholder="Mật khẩu" required />
-                <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
-            </div>
-            <div class="input-box">
-                <input type="password" id="confirmPassword" placeholder="Nhập lại mật khẩu" required />
-                <span class="show-password" onclick="togglePassword('confirmPassword')"><i
-                        class="bx bx-show"></i></span>
-            </div>
+// Xử lý việc đăng ký khi nhấn nút Đăng ký
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Lấy dữ liệu từ form
+    $fullname = $_POST['fullname'];
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $confirmPassword = $_POST['confirmPassword'];
 
-            <button type="button" class="register" onclick="dangKy()">
-                Đăng ký
-            </button>
+    // Kiểm tra mật khẩu và xác nhận mật khẩu
+    if ($password !== $confirmPassword) {
+        echo '<script>alert("Mật khẩu không khớp!");</script>';
+    } else {
+        // Thực hiện đăng ký
+        
+        $sql = "INSERT INTO khach_hang (Ten_KH, Tai_Khoan, Mat_Khau, Trang_Thai) VALUES ('$fullname', '$username', '$password', 1)";
 
-            <div class="login">
-                <p>Đã có tài khoản? <a href="dangnhap.php">Đăng nhập</a></p>
-                <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
-            </div>
-        </form>
-    </div>
-    <script src="js/p.js"></script>
+        // Thực thi truy vấn
+        execute($sql);
+
+        echo '<script>alert("Đăng ký thành công!");</script>';
+    }
+}
+?>
+
+<div class="wrapper">
+    <form id="formDangKy" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+        <h1>Đăng ký</h1>
+        <div class="input-box">
+            <input type="text" id="fullname" name="fullname" placeholder="Họ và tên" required />
+        </div>
+        <div class="input-box">
+            <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required />
+        </div>
+        <div class="input-box">
+            <input type="password" id="password" name="password" placeholder="Mật khẩu" required />
+            <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
+        </div>
+        <div class="input-box">
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Nhập lại mật khẩu" required />
+            <span class="show-password" onclick="togglePassword('confirmPassword')"><i class="bx bx-show"></i></span>
+        </div>
+        <button type="submit" class="register">Đăng ký</button>
+        <div class="login">
+            <p>Đã có tài khoản? <a href="dangnhap.php">Đăng nhập</a></p>
+            <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
+        </div>
+    </form>
+</div>
+<script src="js/dangky.js"></script>
+
+    
 </body>
 
 </html>

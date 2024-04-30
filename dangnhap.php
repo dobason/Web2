@@ -12,33 +12,29 @@
 </head>
 
 <body>
-    <div class="wrapper">
-        <form id="formDangNhap">
-            <h1>Đăng Nhập</h1>
-            <div class="input-box">
-                <input type="email" id="emailDangNhap" placeholder="Tài Khoản" required />
-                <i class="bx bxs-user"></i>
-            </div>
+<div class="wrapper">
+    <form id="formDangNhap" method="post" action="process_login.php">
+        <h1>Đăng Nhập</h1>
+        <div class="input-box">
+            <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required
+                <?php if (isset($_POST['username'])) echo 'value="' . htmlspecialchars($_POST['username']) . '"'; ?> />
+        </div>
+        <div class="input-box">
+            <input type="password" id="password" name="password" placeholder="Mật khẩu" required />
+            <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
+        </div>
+        <div class="forgot">
+            <label><input type="checkbox" id="remember" name="remember" /> Lưu đăng nhập</label>
+        </div>
+        <button type="submit" class="log">Đăng nhập</button>
+        <div class="register">
+            <p>Không có tài khoản? <a href="dangki.php">Đăng ký</a></p><br>
+            <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
+        </div>
+    </form>
+</div>
 
-            <div class="input-box">
-                <input type="password" id="passwordDangNhap" placeholder="Mật khẩu" required />
-                <span class="show-password" onclick="togglePassword('passwordDangNhap')"><i
-                        class="bx bx-show"></i></span>
-            </div>
-
-            <div class="forgot">
-                <label><input type="checkbox" id="remember" /> Lưu đăng nhập</label>
-                <a href="#">Quên mật khẩu</a>
-            </div>
-
-            <button type="button" class="log" onclick="dangNhap()">
-                Đăng nhập
-            </button>
-
-            <div class="register">
-                <p>Không có tài khoản? <a href="dangki.php">Đăng ký</a></p><br>
-                <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
-            </div>
+<script src="js/dangky.js"></script>
         </form>
     </div>
     <script src="js/p.js"></script>
