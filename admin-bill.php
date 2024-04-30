@@ -219,7 +219,7 @@
                                         <th style="width: 3%;">SĐT</th>
                                         <th style="width: 15%;">Địa chỉ</th>
                                         <th style="width: 12%;">Tổng tiền</th>
-                                        <th style="width: 12%;">Ngày giao</th>
+                                 
                                         <th style="width: 18%;">Ngày đặt</th>
                                         <th style="width: 10%;">Tình trạng</th>
                                     </tr>
@@ -235,7 +235,7 @@
                                                 <td>{$row['SDT']}</td>
                                                 <td>{$row['Dia_Chi_Nhan_Hang']}</td>
                                                 <td>{$row['Tong_Tien']}</td>
-                                                <td>{$row['Ngay_GH']}</td>
+                                     
                                                 <td>{$row['Ngay_DH']}</td>
                                                 <td>{$row['Tinh_Trang']}</td>                                     
                                                 <td>

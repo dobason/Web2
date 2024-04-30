@@ -6,7 +6,7 @@ if (isset($_GET['id'])) {
     // Thực hiện xóa sản phẩm từ cơ sở dữ liệu
     require_once('db/dbhelper.php'); // Import file dbhelper.php để sử dụng hàm execute()
 
-    $sql = "DELETE FROM books WHERE book_id = $bookId";
+    $sql = "DELETE FROM sach WHERE Ma_Sach = $bookId";
 
     // Thực thi truy vấn xóa
     $result = execute($sql);

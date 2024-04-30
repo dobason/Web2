@@ -10,7 +10,8 @@ function openDatabaseConnection() {
     return $conn;
 }
 
-// Hàm thực thi truy vấn không trả về kết quả (INSERT, UPDATE, DELETE)
+
+// Hàm thực thi truy vấn và trả về ID của bản ghi vừa chèn (INSERT)
 // Hàm thực thi truy vấn và trả về ID của bản ghi vừa chèn (INSERT)
 function execute($sql, $params = []) {
     $conn = openDatabaseConnection();
@@ -21,7 +22,14 @@ function execute($sql, $params = []) {
     }
 
     if (!empty($params)) {
-        mysqli_stmt_bind_param($stmt, ...$params);
+        // Xử lý truyền tham số vào bind_param
+        $types = $params[0]; // Loại dữ liệu của từng tham số
+        $values = array_slice($params, 1); // Các giá trị tham số từ vị trí thứ 2 trở đi
+
+        array_unshift($values, $stmt, $types); // Thêm $stmt và $types vào đầu mảng $values
+
+        // Gọi bind_param với số lượng tham số đúng đắn
+        call_user_func_array('mysqli_stmt_bind_param', $values);
     }
 
     $result = mysqli_stmt_execute($stmt);
@@ -34,6 +42,7 @@ function execute($sql, $params = []) {
 
     return $lastInsertedId; // Trả về ID của bản ghi vừa chèn
 }
+
 
 
 

@@ -330,6 +330,7 @@ function updateCartQuantity(productId, newQuantity) {
         success: function(response) {
             if (response && response.success) {
                 console.log('Đã cập nhật số lượng sản phẩm có ID: ' + productId);
+                window.location.reload();
                 // Cập nhật thành công, có thể xử lý dữ liệu response.total nếu cần
             } else {
                 console.log('Có lỗi xảy ra khi cập nhật số lượng sản phẩm');
@@ -339,18 +340,8 @@ function updateCartQuantity(productId, newQuantity) {
             console.log('Lỗi khi gửi yêu cầu cập nhật số lượng sản phẩm');
         }
     });
+    calculateTotalPrice();
 }
-
-
-
-
-
-
-
-
-
-
-
 
 function confirmDelete(productId) {
     // Hiển thị hộp thoại xác nhận xóa sản phẩm
@@ -371,21 +362,63 @@ function deleteProduct(productId) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
+            
                 console.log('Đã xóa sản phẩm có ID: ' + productId);
                 window.location.reload(); // Tải lại trang để cập nhật danh sách giỏ hàng
-            } else {
-                console.log('Lỗi khi xóa sản phẩm');
-            }
+            
         }
     };
     var data = 'product_id=' + encodeURIComponent(productId);
     xhr.send(data);
 }
 
+function calculateTotalPrice() {
+    let totalPrice = 0;
+
+    // Lặp qua từng sản phẩm trong giỏ hàng
+    let productElements = document.querySelectorAll('.product-total p');
+    productElements.forEach((element) => {
+        let priceText = element.innerText; // Ví dụ: "890.000đ"
+        let price = parseInt(priceText.replace('đ', '').replace('.', '').replace(',', ''), 10); // Chuyển đổi về số nguyên (loại bỏ dấu chấm và dấu phẩy)
+        totalPrice += price; // Cộng dồn tổng số tiền
+    });
+
+    // Hiển thị tổng hóa đơn trong thẻ span có id="total-price"
+    let totalPriceElement = document.getElementById('total-price');
+    totalPriceElement.innerText = totalPrice.toLocaleString() + 'đ'; // Hiển thị số tiền đã tính toán với định dạng số nguyên, ba chữ số thập phân và kèm đơn vị VNĐ
+}
 
 
+// Gọi hàm calculateTotalPrice() khi trang web được tải
+document.addEventListener('DOMContentLoaded', function() {
+    calculateTotalPrice();
+});
 
+
+function updateCustomerTotal(totalPrice) {
+    let maKhachHang = <?php echo isset($_SESSION['Ma_KH']) ? $_SESSION['Ma_KH'] : 'null'; ?>;
+    
+    if (maKhachHang) {
+        $.ajax({
+            url: 'update_customer_total.php',
+            type: 'POST',
+            data: {
+                ma_khach_hang: maKhachHang,
+                tong_hoa_don: totalPrice
+            },
+            success: function(response) {
+                if (response && response.success) {
+                    console.log('Đã cập nhật tổng hóa đơn cho khách hàng có ID: ' + maKhachHang);
+                } else {
+                    console.log('Có lỗi xảy ra khi cập nhật tổng hóa đơn cho khách hàng');
+                }
+            },
+            error: function() {
+                console.log('Lỗi khi gửi yêu cầu cập nhật tổng hóa đơn cho khách hàng');
+            }
+        });
+    }
+}
 
 
 </script>
@@ -435,27 +468,47 @@ function deleteProduct(productId) {
                             <?php
 require_once 'db/dbhelper.php';
 
-// Truy vấn SQL để lấy giá trị của cột Tong_HD từ bảng gio_hang
-$sqlGetTotalAmount = "SELECT Tong_HD FROM gio_hang";
+// Truy vấn SQL để tính tổng hóa đơn của mỗi khách hàng từ bảng gio_hang
+$sql = "
+    SELECT Ma_KH, SUM(Tong_Tien) AS Tong_Hoa_Don
+    FROM gio_hang
+    GROUP BY Ma_KH;
+";
 
-// Thực thi truy vấn để lấy giá trị Tong_HD
-$totalResult = executeSingleResult($sqlGetTotalAmount);
+// Thực thi truy vấn để lấy kết quả
+$results = executeResult($sql);
 
-// Kiểm tra nếu có kết quả trả về và tồn tại cột Tong_HD
-if ($totalResult && isset($totalResult['Tong_HD'])) {
-    $totalAmount = $totalResult['Tong_HD'];
+$allCustomersUpdated = true;
 
-    // Hiển thị giá trị Tong_HD trong phần tử HTML
-    echo '
+// Duyệt qua kết quả để cập nhật cột Tong_Hoa_Don trong bảng khach_hang
+foreach ($results as $result) {
+    $maKH = $result['Ma_KH'];
+    $tongHoaDon = $result['Tong_Hoa_Don'];
+
+    // Truy vấn SQL để cập nhật cột Tong_Hoa_Don trong bảng khach_hang
+    $updateSql = "
+        UPDATE khach_hang
+        SET Tong_Hoa_Don = $tongHoaDon
+        WHERE Ma_KH = $maKH;
+    ";
+
+    // Thực thi truy vấn cập nhật
+    execute($updateSql);
+
+  
+}
+
+
+?>
+
+
+    
         <div class="total-row">
             <span class="total-label">Tổng cộng:</span>
-            <span id="total-price">' . number_format($totalAmount, 0, ',', '.') . ' đ</span>
-        </div>';
-} else {
-    // Hiển thị thông báo nếu không có giá trị Tong_HD
-    echo '<div class="total-row"><span class="total-label">Tổng cộng:</span><span id="total-price">0 đ</span></div>';
-}
-?>
+            <span id="total-price"> </span>
+        </div>
+
+
 
 
                             <a href="Payment.php">
