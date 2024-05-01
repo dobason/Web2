@@ -497,13 +497,9 @@ foreach ($results as $result) {
 
   
 }
-
-
 ?>
-
-
     
-        <div class="total-row">
+       <div class="total-row">
             <span class="total-label">Tổng cộng:</span>
             <span id="total-price"> </span>
         </div>
