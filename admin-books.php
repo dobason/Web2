@@ -245,121 +245,9 @@
    </div>
  </div>
 
- <!-- Script để xử lý AJAX -->
-<script>
-$(document).ready(function() {
-    // Lắng nghe sự kiện click vào nút "Sửa"
-    $('.edit-book').click(function(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
 
-        var bookId = $(this).data('book-id'); // Lấy bookId từ thuộc tính data-book-id của nút "Sửa"
 
-        // Gửi yêu cầu AJAX để lấy thông tin sách từ máy chủ
-        $.ajax({
-            type: 'GET',
-            url: 'get-book-info.php', // Đường dẫn tới file xử lý AJAX để lấy thông tin sách
-            data: { book_id: bookId }, // Truyền bookId vào yêu cầu AJAX
-            success: function(response) {
-                // Điền thông tin sách vào modal
-                $('#bookId').val(bookId); // Lưu bookId vào một hidden input để sử dụng sau này
-                $('#bookTitle').val(response.Ten_Sach);
-                $('#bookCategory').val(response.Ma_Loai);
-                $('#bookAuthor').val(response.Ten_Tac_Gia);
-                $('#bookDescription').val(response.Mo_Ta);
-                $('#bookPrice').val(response.Don_Gia);
-                $('#bookImage').val(response.Hinh_Anh); // Đường dẫn hình ảnh
 
-                // Hiển thị modal
-                $('#editBookModal').modal('show');
-            },
-            error: function() {
-                alert('Đã xảy ra lỗi khi lấy thông tin sách.');
-            }
-        });
-    });
-
-    // Xử lý submit form trong modal để cập nhật thông tin sách
-    $('#updateBookForm').submit(function(event) {
-        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
-
-        // Lấy dữ liệu từ form
-        var bookId = $('#bookId').val();
-        var newBookTitle = $('#bookTitle').val();
-        var newCategory = $('#bookCategory').val();
-        var newAuthor = $('#bookAuthor').val();
-        var newDescription = $('#bookDescription').val();
-        var newPrice = $('#bookPrice').val();
-        var newImage = $('#bookImage').val();
-
-        // Gửi yêu cầu AJAX để cập nhật thông tin sách trong cơ sở dữ liệu
-        $.ajax({
-            type: 'POST',
-            url: 'update-book.php', // Đường dẫn tới file xử lý AJAX để cập nhật thông tin sách
-            data: {
-                bookId: bookId,
-                newBookTitle: newBookTitle,
-                newCategory: newCategory,
-                newAuthor: newAuthor,
-                newDescription: newDescription,
-                newPrice: newPrice,
-                newImage: newImage
-            },
-            success: function(response) {
-                alert(response); // Hiển thị thông báo kết quả từ server
-                // Tùy chỉnh hành động sau khi cập nhật thành công (ví dụ: đóng modal)
-                $('#editBookModal').modal('hide');
-            },
-            error: function() {
-                alert('Đã xảy ra lỗi khi cập nhật thông tin sách.');
-            }
-        });
-    });
-});
-</script>
-
-<!-- Modal để sửa thông tin sách -->
-<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
-   <div class="modal-dialog" role="document">
-     <div class="modal-content">
-       <div class="modal-header">
-         <h5 class="modal-title" id="editBookModalLabel">Sửa thông tin sách</h5>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-         </button>
-       </div>
-       <div class="modal-body">
-         <form id="updateBookForm">
-           <input type="hidden" id="bookId" name="bookId"> <!-- Hidden input để lưu bookId -->
-           <div class="form-group">
-             <label for="bookTitle">Tên sách</label>
-             <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
-           </div>
-           <div class="form-group">
-             <label for="bookCategory">Thể loại sách</label>
-             <input type="text" class="form-control" id="bookCategory" name="bookCategory" required>
-           </div>
-           <div class="form-group">
-             <label for="bookAuthor">Tác giả sách</label>
-             <input type="text" class="form-control" id="bookAuthor" name="bookAuthor" required>
-           </div>
-           <div class="form-group">
-             <label for="bookDescription">Mô tả sách</label>
-             <textarea class="form-control" id="bookDescription" name="bookDescription" rows="3" required></textarea>
-           </div>
-           <div class="form-group">
-             <label for="bookPrice">Giá tiền</label>
-             <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
-           </div>
-           <div class="form-group">
-             <label for="bookImage">Đường dẫn hình ảnh</label>
-             <input type="text" class="form-control" id="bookImage" name="bookImage" required>
-           </div>
-           <button type="submit" class="btn btn-primary">Lưu</button>
-         </form>
-       </div>
-     </div>
-   </div>
- </div>
 
 
  
@@ -429,8 +317,118 @@ foreach ($books as $index => $book) {
     echo '</td>';
     echo '</tr>';
 }
-?>
+?><!-- Modal để sửa thông tin sách -->
+<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="editBookModalLabel">Sửa thông tin sách</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+         <form id="updateBookForm" action="update-book.php" method="post" enctype="multipart/form-data">
+           <input type="hidden" id="bookId" name="bookId">
+           
+           <div class="form-group">
+             <label for="bookTitle">Tên sách</label>
+             <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
+           </div>
+           <div class="form-group">
+             <label for="bookCategory">Thể loại sách</label>
+             <input type="text" class="form-control" id="bookCategory" name="bookCategory" required>
+           </div>
+           <div class="form-group">
+             <label for="bookAuthor">Tác giả sách</label>
+             <input type="text" class="form-control" id="bookAuthor" name="bookAuthor" required>
+           </div>
+           <div class="form-group">
+             <label for="bookDescription">Mô tả sách</label>
+             <textarea class="form-control" id="bookDescription" name="bookDescription" rows="3" required></textarea>
+           </div>
+           <div class="form-group">
+             <label for="bookPrice">Giá tiền</label>
+             <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
+           </div>
+           <div class="form-group">
+             <label for="bookImage">Hình ảnh</label>
+             <div class="custom-file">
+               <input type="file" class="custom-file-input" id="bookImage" name="bookImage">
+               <label class="custom-file-label" for="bookImage">Chọn hình ảnh</label>
+             </div>
+     
+           </div>
+           <button type="submit" class="btn btn-primary">Lưu</button>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>
 
+
+<!-- Đoạn mã JavaScript để xử lý sự kiện khi nhấn vào nút "Sửa" -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const editButtons = document.querySelectorAll('.edit-book');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const bookId = button.getAttribute('data-book-id');
+
+            // Hiển thị modal "Sửa thông tin sách"
+            $('#editBookModal').modal('show');
+
+            // Gán giá trị bookId vào input hidden
+            document.getElementById('bookId').value = bookId;
+
+            // Gửi yêu cầu Ajax để lấy thông tin sách từ cơ sở dữ liệu
+            $.ajax({
+                url: 'get_book.php',
+                type: 'GET',
+                data: {
+                    book_id: bookId
+                },
+                success: function(response) {
+                    // Điền thông tin sách vào các trường của modal
+                    document.getElementById('bookTitle').value = response.Ten_Sach;
+                    document.getElementById('bookCategory').value = response.Ma_Loai;
+                    document.getElementById('bookAuthor').value = response.Ten_Tac_Gia;
+                    document.getElementById('bookDescription').value = response.Mo_Ta;
+                    document.getElementById('bookPrice').value = response.Don_Gia;
+                    document.getElementById('previewImage').src = response.Hinh_Anh;
+                    document.getElementById('previewImage').style.display = 'block';
+                },
+                error: function(xhr, status, error) {
+                    console.error('Lỗi khi truy vấn dữ liệu sách:', error);
+                }
+            });
+        });
+    });
+});
+
+
+
+    // Hàm xem trước hình ảnh trước khi tải lên
+    function previewImage(event) {
+        const preview = document.getElementById('previewImage');
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = function() {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
                                     
                                 </tbody>
@@ -529,40 +527,7 @@ foreach ($books as $index => $book) {
 });
 
        </script>
-<script>
-$(document).ready(function() {
-    // Xử lý sự kiện khi nhấp vào liên kết "Chỉnh sửa"
-    $('.edit-book').click(function(e) {
-        e.preventDefault(); // Ngăn chặn hành động mặc định của liên kết
 
-        // Lấy bookId từ thuộc tính data-book-id của liên kết
-        var bookId = $(this).data('book-id');
-
-        // Gửi yêu cầu AJAX để lấy thông tin sách từ server
-        $.ajax({
-            url: 'get_book_info.php', // Đường dẫn tới script xử lý AJAX để lấy thông tin sách
-            method: 'POST',
-            data: { id: bookId }, // Gửi bookId đến server
-            success: function(response) {
-                // Thành công: Hiển thị thông tin sách trong modal
-                $('#bookId').val(response.id);
-                $('#bookTitle').val(response.bookTitle);
-                $('#bookCategory').val(response.bookCategory);
-                $('#bookAuthor').val(response.author);
-                $('#bookDescription').val(response.description);
-                $('#bookPrice').val(response.price);
-                $('#editBookModal').modal('show'); // Hiển thị modal chỉnh sửa
-            },
-            error: function() {
-                // Xử lý lỗi nếu có
-                alert('Đã xảy ra lỗi. Vui lòng thử lại sau.');
-            }
-        });
-    });
-});
-
-
-</script>
 
 
        
