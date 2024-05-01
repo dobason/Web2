@@ -1,33 +1,31 @@
 <?php
-// Kết nối đến cơ sở dữ liệu
-require_once('db/dbhelper.php');
+require_once 'db/dbhelper.php'; // Import file dbhelper.php để sử dụng các hàm kết nối và thực thi truy vấn
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Lấy dữ liệu từ biểu mẫu chỉnh sửa
-    $bookId = $_POST['bookId'];
-    $bookTitle = $_POST['bookTitle'];
-    $bookCategory = $_POST['bookCategory'];
-    $bookAuthor = $_POST['bookAuthor'];
-    $bookDescription = $_POST['bookDescription'];
-    $bookPrice = $_POST['bookPrice'];
+// Lấy dữ liệu từ yêu cầu AJAX
+$bookId = $_POST['bookId'];
+$newBookTitle = $_POST['newBookTitle'];
+$newCategory = $_POST['newCategory'];
+$newAuthor = $_POST['newAuthor'];
+$newDescription = $_POST['newDescription'];
+$newPrice = $_POST['newPrice'];
+$newImage = $_POST['newImage'];
 
-    // Cập nhật thông tin sách trong cơ sở dữ liệu
-    $sql = "UPDATE books SET 
-            book_name = '$bookTitle',
-            category = '$bookCategory',
-            author = '$bookAuthor',
-            description = '$bookDescription',
-            price = '$bookPrice'
-            WHERE book_id = $bookId";
+// Chuẩn bị truy vấn SQL để cập nhật thông tin sách
+$sql = "UPDATE sach
+        SET Ten_Sach = '$newBookTitle',
+            Ma_Loai = '$newCategory',
+            Ten_Tac_Gia = '$newAuthor',
+            Mo_Ta = '$newDescription',
+            Don_Gia = '$newPrice',
+            Hinh_Anh = '$newImage'
+        WHERE Ma_Sach = $bookId";
 
-    $result = execute($sql); // Thực thi truy vấn
+// Thực thi truy vấn
+$result = execute($sql);
 
-    if ($result) {
-        // Trả về phản hồi thành công (có thể là JSON, thông báo, ...)
-        echo json_encode(['status' => 'success']);
-    } else {
-        // Trả về phản hồi lỗi (có thể là JSON, thông báo, ...)
-        echo json_encode(['status' => 'error']);
-    }
+if ($result) {
+    echo "Cập nhật thông tin sách thành công.";
+} else {
+    echo "Đã xảy ra lỗi khi cập nhật thông tin sách.";
 }
 ?>

@@ -245,7 +245,123 @@
    </div>
  </div>
 
- 
+ <!-- Script để xử lý AJAX -->
+<script>
+$(document).ready(function() {
+    // Lắng nghe sự kiện click vào nút "Sửa"
+    $('.edit-book').click(function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+
+        var bookId = $(this).data('book-id'); // Lấy bookId từ thuộc tính data-book-id của nút "Sửa"
+
+        // Gửi yêu cầu AJAX để lấy thông tin sách từ máy chủ
+        $.ajax({
+            type: 'GET',
+            url: 'get-book-info.php', // Đường dẫn tới file xử lý AJAX để lấy thông tin sách
+            data: { book_id: bookId }, // Truyền bookId vào yêu cầu AJAX
+            success: function(response) {
+                // Điền thông tin sách vào modal
+                $('#bookId').val(bookId); // Lưu bookId vào một hidden input để sử dụng sau này
+                $('#bookTitle').val(response.Ten_Sach);
+                $('#bookCategory').val(response.Ma_Loai);
+                $('#bookAuthor').val(response.Ten_Tac_Gia);
+                $('#bookDescription').val(response.Mo_Ta);
+                $('#bookPrice').val(response.Don_Gia);
+                $('#bookImage').val(response.Hinh_Anh); // Đường dẫn hình ảnh
+
+                // Hiển thị modal
+                $('#editBookModal').modal('show');
+            },
+            error: function() {
+                alert('Đã xảy ra lỗi khi lấy thông tin sách.');
+            }
+        });
+    });
+
+    // Xử lý submit form trong modal để cập nhật thông tin sách
+    $('#updateBookForm').submit(function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+        // Lấy dữ liệu từ form
+        var bookId = $('#bookId').val();
+        var newBookTitle = $('#bookTitle').val();
+        var newCategory = $('#bookCategory').val();
+        var newAuthor = $('#bookAuthor').val();
+        var newDescription = $('#bookDescription').val();
+        var newPrice = $('#bookPrice').val();
+        var newImage = $('#bookImage').val();
+
+        // Gửi yêu cầu AJAX để cập nhật thông tin sách trong cơ sở dữ liệu
+        $.ajax({
+            type: 'POST',
+            url: 'update-book.php', // Đường dẫn tới file xử lý AJAX để cập nhật thông tin sách
+            data: {
+                bookId: bookId,
+                newBookTitle: newBookTitle,
+                newCategory: newCategory,
+                newAuthor: newAuthor,
+                newDescription: newDescription,
+                newPrice: newPrice,
+                newImage: newImage
+            },
+            success: function(response) {
+                alert(response); // Hiển thị thông báo kết quả từ server
+                // Tùy chỉnh hành động sau khi cập nhật thành công (ví dụ: đóng modal)
+                $('#editBookModal').modal('hide');
+            },
+            error: function() {
+                alert('Đã xảy ra lỗi khi cập nhật thông tin sách.');
+            }
+        });
+    });
+});
+</script>
+
+<!-- Modal để sửa thông tin sách -->
+<div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="editBookModalLabel">Sửa thông tin sách</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body">
+         <form id="updateBookForm">
+           <input type="hidden" id="bookId" name="bookId"> <!-- Hidden input để lưu bookId -->
+           <div class="form-group">
+             <label for="bookTitle">Tên sách</label>
+             <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
+           </div>
+           <div class="form-group">
+             <label for="bookCategory">Thể loại sách</label>
+             <input type="text" class="form-control" id="bookCategory" name="bookCategory" required>
+           </div>
+           <div class="form-group">
+             <label for="bookAuthor">Tác giả sách</label>
+             <input type="text" class="form-control" id="bookAuthor" name="bookAuthor" required>
+           </div>
+           <div class="form-group">
+             <label for="bookDescription">Mô tả sách</label>
+             <textarea class="form-control" id="bookDescription" name="bookDescription" rows="3" required></textarea>
+           </div>
+           <div class="form-group">
+             <label for="bookPrice">Giá tiền</label>
+             <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
+           </div>
+           <div class="form-group">
+             <label for="bookImage">Đường dẫn hình ảnh</label>
+             <input type="text" class="form-control" id="bookImage" name="bookImage" required>
+           </div>
+           <button type="submit" class="btn btn-primary">Lưu</button>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>
+
+
  
 
             <div class="container-fluid">
@@ -286,37 +402,35 @@ $sql = "SELECT * FROM sach";
 $books = executeResult($sql);
 
 foreach ($books as $index => $book) {
-   $stt = $index + 1; // Số thứ tự
-   $bookName = $book['Ten_Sach'];
-   $category = $book['Ma_Loai'];
-   $author = $book['Ten_Tac_Gia'];
-   $description = $book['Mo_Ta'];
-   $price = number_format($book['Don_Gia'], 0, ',', '.'); // Định dạng giá tiền thành 15.000
-   $image = $book['Hinh_Anh'];
-   $bookId = $book['Ma_Sach']; // ID của sách
+    $stt = $index + 1; // Số thứ tự
+    $bookName = $book['Ten_Sach'];
+    $category = $book['Ma_Loai'];
+    $author = $book['Ten_Tac_Gia'];
+    $description = $book['Mo_Ta'];
+    $price = number_format($book['Don_Gia'], 0, ',', '.'); // Định dạng giá tiền thành 15.000
+    $image = $book['Hinh_Anh'];
+    $bookId = $book['Ma_Sach']; // ID của sách
 
-   echo '<tr>';
-   echo '<td>' . $stt . '</td>'; // STT
-   echo '<td><img src="' . $image . '" alt="Book Image" style="width: 100px;"></td>'; // Hình ảnh
-   echo '<td>' . $bookName . '</td>'; // Tên sách
-   echo '<td>' . $category . '</td>'; // Thể loại sách
-   echo '<td>' . $author . '</td>'; // Tác giả sách
-   echo '<td>' . $description . '</td>'; // Mô tả sách
-   echo '<td>' . $price . '</td>'; // Giá đã định dạng
-   echo '<td>';
-   
-   echo '<a href="#" class="edit-book" data-book-id="' . $bookId . '">Sửa</a> | ';
+    echo '<tr>';
+    echo '<td>' . $stt . '</td>'; // STT
+    echo '<td><img src="' . $image . '" alt="Book Image" style="width: 100px;"></td>'; // Hình ảnh
+    echo '<td>' . $bookName . '</td>'; // Tên sách
+    echo '<td>' . $category . '</td>'; // Thể loại sách
+    echo '<td>' . $author . '</td>'; // Tác giả sách
+    echo '<td>' . $description . '</td>'; // Mô tả sách
+    echo '<td>' . $price . '</td>'; // Giá đã định dạng
+    echo '<td>';
 
+    echo '<a href="#" class="edit-book" data-book-id="' . $bookId . '">Sửa</a>|';
 
+    // Liên kết xóa với xác nhận trước khi thực hiện
+    echo '<a href="delete-book.php?book_id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';
 
-   
-   // Liên kết xóa với xác nhận trước khi thực hiện
-   echo '<a href="delete-book.php?id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';   
-   echo '</td>';
-   echo '</tr>';
+    echo '</td>';
+    echo '</tr>';
 }
-
 ?>
+
 
                                     
                                 </tbody>

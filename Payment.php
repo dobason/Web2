@@ -499,7 +499,9 @@ select {
                 }
                 return $totalAmount;
             }
-            
+            // Lưu totalAmount vào session
+$_SESSION['totalAmount'] = $totalAmount;
+
             // Hàm để cập nhật tổng tiền vào cột Tong_Tien của bảng hoa_don
             function updateTotalAmount($maKH, $totalAmount)
             {

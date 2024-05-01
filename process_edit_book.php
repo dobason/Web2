@@ -1,35 +1,43 @@
 <?php
-// process_edit_book.php
-
 require_once 'db/dbhelper.php';
 
-// Lấy thông tin sách từ POST request
-$bookId = $_POST['bookId'];
-$bookTitle = $_POST['bookTitle'];
-$bookCategory = $_POST['bookCategory'];
-$bookAuthor = $_POST['bookAuthor'];
-$bookDescription = $_POST['bookDescription'];
-$bookPrice = $_POST['bookPrice'];
+// Kiểm tra nếu có dữ liệu POST gửi từ form chỉnh sửa sách
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $bookId = $_POST['editBookId'];
+    $bookTitle = $_POST['editBookTitle'];
+    $bookCategory = $_POST['editBookCategory'];
+    $bookAuthor = $_POST['editBookAuthor'];
+    $bookDescription = $_POST['editBookDescription'];
+    $bookPrice = $_POST['editBookPrice'];
 
-// Xử lý hình ảnh mới (nếu được tải lên)
-if ($_FILES['newBookImage']['name']) {
-    $file_name = $_FILES['newBookImage']['name'];
-    $file_tmp = $_FILES['newBookImage']['tmp_name'];
-    $file_path = 'uploads/' . $file_name;
+    // Xử lý tệp hình ảnh (nếu được tải lên)
+    if (isset($_FILES['editBookImage']) && $_FILES['editBookImage']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = 'uploads/'; // Thư mục lưu trữ hình ảnh
+        $uploadFile = $uploadDir . basename($_FILES['editBookImage']['name']);
 
-    // Di chuyển file tạm vào thư mục uploads
-    move_uploaded_file($file_tmp, $file_path);
+        // Di chuyển tệp tải lên vào thư mục lưu trữ
+        if (move_uploaded_file($_FILES['editBookImage']['tmp_name'], $uploadFile)) {
+            // Cập nhật đường dẫn hình ảnh trong cơ sở dữ liệu
+            $sql = "UPDATE sach SET Hinh_Anh = '$uploadFile' WHERE Ma_Sach = '$bookId'";
+            execute($sql);
+        }
+    }
 
-    // Cập nhật đường dẫn hình ảnh mới vào cơ sở dữ liệu
-    $sql = "UPDATE books SET bookTitle = '$bookTitle', bookCategory = '$bookCategory', author = '$bookAuthor', description = '$bookDescription', price = '$bookPrice', imagePath = '$file_path' WHERE id = $bookId";
+    // Cập nhật thông tin sách trong cơ sở dữ liệu
+    $sql = "UPDATE sach 
+            SET Ten_Sach = '$bookTitle', Ma_Loai = '$bookCategory', Ten_Tac_Gia = '$bookAuthor', 
+                Mo_Ta = '$bookDescription', Don_Gia = '$bookPrice'
+            WHERE Ma_Sach = '$bookId'";
+    $result = execute($sql);
+
+    if ($result) {
+        // Chuyển hướng người dùng về trang hiển thị danh sách sách sau khi chỉnh sửa thành công
+        header('Location: admin-books.php');
+        exit();
+    } else {
+        echo 'Đã xảy ra lỗi khi cập nhật thông tin sách.';
+    }
 } else {
-    // Không có hình ảnh mới, chỉ cập nhật thông tin sách
-    $sql = "UPDATE books SET bookTitle = '$bookTitle', bookCategory = '$bookCategory', author = '$bookAuthor', description = '$bookDescription', price = '$bookPrice' WHERE id = $bookId";
+    echo 'Phương thức không hợp lệ.';
 }
-
-// Thực thi truy vấn cập nhật vào cơ sở dữ liệu
-execute($sql);
-
-// Trả về kết quả (có thể xử lý theo yêu cầu của bạn)
-echo json_encode(['success' => true]);
 ?>

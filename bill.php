@@ -3,14 +3,16 @@ session_start();
 
 require_once 'db/dbhelper.php';
 
-if (isset($_SESSION['MaHD'])) {
-    $maHD = $_SESSION['MaHD']; // Lấy MaHD từ session
+if (isset($_SESSION['Ma_KH'])) {
+    $maKH = $_SESSION['Ma_KH']; // Lấy Ma_KH từ session
+    $totalAmount = $_SESSION['totalAmount'];
+    $conn = openDatabaseConnection(); // Mở kết nối đến cơ sở dữ liệu
 
-    // Truy vấn cơ sở dữ liệu để lấy thông tin đơn hàng từ MaHD
+    // Truy vấn cơ sở dữ liệu để lấy thông tin đơn hàng dựa trên Ma_KH
     $sql = "SELECT hd.*, kh.Ten_KH
-    FROM hoa_don hd
-    LEFT JOIN khach_hang kh ON hd.Ma_KH = kh.Ma_KH
-    WHERE hd.MaHD = '$maHD'";
+            FROM hoa_don hd
+            LEFT JOIN khach_hang kh ON hd.Ma_KH = kh.Ma_KH
+            WHERE hd.Ma_KH = '$maKH'";
 
 
     $conn = openDatabaseConnection(); // Mở kết nối đến cơ sở dữ liệu
@@ -33,7 +35,7 @@ if (isset($_SESSION['MaHD'])) {
         echo "<p><strong>Thành phố:</strong> " . $order['Thanh_Pho'] . "</p>";
         echo "<p><strong>Quận:</strong> " . $order['Quan'] . "</p>";
         echo "<p><strong>Phường:</strong> " . $order['Phuong'] . "</p>";
-        echo "<p><strong>Tổng tiền:</strong> " . number_format($order['Tong_Tien']) . " VNĐ</p>";
+        echo "<p><strong>Tổng tiền:</strong> " .   number_format($totalAmount) . " VNĐ</p>";
         echo "<p><strong>Ngày đặt hàng:</strong> " .  $ngayDH = date('Y-m-d') . "</p>"; // Hiển thị ngày đặt hàng
         echo '<button class="back-btn" onclick="window.location.href=\'index.php\'">Quay về trang chủ</button>';
         echo '</div>';
@@ -46,7 +48,7 @@ if (isset($_SESSION['MaHD'])) {
         $thanhPho = $order['Thanh_Pho'];
         $quan = $order['Quan'];
         $phuong = $order['Phuong'];
-        $tongTien = $order['Tong_Tien'];
+        $tongTien = number_format($totalAmount);
         $tinhTrang = $order['Tinh_Trang'];
         $ngayDH = date('Y-m-d'); // Lấy ngày hiện tại
 

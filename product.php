@@ -22,7 +22,7 @@
 
             <div class="in-big-menu">
                 <div class="logo">
-                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
 
 
@@ -38,22 +38,13 @@
 
 
 
-                <div class="top-right-item">
-
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.html" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.html" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
-
-                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
                 <div class="top-right-item">
-                    <a href="cart.php"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                    <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
                     <p id="cartItemCount">0</p>
                 </div>
 
@@ -62,7 +53,7 @@
         <div class="menu-bar">
             <div class="menu-bar-content">
                 <ul>
-                    <li><a href="web1.php"><i class="fa-solid fa-book"></i> Văn học trong nước <span
+                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span
                                 class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
                         <div class="sub-menu">
                             <ul>
@@ -350,7 +341,7 @@ function displayProductDetail($product) {
 
                             <div class="slider-product-one-content-item">
 
-                                <a href="product.php"><img src="IMG/product4.jpg" alt=""></a>
+                                <a href="product.html"><img src="IMG/product4.jpg" alt=""></a>
                                 <div class="slider-product-one-content-item-text">
                                     <div class="slider-product-one-content-item-picture">
                                         <li><img src="IMG/freeship.png" alt="">
@@ -373,7 +364,7 @@ function displayProductDetail($product) {
 
                             <div class="slider-product-one-content-item">
 
-                                <a href="product.php"><img src="IMG/product5.jpg" alt=""></a>
+                                <a href="product.html"><img src="IMG/product5.jpg" alt=""></a>
                                 <div class="slider-product-one-content-item-text">
                                     <div class="slider-product-one-content-item-picture">
                                         <li><img src="IMG/freeship.png" alt="">

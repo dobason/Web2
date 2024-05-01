@@ -1,48 +1,51 @@
 <?php
-session_start(); // Bắt đầu session
+session_start();
 
-require_once 'db/dbhelper.php'; // Import file chứa các hàm kết nối và thực thi truy vấn
+require_once 'db/dbhelper.php';
 
+// Kiểm tra xem người dùng đã đăng nhập hay chưa
 if (isset($_SESSION['Ma_KH'])) {
     $maKH = $_SESSION['Ma_KH']; // Lấy mã khách hàng từ session
 
-    // Truy vấn cơ sở dữ liệu để lấy thông tin đơn hàng của khách hàng hiện tại
-    $sql = "SELECT * FROM hoa_don WHERE Ma_KH = ?"; // Điều kiện là Ma_KH của khách hàng
+    // Kiểm tra xem form đã được gửi đi chưa
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        // Nhận dữ liệu từ form payment.php
+        $tenNguoiNhan = $_POST['name'];
+        $sdt = $_POST['phoneNumber'];
+        $diaChi = $_POST['deliveryAddress'];
+        $thanhPho = $_POST['city'];
+        $quanHuyen = $_POST['district'];
+        $phuongXa = $_POST['ward'];
+        $tongHoaDon = isset($_POST['totalAmount']) ? $_POST['totalAmount'] : 0; // Lấy tổng hóa đơn từ form (nếu có)
+        $ngayDatHang = date('Y-m-d H:i:s'); // Lấy ngày hiện tại làm ngày đặt hàng
 
-    $conn = openDatabaseConnection(); // Mở kết nối đến cơ sở dữ liệu
+        // Thêm đơn hàng mới vào cơ sở dữ liệu
+        $conn = openDatabaseConnection(); // Mở kết nối đến cơ sở dữ liệu
+        $sqlInsert = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Tong_Tien, Ngay_DH, Tinh_Trang)
+                      VALUES ('$maKH', '$tenNguoiNhan', '$sdt', '$diaChi', '$thanhPho', '$quanHuyen', '$phuongXa', '$tongHoaDon', '$ngayDatHang', '0')";
 
-    // Sử dụng tham số trong truy vấn SQL
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, 's', $maKH);
+        $resultInsert = execute($sqlInsert);
 
-    // Thực thi truy vấn
-    mysqli_stmt_execute($stmt);
+        if ($resultInsert) {
+            // Lưu MaHD vào session (nếu cơ sở dữ liệu tự động tạo MaHD)
+            // Lấy MaHD được tự động tạo bởi cơ sở dữ liệu (với cách cấu hình cụ thể)
 
-    // Lấy kết quả
-    $result = mysqli_stmt_get_result($stmt);
+            // Chuyển hướng đến trang bill.php
+            header('Location: bill.php');
+            exit(); // Dừng luồng thực thi để chuyển hướng
+        } else {
+            echo "Lỗi khi tạo đơn hàng mới.";
+        }
 
-    // Xử lý kết quả
-    if ($result && mysqli_num_rows($result) > 0) {
-        // Lấy thông tin đơn hàng
-        $orderInfo = mysqli_fetch_assoc($result);
-
-        // Lấy thông tin đơn hàng và chuyển hướng đến trang bill.php để hiển thị
-        $_SESSION['MaHD'] = $orderInfo['MaHD']; // Lưu MaHD vào session
-        header('Location: bill.php');
-        exit(); // Dừng luồng thực thi để chuyển hướng
+        // Đóng kết nối đến cơ sở dữ liệu
+        mysqli_close($conn);
     } else {
-        echo "Không tìm thấy đơn hàng của khách hàng này.";
+        echo "Dữ liệu form không được gửi đi.";
     }
-
-    // Đóng câu lệnh và kết nối đến cơ sở dữ liệu
-    mysqli_stmt_close($stmt);
-    mysqli_close($conn);
 } else {
-    // Xử lý khi không tìm thấy mã khách hàng trong session
-    echo "Vui lòng đăng nhập để xem đơn hàng.";
-    // Chuyển hướng đến trang đăng nhập
+    // Nếu không có mã khách hàng trong session, yêu cầu người dùng đăng nhập
+    echo "Vui lòng đăng nhập để thực hiện thanh toán.";
     header('Location: dangnhap.php');
     exit(); // Dừng luồng thực thi để chuyển hướng
 }
-
 ?>
