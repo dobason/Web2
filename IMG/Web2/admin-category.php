@@ -1,10 +1,10 @@
-<!doctype php>
-<php lang="en">
+<!doctype html>
+<html lang="en">
    <head>
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Admin Dashboard - goodreads</title>
+      <title>goodreads - Danh mục sách</title>
       <!-- Favicon -->
       <link rel="shortcut icon" href="images/favicon.ico" />
       <!-- Bootstrap CSS -->
@@ -20,9 +20,9 @@
    </head>
    <body>
       <?php
-         require('./php/classes/database.php');
-         $result = Database::getAllRows('hoa_don');
-         Database::closeConnection();
+            require('./php/classes/database.php');
+            $result = Database::getAllRows('loai_sach');
+            Database::closeConnection();
       ?>
       <!-- loader Start -->
       <div id="loading">
@@ -36,7 +36,7 @@
          <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
                <a href="index.php" class="header-logo">
-                  
+                  <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                   <div class="logo-title">
                      <span class="text-primary text-uppercase">goodreads</span>
                   </div>
@@ -52,8 +52,8 @@
             <div id="sidebar-scrollbar">
                <nav class="iq-sidebar-menu">
                   <ul id="iq-sidebar-toggle" class="iq-menu">
-                  <li><a href="admin-dashboard.php
-                  "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
+                     <li><a href="admin-dashboard.php
+                     "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
                      <li><a href="admin-invoice-details.php
@@ -73,7 +73,7 @@
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
                            <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
+                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">Become Membership</button>
                         </div>
                      </div>
                   </div>
@@ -89,7 +89,7 @@
                         <div class="main-circle"><i class="las la-bars"></i></div>
                      </div>
                      <div class="iq-navbar-logo d-flex justify-content-between">
-                        <a href="index.php" class="header-logo">
+                        <a href="index.html" class="header-logo">
                            <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                            <div class="logo-title">
                               <span class="text-primary text-uppercase">goodreads</span>
@@ -98,11 +98,11 @@
                      </div>
                   </div>
                   <div class="navbar-breadcrumb">
-                     <h5 class="mb-0">Hóa Đơn</h5>
+                     <h5 class="mb-0">Danh sách thể loại</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="index.php">Admin</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Hóa Đơn</li>
+                           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+                           <li class="breadcrumb-item active" aria-current="page">Danh sách thể loại</li>
                         </ul>
                      </nav>
                   </div>
@@ -126,7 +126,8 @@
                               <a class="search-link" href="#"><i class="ri-search-line"></i></a>
                            </form>
                         </li>
-                        
+                        <li class="nav-item nav-icon">
+                         
                         <li class="line-height pt-3">
                            <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
                               <img src="IMG/user.png" class="img-fluid rounded-circle mr-3" alt="user">
@@ -139,9 +140,9 @@
                               <div class="iq-card shadow-none m-0">
                                  <div class="iq-card-body p-0 ">
                                     <div class="bg-primary p-3">
-                                       <h5 class="mb-0 text-white line-height">Admin</h5>
+                                       <h5 class="mb-0 text-white line-height">Xin Chào Admin</h5>
                                     </div>
-                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>
@@ -151,7 +152,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="profile-edit.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-profile-line"></i>
@@ -161,7 +162,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="account-setting.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-account-box-line"></i>
@@ -171,7 +172,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="wishlist.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="wishlist.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-heart-line"></i>
@@ -182,7 +183,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -202,52 +203,44 @@
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Danh sách hóa đơn</h4>
+                              <h4 class="card-title">Thể loại sách</h4>
                            </div>
-                           <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.php" class="btn btn-primary">Thêm sách</a>
-                           </div> -->
+                           <div class="iq-card-header-toolbar d-flex align-items-center">
+                              <a href="admin-add-category.html" class="btn btn-primary">Thêm danh mục mới</a>
+                           </div>
                         </div>
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 15%;">Mã hóa đơn</th>
-                                        <th style="width: 12%;">Mã khách hàng</th>
-                                        <th style="width: 15%;">Tên người nhận hàng</th>
-                                        <th style="width: 3%;">SĐT</th>
-                                        <th style="width: 15%;">Địa chỉ</th>
-                                        <th style="width: 12%;">Tổng tiền</th>
-                                 
-                                        <th style="width: 18%;">Ngày đặt</th>
-                                        <th style="width: 10%;">Tình trạng</th>
+                                        <th width="5%">STT</th>
+                                        <th width="20%">Tên danh mục</th>
+                                        <th width="65%">Mô tả danh mục</th>
+                                        <th width="10%">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($result as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['MaHD']}</td>
-                                                <td>{$row['Ma_KH']}</td>
-                                                <td>{$row['Ten_Nguoi_Nhan_Hang']}</td>
-                                                <td>{$row['SDT']}</td>
-                                                <td>{$row['Dia_Chi_Nhan_Hang']}</td>
-                                                <td>{$row['Tong_Tien']}</td>
-                                     
-                                                <td>{$row['Ngay_DH']}</td>
-                                                <td>{$row['Tinh_Trang']}</td>                                     
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.php'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                                 <?php 
+                                    foreach($result as $key => $row){
+                                       echo "
+                                       <tr>
+                                          <td>{$row['Ma_Loai']}</td>
+                                          <td>{$row['Ten_Loai']}</td>
+
+                                          <td>
+                                             <p  class='mb-0'>{$row['Mo_Ta']}</p>
+                                          </td>
+                                          <td>
+                                             <div class='flex align-items-center list-user-action'>
+                                                <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
+                                                <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                       ";
+                                    }
+                                 ?>
                                 </tbody>
                             </table>
                            </div>
@@ -265,8 +258,8 @@
             <div class="row">
                <div class="col-lg-6">
                   <ul class="list-inline mb-0">
-                     <li class="list-inline-item"><a href="privacy-policy.php">Chính sách bảo mật</a></li>
-                     <li class="list-inline-item"><a href="terms-of-service.php">Điều khoản sử dụng</a></li>
+                     <li class="list-inline-item"><a href="privacy-policy.html">Chính sách bảo mật</a></li>
+                     <li class="list-inline-item"><a href="terms-of-service.html">Điều khoản sử dụng</a></li>
                   </ul>
                </div>
             </div>
@@ -274,6 +267,7 @@
       </footer>
       <!-- Footer END -->
       <!-- color-customizer -->
+     
       <!-- color-customizer END -->
       <!-- Optional JavaScript -->
       <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -332,4 +326,4 @@
       <!-- Custom JavaScript -->
       <script src="js/custom.js"></script>
    </body>
-</php>
+</html>

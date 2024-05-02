@@ -1,5 +1,5 @@
-<!doctype php>
-<php lang="en">
+<!doctype html>
+<html lang="en">
    <head>
       <!-- Required meta tags -->
       <meta charset="utf-8">
@@ -21,7 +21,7 @@
    <body>
       <?php
          require('./php/classes/database.php');
-         $result = Database::getAllRows('hoa_don');
+         $result = Database::getAllRows('khach_hang');
          Database::closeConnection();
       ?>
       <!-- loader Start -->
@@ -36,7 +36,7 @@
          <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
                <a href="index.php" class="header-logo">
-                  
+                  <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                   <div class="logo-title">
                      <span class="text-primary text-uppercase">goodreads</span>
                   </div>
@@ -89,7 +89,7 @@
                         <div class="main-circle"><i class="las la-bars"></i></div>
                      </div>
                      <div class="iq-navbar-logo d-flex justify-content-between">
-                        <a href="index.php" class="header-logo">
+                        <a href="index.html" class="header-logo">
                            <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                            <div class="logo-title">
                               <span class="text-primary text-uppercase">goodreads</span>
@@ -98,11 +98,11 @@
                      </div>
                   </div>
                   <div class="navbar-breadcrumb">
-                     <h5 class="mb-0">Hóa Đơn</h5>
+                     <h5 class="mb-0">Khách Hàng</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="index.php">Admin</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">Hóa Đơn</li>
+                           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
+                           <li class="breadcrumb-item active" aria-current="page">Khách Hàng</li>
                         </ul>
                      </nav>
                   </div>
@@ -141,7 +141,7 @@
                                     <div class="bg-primary p-3">
                                        <h5 class="mb-0 text-white line-height">Admin</h5>
                                     </div>
-                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>
@@ -151,7 +151,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="profile-edit.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-profile-line"></i>
@@ -161,7 +161,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="account-setting.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-account-box-line"></i>
@@ -171,7 +171,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="wishlist.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="wishlist.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-heart-line"></i>
@@ -182,7 +182,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -202,52 +202,245 @@
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Danh sách hóa đơn</h4>
+                              <h4 class="card-title">Danh sách khách hàng</h4>
                            </div>
-                           <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.php" class="btn btn-primary">Thêm sách</a>
-                           </div> -->
+                           <div class="iq-card-header-toolbar d-flex align-items-center">
+                           <a href="#" id="addBookButton" class="btn btn-primary">Thêm khách hàng</a>
+
+
+                           <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCustomerModalLabel">Thêm Khách Hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addCustomerForm" action="process_add_customer.php" method="post">
+                    <div class="form-group">
+                        <label for="name">Họ Tên:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="account">Tài Khoản:</label>
+                        <input type="text" class="form-control" id="account" name="account" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass">Mật Khẩu:</label>
+                        <input type="password" class="form-control" id="pass" name="pass" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal sửa thông tin khách hàng -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCustomerModalLabel">Sửa Thông Tin Khách Hàng</h5>
+               
+            </div>
+            <div class="modal-body">
+            <form id="editCustomerForm" action="edit-customer.php" method="post">
+                <input type="hidden" name="customerId" value="' . $customerId . '">
+                <div class="form-group">
+                    <label for="name">Họ Tên:</label>
+                    <input type="text" class="form-control" id="editName" name="editName" required>
+                </div>
+                <div class="form-group">
+                    <label for="account">Tài Khoản:</label>
+                    <input type="text" class="form-control" id="editAccount" name="editAccount" required>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Mật Khẩu:</label>
+                    <input type="password" class="form-control" id="editPassword" name="editPassword"  required>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    // Hàm để mở modal chỉnh sửa thông tin khách hàng
+    function openEditModal(customerId) {
+        // Gửi yêu cầu AJAX để tải nội dung từ edit-customer.php
+        $.ajax({
+            url: 'edit-customer.php',
+            method: 'POST',
+            data: { customerId: customerId },
+            success: function(response) {
+                // Thay đổi nội dung của modal sửa thông tin khách hàng
+                $('#editCustomerModal .modal-body').html(response);
+
+                // Hiển thị modal sửa thông tin khách hàng
+                $('#editCustomerModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi nếu không thể tải nội dung
+                console.error('Đã xảy ra lỗi khi tải nội dung chỉnh sửa:', error);
+                alert('Đã xảy ra lỗi khi tải nội dung chỉnh sửa.');
+            }
+        });
+    }
+
+    // Xử lý khi form modal được submit (Lưu thông tin khách hàng)
+    $(document).on('submit', '#editCustomerForm', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của form
+
+        // Gửi dữ liệu form lên edit-customer.php bằng AJAX
+        $.ajax({
+            url: 'edit-customer.php',
+            method: 'POST',
+            data: $(this).serialize(), // Lấy dữ liệu từ form
+            success: function(response) {
+                // Xử lý thành công (có thể làm mới trang hoặc cập nhật giao diện)
+                console.log('Thông tin khách hàng đã được cập nhật thành công.');
+                
+                // Đóng modal sau khi hoàn thành
+                $('#editCustomerModal').modal('hide');
+                
+                // Có thể thực hiện các hành động khác sau khi cập nhật thành công
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi nếu có
+                console.error('Đã xảy ra lỗi khi cập nhật thông tin khách hàng:', error);
+                alert('Đã xảy ra lỗi khi cập nhật thông tin khách hàng.');
+            }
+        });
+    });
+</script>
+
+
+
+
+                           </div>
                         </div>
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 15%;">Mã hóa đơn</th>
-                                        <th style="width: 12%;">Mã khách hàng</th>
-                                        <th style="width: 15%;">Tên người nhận hàng</th>
-                                        <th style="width: 3%;">SĐT</th>
-                                        <th style="width: 15%;">Địa chỉ</th>
-                                        <th style="width: 12%;">Tổng tiền</th>
-                                 
-                                        <th style="width: 18%;">Ngày đặt</th>
-                                        <th style="width: 10%;">Tình trạng</th>
+                                        <th style="width: 1%;">Mã khách hàng</th>
+                                        <th style="width: 16%;">Họ và tên</th>
+                                        <th style="width: 15%;">Tài khoản</th>
+                                        <th style="width: 5%;">Mật Khẩu</th>
+                                        <th style="width: 1%;">Tình trạng</th>
+                                        <th style="width: 20%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($result as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['MaHD']}</td>
-                                                <td>{$row['Ma_KH']}</td>
-                                                <td>{$row['Ten_Nguoi_Nhan_Hang']}</td>
-                                                <td>{$row['SDT']}</td>
-                                                <td>{$row['Dia_Chi_Nhan_Hang']}</td>
-                                                <td>{$row['Tong_Tien']}</td>
-                                     
-                                                <td>{$row['Ngay_DH']}</td>
-                                                <td>{$row['Tinh_Trang']}</td>                                     
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.php'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                                <?php
+foreach ($result as $key => $row) {
+    $customerId = $row['Ma_KH'];
+    $customerName = $row['Ten_KH'];
+    $account = $row['Tai_Khoan'];
+    $password = $row['Mat_Khau'];
+    $status = $row['Trang_Thai'];
+
+    echo "
+        <tr>
+            <td>{$customerId}</td>
+            <td>{$customerName}</td>
+            <td>{$account}</td>
+            <td>{$password}</td>
+            <td>{$status}</td>
+            <td>
+                <div class='flex align-items-center list-user-action'>
+                
+                <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$customerId})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                <i class='ri-pencil-line'></i>
+                  
+                    <a href='#' class='bg-primary' onclick='confirmLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                        <i class='ri-delete-bin-line'></i>
+                    </a>
+                 
+                    <a href='#' class='bg-primary' onclick='confirmUnLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                        <i class='ri-lock-line'></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    ";
+}
+?>
+
+
+<script>
+// Hàm xác nhận khóa người dùng
+function confirmLockUser(customerId, customerName) {
+    // Hiển thị hộp thoại xác nhận
+    var confirmMessage = `Bạn có chắc chắn muốn khóa người dùng "${customerName}"?`;
+    if (confirm(confirmMessage)) {
+        // Nếu người dùng xác nhận, gọi AJAX để khóa người dùng
+        lockUser(customerId);
+    }
+}
+
+// Hàm gọi AJAX để khóa người dùng
+function lockUser(customerId) {
+    $.ajax({
+        url: 'lock-user.php',
+        method: 'POST',
+        data: { customer_id: customerId },
+        success: function(response) {
+            // Xử lý khi khóa người dùng thành công
+            console.log('Khóa người dùng thành công');
+            // Có thể thực hiện các hành động khác sau khi khóa người dùng thành công
+            // Ví dụ: làm mới trang để cập nhật danh sách khách hàng
+            location.reload(); // Làm mới trang sau khi khóa người dùng
+        },
+        error: function(xhr, status, error) {
+            // Xử lý khi có lỗi xảy ra trong quá trình khóa người dùng
+            console.error('Đã xảy ra lỗi khi khóa người dùng:', error);
+            alert('Đã xảy ra lỗi khi khóa người dùng. Vui lòng thử lại.');
+        }
+    });
+}
+</script>
+
+
+<script>
+// Hàm xác nhận khóa người dùng
+function confirmunLockUser(customerId, customerName) {
+    // Hiển thị hộp thoại xác nhận
+    var confirmMessage = `Bạn có chắc chắn muốn khóa người dùng "${customerName}"?`;
+    if (confirm(confirmMessage)) {
+        // Nếu người dùng xác nhận, gọi AJAX để khóa người dùng
+        unlockUser(customerId);
+    }
+}
+
+// Hàm gọi AJAX để khóa người dùng
+function unlockUser(customerId) {
+    $.ajax({
+        url: 'unlock-user.php',
+        method: 'POST',
+        data: { customer_id: customerId },
+        success: function(response) {
+            // Xử lý khi khóa người dùng thành công
+            console.log('Mở hóa người dùng thành công');
+            // Có thể thực hiện các hành động khác sau khi khóa người dùng thành công
+            // Ví dụ: làm mới trang để cập nhật danh sách khách hàng
+            location.reload(); // Làm mới trang sau khi khóa người dùng
+        },
+        error: function(xhr, status, error) {
+            // Xử lý khi có lỗi xảy ra trong quá trình khóa người dùng
+            console.error('Đã xảy ra lỗi khi mở khóa người dùng:', error);
+            alert('Đã xảy ra lỗi khi mở khóa người dùng. Vui lòng thử lại.');
+        }
+    });
+}
+</script>
+
                                 </tbody>
                             </table>
                            </div>
@@ -258,6 +451,7 @@
             </div>
          </div>
       </div>
+ 
       <!-- Wrapper END -->
       <!-- Footer -->
       <footer class="iq-footer">
@@ -265,8 +459,8 @@
             <div class="row">
                <div class="col-lg-6">
                   <ul class="list-inline mb-0">
-                     <li class="list-inline-item"><a href="privacy-policy.php">Chính sách bảo mật</a></li>
-                     <li class="list-inline-item"><a href="terms-of-service.php">Điều khoản sử dụng</a></li>
+                     <li class="list-inline-item"><a href="privacy-policy.html">Chính sách bảo mật</a></li>
+                     <li class="list-inline-item"><a href="terms-of-service.html">Điều khoản sử dụng</a></li>
                   </ul>
                </div>
             </div>
@@ -331,5 +525,17 @@
       <script src="js/chart-custom.js"></script>
       <!-- Custom JavaScript -->
       <script src="js/custom.js"></script>
+      <script>
+        $(document).ready(function() {
+   // Xử lý sự kiện khi nhấp vào nút "Thêm sách"
+   $('#addBookButton').click(function(e) {
+      e.preventDefault();
+      $('#addCustomerModal').modal('show'); // Hiển thị modal để thêm sách
+   });
+
+
+});
+
+       </script>
    </body>
-</php>
+</html>

@@ -204,51 +204,230 @@
                            <div class="iq-header-title">
                               <h4 class="card-title">Danh sách khách hàng</h4>
                            </div>
-                           <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.html" class="btn btn-primary">Thêm Khách Hàng</a>
-                           </div> -->
+                           <div class="iq-card-header-toolbar d-flex align-items-center">
+                           <a href="#" id="addBookButton" class="btn btn-primary">Thêm khách hàng</a>
+
+
+                           <div class="modal fade" id="addCustomerModal" tabindex="-1" role="dialog" aria-labelledby="addCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCustomerModalLabel">Thêm Khách Hàng</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addCustomerForm" action="process_add_customer.php" method="post">
+                    <div class="form-group">
+                        <label for="name">Họ Tên:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="account">Tài Khoản:</label>
+                        <input type="text" class="form-control" id="account" name="account" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass">Mật Khẩu:</label>
+                        <input type="password" class="form-control" id="pass" name="pass" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Thêm</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal sửa thông tin khách hàng -->
+<div class="modal fade" id="editCustomerModal" tabindex="-1" role="dialog" aria-labelledby="editCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCustomerModalLabel">Sửa Thông Tin Khách Hàng</h5>
+               
+            </div>
+            <div class="modal-body">
+            <form id="editCustomerForm" action="edit-customer.php" method="post">
+    <input type="hidden" name="customerId" id="customerId">
+    <div class="form-group">
+        <label for="editName">Họ Tên:</label>
+        <input type="text" class="form-control" id="editName" name="editName" required>
+    </div>
+    <div class="form-group">
+        <label for="editAccount">Tài Khoản:</label>
+        <input type="text" class="form-control" id="editAccount" name="editAccount" required>
+    </div>
+    <div class="form-group">
+        <label for="editPassword">Mật Khẩu:</label>
+        <input type="password" class="form-control" id="editPassword" name="editPassword" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Lưu</button>
+</form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+// Hàm mở modal chỉnh sửa thông tin khách hàng
+function openEditModal(customerId) {
+      // Đặt giá trị customerId cho input hidden trong form modal
+      document.getElementById('customerId').value = customerId;
+
+// Gọi modal thông qua id của modal
+$('#editCustomerModal').modal('show');
+    // Đặt giá trị customerId cho input hidden trong form modal
+    document.getElementById('customerId').value = customerId;
+
+    // Gọi AJAX để lấy thông tin khách hàng từ server
+    $.ajax({
+        url: 'get-customer-info.php',
+        type: 'POST',
+        data: { customerId: customerId },
+        dataType: 'json', // Kiểu dữ liệu nhận được từ server
+        success: function(response) {
+            // Cập nhật các trường input trong modal với thông tin từ server
+            document.getElementById('editName').value = response.name;
+            document.getElementById('editAccount').value = response.account;
+            // Không nên đặt mật khẩu trên form khi hiển thị lên modal
+            // document.getElementById('editPassword').value = response.password;
+
+        
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching customer information:', error);
+            // Xử lý lỗi nếu có
+        }
+    });
+}
+
+    
+</script>
+
+
+
+
+                           </div>
                         </div>
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 1%;">Mã</th>
+                                        <th style="width: 1%;">Mã khách hàng</th>
                                         <th style="width: 16%;">Họ và tên</th>
                                         <th style="width: 15%;">Tài khoản</th>
                                         <th style="width: 5%;">Mật Khẩu</th>
-                                        <th style="width: 13%;">Ngày sinh</th>
-                                        <th style="width: 18%;">Địa chỉ</th>
-                                        <th style="width: 18%;">Quận</th>
-                                        <th style="width: 18%;">Thành Phố</th>
-                                        <th style="width: 12%;">SĐT</th>
+                                        <th style="width: 1%;">Tình trạng</th>
                                         <th style="width: 20%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($result as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['Ma_KH']}</td>
-                                                <td>{$row['Ten_KH']}</td>
-                                                <td>{$row['Tai_Khoan']}</td>
-                                                <td>{$row['Mat_Khau']}</td>
-                                                <td>{$row['Ngay_Sinh']}</td>
-                                                <td>{$row['Dia_Chi']}</td>
-                                                <td>{$row['Quan']}</td>
-                                                <td>{$row['Thanh_Pho']}</td>
-                                                <td>{$row['SDT']}</td>                                      
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Chỉnh sửa' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Cấm' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                                <?php
+foreach ($result as $key => $row) {
+    $customerId = $row['Ma_KH'];
+    $customerName = $row['Ten_KH'];
+    $account = $row['Tai_Khoan'];
+    $password = $row['Mat_Khau'];
+    $status = $row['Trang_Thai'];
+
+    echo "
+        <tr>
+            <td>{$customerId}</td>
+            <td>{$customerName}</td>
+            <td>{$account}</td>
+            <td>{$password}</td>
+            <td>{$status}</td>
+            <td>
+                <div class='flex align-items-center list-user-action'>
+                
+                <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$customerId})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                <i class='ri-pencil-line'></i>
+                  
+                    <a href='#' class='bg-primary' onclick='confirmLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                        <i class='ri-delete-bin-line'></i>
+                    </a>
+                 
+                    <a href='#' class='bg-primary' onclick='confirmunLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                        <i class='ri-lock-line'></i>
+                    </a>
+                </div>
+            </td>
+        </tr>
+    ";
+}
+?>
+
+
+<script>
+// Hàm xác nhận khóa người dùng
+function confirmLockUser(customerId, customerName) {
+    // Hiển thị hộp thoại xác nhận
+    var confirmMessage = `Bạn có chắc chắn muốn khóa người dùng "${customerName}"?`;
+    if (confirm(confirmMessage)) {
+        // Nếu người dùng xác nhận, gọi AJAX để khóa người dùng
+        lockUser(customerId);
+    }
+}
+
+// Hàm gọi AJAX để khóa người dùng
+function lockUser(customerId) {
+    $.ajax({
+        url: 'lock-user.php',
+        method: 'POST',
+        data: { customer_id: customerId },
+        success: function(response) {
+            // Xử lý khi khóa người dùng thành công
+            console.log('Khóa người dùng thành công');
+            // Có thể thực hiện các hành động khác sau khi khóa người dùng thành công
+            // Ví dụ: làm mới trang để cập nhật danh sách khách hàng
+            location.reload(); // Làm mới trang sau khi khóa người dùng
+        },
+        error: function(xhr, status, error) {
+            // Xử lý khi có lỗi xảy ra trong quá trình khóa người dùng
+            console.error('Đã xảy ra lỗi khi khóa người dùng:', error);
+            alert('Đã xảy ra lỗi khi khóa người dùng. Vui lòng thử lại.');
+        }
+    });
+}
+</script>
+
+
+<script>
+// Hàm xác nhận khóa người dùng
+function confirmunLockUser(customerId, customerName) {
+    // Hiển thị hộp thoại xác nhận
+    var confirmMessage = `Bạn có muốn mở khóa người dùng "${customerName}"?`;
+    if (confirm(confirmMessage)) {
+        // Nếu người dùng xác nhận, gọi AJAX để khóa người dùng
+        unlockUser(customerId);
+    }
+}
+
+// Hàm gọi AJAX để khóa người dùng
+function unlockUser(customerId) {
+    $.ajax({
+        url: 'unlock-user.php',
+        method: 'POST',
+        data: { customer_id: customerId },
+        success: function(response) {
+            // Xử lý khi khóa người dùng thành công
+            console.log('Mở hóa người dùng thành công');
+            // Có thể thực hiện các hành động khác sau khi khóa người dùng thành công
+            // Ví dụ: làm mới trang để cập nhật danh sách khách hàng
+            location.reload(); // Làm mới trang sau khi khóa người dùng
+        },
+        error: function(xhr, status, error) {
+            // Xử lý khi có lỗi xảy ra trong quá trình khóa người dùng
+            console.error('Đã xảy ra lỗi khi mở khóa người dùng:', error);
+            alert('Đã xảy ra lỗi khi mở khóa người dùng. Vui lòng thử lại.');
+        }
+    });
+}
+</script>
+
                                 </tbody>
                             </table>
                            </div>
@@ -259,6 +438,7 @@
             </div>
          </div>
       </div>
+ 
       <!-- Wrapper END -->
       <!-- Footer -->
       <footer class="iq-footer">
@@ -332,5 +512,17 @@
       <script src="js/chart-custom.js"></script>
       <!-- Custom JavaScript -->
       <script src="js/custom.js"></script>
+      <script>
+        $(document).ready(function() {
+   // Xử lý sự kiện khi nhấp vào nút "Thêm sách"
+   $('#addBookButton').click(function(e) {
+      e.preventDefault();
+      $('#addCustomerModal').modal('show'); // Hiển thị modal để thêm sách
+   });
+
+
+});
+
+       </script>
    </body>
 </html>

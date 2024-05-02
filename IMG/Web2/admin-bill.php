@@ -1,5 +1,5 @@
-<!doctype php>
-<php lang="en">
+<!doctype html>
+<html lang="en">
    <head>
       <!-- Required meta tags -->
       <meta charset="utf-8">
@@ -35,8 +35,8 @@
          <!-- Sidebar  -->
          <div class="iq-sidebar">
             <div class="iq-sidebar-logo d-flex justify-content-between">
-               <a href="index.php" class="header-logo">
-                  
+               <a href="index.html" class="header-logo">
+                  <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                   <div class="logo-title">
                      <span class="text-primary text-uppercase">goodreads</span>
                   </div>
@@ -89,7 +89,7 @@
                         <div class="main-circle"><i class="las la-bars"></i></div>
                      </div>
                      <div class="iq-navbar-logo d-flex justify-content-between">
-                        <a href="index.php" class="header-logo">
+                        <a href="index.html" class="header-logo">
                            <img src="images/logo.png" class="img-fluid rounded-normal" alt="">
                            <div class="logo-title">
                               <span class="text-primary text-uppercase">goodreads</span>
@@ -101,7 +101,7 @@
                      <h5 class="mb-0">Hóa Đơn</h5>
                      <nav aria-label="breadcrumb">
                         <ul class="breadcrumb">
-                           <li class="breadcrumb-item"><a href="index.php">Admin</a></li>
+                           <li class="breadcrumb-item"><a href="index.html">Admin</a></li>
                            <li class="breadcrumb-item active" aria-current="page">Hóa Đơn</li>
                         </ul>
                      </nav>
@@ -141,7 +141,7 @@
                                     <div class="bg-primary p-3">
                                        <h5 class="mb-0 text-white line-height">Admin</h5>
                                     </div>
-                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-file-user-line"></i>
@@ -151,7 +151,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="profile-edit.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-profile-line"></i>
@@ -161,7 +161,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="account-setting.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-account-box-line"></i>
@@ -171,7 +171,7 @@
                                           </div>
                                        </div>
                                     </a>
-                                    <a href="wishlist.php" class="iq-sub-card iq-bg-primary-hover">
+                                    <a href="wishlist.html" class="iq-sub-card iq-bg-primary-hover">
                                        <div class="media align-items-center">
                                           <div class="rounded iq-card-icon iq-bg-primary">
                                              <i class="ri-heart-line"></i>
@@ -182,7 +182,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -205,7 +205,7 @@
                               <h4 class="card-title">Danh sách hóa đơn</h4>
                            </div>
                            <!-- <div class="iq-card-header-toolbar d-flex align-items-center">
-                              <a href="admin-add-book.php" class="btn btn-primary">Thêm sách</a>
+                              <a href="admin-add-book.html" class="btn btn-primary">Thêm sách</a>
                            </div> -->
                         </div>
                         <div class="iq-card-body">
@@ -240,7 +240,7 @@
                                                 <td>{$row['Tinh_Trang']}</td>                                     
                                                 <td>
                                                    <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.php'><i class='ri-pencil-line'></i></a>
+                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
                                                       <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
                                                    </div>
                                                 </td>
@@ -265,8 +265,8 @@
             <div class="row">
                <div class="col-lg-6">
                   <ul class="list-inline mb-0">
-                     <li class="list-inline-item"><a href="privacy-policy.php">Chính sách bảo mật</a></li>
-                     <li class="list-inline-item"><a href="terms-of-service.php">Điều khoản sử dụng</a></li>
+                     <li class="list-inline-item"><a href="privacy-policy.html">Chính sách bảo mật</a></li>
+                     <li class="list-inline-item"><a href="terms-of-service.html">Điều khoản sử dụng</a></li>
                   </ul>
                </div>
             </div>
@@ -332,4 +332,4 @@
       <!-- Custom JavaScript -->
       <script src="js/custom.js"></script>
    </body>
-</php>
+</html>

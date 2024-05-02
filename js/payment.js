@@ -61,29 +61,35 @@
     
             function setDeliveryTime(deliveryType) {
                 var deliveryTimeDisplay;
-    
+                var deliveryTimeHiddenId;
+            
                 if (deliveryType === 'standard') {
                     deliveryTimeDisplay = document.getElementById('deliveryTimeDisplayStandard');
+                    deliveryTimeHiddenId = 'deliveryTimeStandard';
                 } else if (deliveryType === 'economy') {
                     deliveryTimeDisplay = document.getElementById('deliveryTimeDisplayEconomy');
+                    deliveryTimeHiddenId = 'deliveryTimeEconomy';
                 }
-    
+            
                 if (deliveryTimeDisplay) {
-                    // Tính toán thời gian giao hàng tương ứng
-                    var currentTime = new Date();
-                    var deliveryTime = new Date(currentTime);
-                    if (deliveryType === 'economy') {
-                        deliveryTime.setDate(currentTime.getDate() + 2); // Cộng thêm 2 ngày
-                    }
-    
-                    // Hiển thị thời gian dưới dạng "ngày/tháng"
-                    var formattedTime = formatTime(deliveryTime);
+                    // Tính toán và hiển thị thời gian giao hàng
+                    var formattedTime = deliveryTimeDisplay.textContent.trim();
                     deliveryTimeDisplay.textContent = 'Thời gian giao hàng: ' + formattedTime;
+            
+                    // Cập nhật giá trị vào trường ẩn tương ứng
+                    var deliveryTimeHidden = document.getElementById(deliveryTimeHiddenId);
+                    if (deliveryTimeHidden) {
+                        deliveryTimeHidden.value = formattedTime; // Gán giá trị thời gian vào trường ẩn
+                    }
                 }
             }
+            
     
             function formatTime(date) {
                 var day = date.getDate();
                 var month = date.getMonth() + 1; // Tháng bắt đầu từ 0
                 return (day < 10 ? '0' : '') + day + '/' + (month < 10 ? '0' : '') + month;
             }
+            
+
+            

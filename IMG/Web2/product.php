@@ -24,6 +24,20 @@
                 <div class="logo">
                     <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
+
+
+
+
+                <div class="box">
+                    <div class="container-1">
+                        <span class="icon"><i class="fa fa-search"></i></span>
+                        <input type="search" id="search" placeholder="Search..." />
+                        <ul id="searchSuggestions" class="search-suggestions"></ul>
+                    </div>
+                </div>
+
+
+
                 <?php
 // Include file header.php để sử dụng giao diện phía trên
 require_once 'header.php';
@@ -183,14 +197,16 @@ require_once 'header.php';
 
 <main>
 
-        <div id=wrapper>
+                            <div id=wrapper>
           <div id="backtop">
             <i class="fa-solid fa-arrow-up"></i>
 
         </div>                      
 
       
-<?php
+        <?php
+
+
 require_once 'db/dbhelper.php';
 
 if (isset($_GET['id'])) {
@@ -234,7 +250,7 @@ function displayProductDetail($product) {
         echo '<button type="button" class="buyNowButton" onclick="showLoginAlert()">Mua ngay</button>';
         echo '<script>';
         echo 'function showLoginAlert() {';
-        echo 'alert("Vui lòng đăng nhập trước khi mua hàng.");';
+        echo '    alert("Vui lòng đăng nhập trước khi mua hàng.");';
         echo '}';
         echo '</script>';
     }
@@ -257,6 +273,18 @@ function displayProductDetail($product) {
 }
 
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="slider5">
 
             <section class="slider-product-one">
