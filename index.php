@@ -65,7 +65,7 @@
           <!--Navbar-->
           <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#"><img src="IMG/logo.jpg"></a>
+                <a class="navbar-brand" href="#">GOODREADS</a>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
@@ -98,8 +98,8 @@
                     
                     <div class="in-slidebody-right">
                         <div class="in-slidebody-left">
-                            <a href="#"><img src="IMG/left-top.jpg"></a>
-                            <a href="#"><img src="IMG/slide2.jpg"></a>
+                            <a href="#"><img src="IMG/banner1.jpg"></a>
+                            <a href="#"><img src="IMG/4.jpg"></a>
                         </div>
                         
                         <div id="slideshow">

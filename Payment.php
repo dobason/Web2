@@ -467,7 +467,7 @@ select {
             // Hiển thị giá trị Tong_HD trong thẻ <span>
             echo '<div class="in-footer-body1">';
             echo '<div class="in-footer-price-total">';
-            echo '<span id="total-price">' . number_format($totalAmount, 0, ',', '.') . 'đ</span>';
+            echo 'Tổng tiền: <span id="total-price">' . number_format($totalAmount, 0, ',', '.') . 'đ</span>';
             echo '</div>';
             echo '</div>';
 
@@ -521,11 +521,7 @@ $_SESSION['totalAmount'] = $totalAmount;
                 // Thực thi truy vấn và kiểm tra kết quả
                 $result = mysqli_stmt_execute($stmt);
             
-                if ($result) {
-                    echo "Cập nhật tổng tiền vào bảng hoa_don thành công!" . $maKH;
-                } else {
-                    echo "Lỗi: " . mysqli_error($conn);
-                }
+              
             
                 // Đóng câu lệnh và kết nối đến cơ sở dữ liệu
                 mysqli_stmt_close($stmt);
