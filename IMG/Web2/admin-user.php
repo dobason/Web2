@@ -248,22 +248,21 @@
             </div>
             <div class="modal-body">
             <form id="editCustomerForm" action="edit-customer.php" method="post">
-    <input type="hidden" name="customerId" id="customerId">
-    <div class="form-group">
-        <label for="editName">Họ Tên:</label>
-        <input type="text" class="form-control" id="editName" name="editName" required>
-    </div>
-    <div class="form-group">
-        <label for="editAccount">Tài Khoản:</label>
-        <input type="text" class="form-control" id="editAccount" name="editAccount" required>
-    </div>
-    <div class="form-group">
-        <label for="editPassword">Mật Khẩu:</label>
-        <input type="password" class="form-control" id="editPassword" name="editPassword" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Lưu</button>
-</form>
-
+                <input type="hidden" name="customerId" value="' . $customerId . '">
+                <div class="form-group">
+                    <label for="name">Họ Tên:</label>
+                    <input type="text" class="form-control" id="editName" name="editName" required>
+                </div>
+                <div class="form-group">
+                    <label for="account">Tài Khoản:</label>
+                    <input type="text" class="form-control" id="editAccount" name="editAccount" required>
+                </div>
+                <div class="form-group">
+                    <label for="pass">Mật Khẩu:</label>
+                    <input type="password" class="form-control" id="editPassword" name="editPassword"  required>
+                </div>
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </form>
             </div>
         </div>
     </div>
@@ -271,39 +270,53 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-// Hàm mở modal chỉnh sửa thông tin khách hàng
-function openEditModal(customerId) {
-      // Đặt giá trị customerId cho input hidden trong form modal
-      document.getElementById('customerId').value = customerId;
+    // Hàm để mở modal chỉnh sửa thông tin khách hàng
+    function openEditModal(customerId) {
+        // Gửi yêu cầu AJAX để tải nội dung từ edit-customer.php
+        $.ajax({
+            url: 'edit-customer.php',
+            method: 'POST',
+            data: { customerId: customerId },
+            success: function(response) {
+                // Thay đổi nội dung của modal sửa thông tin khách hàng
+                $('#editCustomerModal .modal-body').html(response);
 
-// Gọi modal thông qua id của modal
-$('#editCustomerModal').modal('show');
-    // Đặt giá trị customerId cho input hidden trong form modal
-    document.getElementById('customerId').value = customerId;
+                // Hiển thị modal sửa thông tin khách hàng
+                $('#editCustomerModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi nếu không thể tải nội dung
+                console.error('Đã xảy ra lỗi khi tải nội dung chỉnh sửa:', error);
+                alert('Đã xảy ra lỗi khi tải nội dung chỉnh sửa.');
+            }
+        });
+    }
 
-    // Gọi AJAX để lấy thông tin khách hàng từ server
-    $.ajax({
-        url: 'get-customer-info.php',
-        type: 'POST',
-        data: { customerId: customerId },
-        dataType: 'json', // Kiểu dữ liệu nhận được từ server
-        success: function(response) {
-            // Cập nhật các trường input trong modal với thông tin từ server
-            document.getElementById('editName').value = response.name;
-            document.getElementById('editAccount').value = response.account;
-            // Không nên đặt mật khẩu trên form khi hiển thị lên modal
-            // document.getElementById('editPassword').value = response.password;
+    // Xử lý khi form modal được submit (Lưu thông tin khách hàng)
+    $(document).on('submit', '#editCustomerForm', function(e) {
+        e.preventDefault(); // Ngăn chặn hành động mặc định của form
 
-        
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching customer information:', error);
-            // Xử lý lỗi nếu có
-        }
+        // Gửi dữ liệu form lên edit-customer.php bằng AJAX
+        $.ajax({
+            url: 'edit-customer.php',
+            method: 'POST',
+            data: $(this).serialize(), // Lấy dữ liệu từ form
+            success: function(response) {
+                // Xử lý thành công (có thể làm mới trang hoặc cập nhật giao diện)
+                console.log('Thông tin khách hàng đã được cập nhật thành công.');
+                
+                // Đóng modal sau khi hoàn thành
+                $('#editCustomerModal').modal('hide');
+                
+                // Có thể thực hiện các hành động khác sau khi cập nhật thành công
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi nếu có
+                console.error('Đã xảy ra lỗi khi cập nhật thông tin khách hàng:', error);
+                alert('Đã xảy ra lỗi khi cập nhật thông tin khách hàng.');
+            }
+        });
     });
-}
-
-    
 </script>
 
 
@@ -350,7 +363,7 @@ foreach ($result as $key => $row) {
                         <i class='ri-delete-bin-line'></i>
                     </a>
                  
-                    <a href='#' class='bg-primary' onclick='confirmunLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                    <a href='#' class='bg-primary' onclick='confirmUnLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
                         <i class='ri-lock-line'></i>
                     </a>
                 </div>
@@ -399,7 +412,7 @@ function lockUser(customerId) {
 // Hàm xác nhận khóa người dùng
 function confirmunLockUser(customerId, customerName) {
     // Hiển thị hộp thoại xác nhận
-    var confirmMessage = `Bạn có muốn mở khóa người dùng "${customerName}"?`;
+    var confirmMessage = `Bạn có chắc chắn muốn khóa người dùng "${customerName}"?`;
     if (confirm(confirmMessage)) {
         // Nếu người dùng xác nhận, gọi AJAX để khóa người dùng
         unlockUser(customerId);
