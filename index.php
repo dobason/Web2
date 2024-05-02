@@ -55,7 +55,7 @@
 
         .slider-product-one-content-items {
             margin-top: 10px;
-        }        
+        }
     </style>
 
 
@@ -126,25 +126,22 @@
 
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-       
-       <!---Kết nối database-->
-       <?php require('./php/classes/database.php');?>
-                  
+
+        <!---Kết nối database-->
+        <?php require('./php/classes/database.php'); ?>
+
     </header>
-    
+
 
     <main>
         <!------------------------------------------------------------------>
-        
+
         <div class="slider5">
             <div class="in-slider5">
                 <section class="slider-product-one">
                     <div class="slider-product-one-content">
-                        <div class="slider-product-one-content-items" id="bookListContainer">
-                            <div class="box">
-                            <h1>Danh Mục Sản Phẩm</h1>
-                            <?php 
-                              require_once 'db/dbhelper.php';
+                        <?php
+                        require_once 'db/dbhelper.php';
 
                         $param = [];
                         $sortParam = [];
@@ -219,41 +216,40 @@
                         // Đếm tổng số bản ghi
                         $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
 
-                              $totalRecords = executeResult($countSql);
-                              $totalRecords = $totalRecords[0]['total'];
-                              $totalPages = ceil($totalRecords / $item_per_page);
-                              ?>
-                              <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                <option value="">Sắp xếp giá</option>
-                                <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
-                                <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
-                              </select>
-                              <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                        $totalRecords = executeResult($countSql);
+                        $totalRecords = $totalRecords[0]['total'];
+                        $totalPages = ceil($totalRecords / $item_per_page);
+                        ?>
+                        <div class="box">
+                            <h1>Danh Mục Sản Phẩm</h1>
+                            <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                                 <option value="">Chọn chủ đề</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "1") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 1">Chung</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "2") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 2">Lịch Sử</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "3") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 3">Truyện tranh & Mangas</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "4") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 4">Phim & Nhiếp Ảnh</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "5") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 5">Kinh dị</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "6") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 6">Máy tính & Internet</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "7") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 7">Thể thao</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "8") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 8">Du lịch lữ hành</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "9") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 9">Kinh doanh & Kinh tế</option>
-                                <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "10") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 10">Nghệ thuật</option>
-                                
-
-                              </select>
-
-      
-                          </div>                          
-                    <?php
-                      // Kiểm tra nếu có sản phẩm trong danh sách
-                      if ($sach) {
-                      foreach ($sach as $index => $book) {
-                      $bookName = $book['Ten_Sach'];
-                      $Tac_Gia = $book['Ten_Tac_Gia'];
-                      $price = number_format($book['Don_Gia'], 0, ',', '.');
-                      $imagePath = $book['Hinh_Anh'];
+                                <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
+                                <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=3">sad</option>
+                                <!-- Thêm các option cho chủ đề khác tương tự -->
+                            </select>
+                            <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Sắp xếp giá</option>
+                                <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
+                                <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
+                            </select>
+                            <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Chọn khoảng giá</option>
+                                <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
+                                <option <?php if ($priceRange == "5-50000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=5-50000">5 - 50.000 đồng</option>
+                                <option <?php if ($priceRange == "50000-89000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=50000-89000">50.000 - 89.000 đồng</option>
+                                <option <?php if ($priceRange == "89000-") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=89000-">Trên 89.000 đồng</option>
+                            </select>
+                        </div>
+                        <div class="slider-product-one-content-items" id="bookListContainer">
+                            <?php
+                            // Kiểm tra nếu có sản phẩm trong danh sách
+                            if ($sach) {
+                                foreach ($sach as $index => $book) {
+                                    $bookName = $book['Ten_Sach'];
+                                    $Tac_Gia = $book['Ten_Tac_Gia'];
+                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
+                                    $imagePath = $book['Hinh_Anh'];
 
                                     // Hiển thị sản phẩm
                                     echo '<div class="slider-product-one-content-item">';
