@@ -54,18 +54,18 @@
         }
 
         .slider-product-one-content-items {
-            margin-top: 50px;
-        }        
+            margin-top: 10px;
+        }
     </style>
 
 
 
     <header>
-        
-          <!--Navbar-->
-          <nav class="navbar navbar-expand-lg fixed-top">
+
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg fixed-top">
             <div class="container">
-                <a class="navbar-brand" href="#"><img src="IMG/logo.jpg"></a>
+                <a class="navbar-brand" href="#">GOODREADS</a>
                 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
                     <div class="offcanvas-header">
                         <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
@@ -74,13 +74,14 @@
                     <form class="d-flex" method="GET">
                         <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
                         <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>         
+                        <div id="bookListContainer"></div>
+                    </form>
                 </div>
                 <div class="top-right-item">
                     <a href="cart.php" id="gioHangLink"><i class="fa-solid fa-cart-shopping"></i></a>
                     <p id="cartItemCount">0</p>
                 </div>
-                <?php require_once 'header.php';?>
+                <?php require_once 'header.php'; ?>
                 <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -88,20 +89,20 @@
         </nav>
         <div class="slider1">
             <img src="IMG/0e882cb6cd424a1a43bf572912a86425.jpg" style="width:100%">
-            
+
             <div class="in-slider1">
                 <div class="slidebody">
                     <div class="in-slidebody-left">
                         <a href="#"><img src="IMG/left-top.jpg"></a>
                         <a href="#"><img src="IMG/slide2.jpg"></a>
                     </div>
-                    
+
                     <div class="in-slidebody-right">
                         <div class="in-slidebody-left">
-                            <a href="#"><img src="IMG/left-top.jpg"></a>
-                            <a href="#"><img src="IMG/slide2.jpg"></a>
+                            <a href="#"><img src="IMG/banner1.jpg"></a>
+                            <a href="#"><img src="IMG/4.jpg"></a>
                         </div>
-                        
+
                         <div id="slideshow">
                             <div class="slide-wrapper">
                                 <div class="slide">
@@ -122,142 +123,161 @@
 
                 </div>
             </div>
-            
+
         </div>
-        
-       
-       <!---Kết nối database-->
-       <?php require('./php/classes/database.php');?>
-                  
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <!---Kết nối database-->
+        <?php require('./php/classes/database.php'); ?>
+
     </header>
-    
+
 
     <main>
         <!------------------------------------------------------------------>
-        
+
         <div class="slider5">
             <div class="in-slider5">
                 <section class="slider-product-one">
                     <div class="slider-product-one-content">
-                    <h1>Danh Mục Sản Phẩm</h1>
-                    <?php 
-                              require_once 'db/dbhelper.php';
+                        <?php
+                        require_once 'db/dbhelper.php';
 
-                              $param = "";
-                              $sortParam = "";
-                              $orderCondition = "";
+                        $param = [];
+                        $sortParam = [];
+                        $where = "";
+                        $orderCondition = "";
 
-                              // Tìm kiếm tên sách
-                              $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
-                              $theme = isset($_GET['Ten_Loai']) ? $_GET['Ten_Loai'] : ""; // Thêm dòng này để lấy giá trị của chủ đề
-                              if ($search) {
-                                  $where = "WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                                  $param .= "Ten_Sach=" . $search . "&";
-                                  $sortParam = "Ten_Sach=" . $search . "&";
-                              }
-                              //Tìm kiếm theo chủ đề
-                              if ($theme) { 
-                                if ($where !== "") {
-                                    $where .= " AND ";
-                                } else {
-                                    $where = "WHERE ";
-                                }
-                                $where .= "`Chu_De` = '" . $theme . "'";
+                        // Tìm kiếm tên sách
+                        $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
+                        if ($search) {
+                            $where = " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                            $param['Ten_Sach'] = $search;
+                            $sortParam['Ten_Sach'] = $search;
+                        }
+
+                        // Sắp xếp
+                        $orderField = isset($_GET['field']) ? $_GET['field'] : "";
+                        $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
+                        if (!empty($orderField) && !empty($orderSort)) {
+                            $orderCondition = " ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
+                            $param['field'] = $orderField;
+                            $param['sort'] = $orderSort;
+                        }
+
+                        // Chủ đề
+                        $theme = isset($_GET['theme']) ? $_GET['theme'] : "";
+                        if (!empty($theme)) {
+                            $themeWhere = " `Ma_Loai` = " . $theme;
+                            $param['theme'] = $theme;
+                            if (empty($where)) {
+                                $where = " WHERE" . $themeWhere;
+                            } else {
+                                $where .= " AND" . $themeWhere;
                             }
+                        }
 
-                              // Sắp xếp
-                              $orderField = isset($_GET['field']) ? $_GET['field'] : "";
-                              $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
-                              if (!empty($orderField) && !empty($orderSort)) {
-                                  $orderCondition = "ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
-                                  $param .= "field=" . $orderField . "&sort=" . $orderSort . "&";
-                              }
+                        // Khoảng giá
+                        $priceRange = isset($_GET['price_range']) ? $_GET['price_range'] : "";
+                        if (!empty($priceRange)) {
+                            if ($priceRange === '89000-') {
+                                // Lọc sách có giá từ 89000 đồng trở lên
+                                $minPrice = 89000;
+                                $where .= empty($where) ? " WHERE `Don_Gia` >= $minPrice" : " AND `Don_Gia` >= $minPrice";
+                            } else {
+                                // Xử lý các khoảng giá khác nếu cần
+                                $priceLimits = explode('-', $priceRange);
+                                $minPrice = isset($priceLimits[0]) ? $priceLimits[0] : 0;
+                                $maxPrice = isset($priceLimits[1]) ? $priceLimits[1] : PHP_INT_MAX;
 
-                              include 'connect_db.php';
+                                if (empty($where)) {
+                                    $where = " WHERE `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
+                                } else {
+                                    $where .= " AND `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
+                                }
+                            }
+                            $param['price_range'] = $priceRange;
+                        }
 
-                              $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
-                              $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
-                              $offset = ($current_page - 1) * $item_per_page;
+                        include 'connect_db.php';
 
-                              // Thực hiện truy vấn sử dụng executeResult
-                              $sql = "SELECT * FROM `sach`";
-                              if ($search) {
-                                  $sql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                              }
-                              $sql .= " " . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
+                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+                        $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+                        $offset = ($current_page - 1) * $item_per_page;
 
-                              $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
+                        // Tạo URL từ mảng tham số
+                        $queryString = http_build_query($param);
 
-                              // Đếm tổng số bản ghi
-                              $countSql = "SELECT COUNT(*) as total FROM `sach`";
-                              if ($search) {
-                                  $countSql .= " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                              }
+                        // Thực hiện truy vấn sử dụng executeResult
+                        $sql = "SELECT * FROM `sach`" . $where . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
 
-                              $totalRecords = executeResult($countSql);
-                              $totalRecords = $totalRecords[0]['total'];
-                              $totalPages = ceil($totalRecords / $item_per_page);
-                              ?>
-                             <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                    <option value="">Sắp xếp giá</option>
-                                    <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
-                                    <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
-                                </select>
-                                <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                    <option value="">Chọn chủ đề</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "1") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 1">Chung</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "2") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 2">Lịch Sử</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "3") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 3">Truyện tranh & Mangas</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "4") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 4">Phim & Nhiếp Ảnh</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "5") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 5">Kinh dị</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "6") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 6">Máy tính & Internet</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "7") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 7">Thể thao</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "8") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 8">Du lịch lữ hành</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "9") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 9">Kinh doanh & Kinh tế</option>
-                                    <option <?php if (isset($_GET['theme']) && $_GET['theme'] == "10") { ?> selected <?php } ?> value="?<?= $sortParam ?>theme= 10">Nghệ thuật</option>
-                                </select>
-                        <div class="slider-product-one-content-items" id="bookListContainer">
-                            <div class="box">
-                            
+                        $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
 
-      
-                          </div>                          
-                    <?php
-                      // Kiểm tra nếu có sản phẩm trong danh sách
-                      if ($sach) {
-                      foreach ($sach as $index => $book) {
-                      $bookName = $book['Ten_Sach'];
-                      $Tac_Gia = $book['Ten_Tac_Gia'];
-                      $price = number_format($book['Don_Gia'], 0, ',', '.');
-                      $imagePath = $book['Hinh_Anh'];
+                        // Đếm tổng số bản ghi
+                        $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
 
-                      // Hiển thị sản phẩm
-                      echo '<div class="slider-product-one-content-item">';
-                      echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
-                      echo '<div class="slider-product-one-content-item-text">';
-                      echo '<div class="slider-text1">';
-                      echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
-                      echo '</div>';
-                      echo '<div class="slider-text2">';
-                      echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
-                      echo '</div>';
-                      echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
-                      echo '</div>';
-                      echo '</div>';
-
-                      // Chỉnh sửa CSS trực tiếp tại đây
-                      echo '<style>';
-                      echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                      echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
-                      echo '</style>';
-                  }
-              } else {
-                  echo '<p>Không tìm thấy sách nào.</p>';
-              }
-              ?>
-                      
+                        $totalRecords = executeResult($countSql);
+                        $totalRecords = $totalRecords[0]['total'];
+                        $totalPages = ceil($totalRecords / $item_per_page);
+                        ?>
+                        <div class="box">
+                            <h1>Danh Mục Sản Phẩm</h1>
+                            <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Chọn chủ đề</option>
+                                <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
+                                <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=3">sad</option>
+                                <!-- Thêm các option cho chủ đề khác tương tự -->
+                            </select>
+                            <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Sắp xếp giá</option>
+                                <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
+                                <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
+                            </select>
+                            <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                <option value="">Chọn khoảng giá</option>
+                                <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
+                                <option <?php if ($priceRange == "5-50000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=5-50000">5 - 50.000 đồng</option>
+                                <option <?php if ($priceRange == "50000-89000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=50000-89000">50.000 - 89.000 đồng</option>
+                                <option <?php if ($priceRange == "89000-") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=89000-">Trên 89.000 đồng</option>
+                            </select>
                         </div>
-                        <?php include './pagination.php';?>  
+                        <div class="slider-product-one-content-items" id="bookListContainer">
+                            <?php
+                            // Kiểm tra nếu có sản phẩm trong danh sách
+                            if ($sach) {
+                                foreach ($sach as $index => $book) {
+                                    $bookName = $book['Ten_Sach'];
+                                    $Tac_Gia = $book['Ten_Tac_Gia'];
+                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
+                                    $imagePath = $book['Hinh_Anh'];
+
+                                    // Hiển thị sản phẩm
+                                    echo '<div class="slider-product-one-content-item">';
+                                    echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                                    echo '<div class="slider-product-one-content-item-text">';
+                                    echo '<div class="slider-text1">';
+                                    echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
+                                    echo '</div>';
+                                    echo '<div class="slider-text2">';
+                                    echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
+                                    echo '</div>';
+                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                                    echo '</div>';
+                                    echo '</div>';
+
+                                    // Chỉnh sửa CSS trực tiếp tại đây
+                                    echo '<style>';
+                                    echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
+                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
+                                    echo '</style>';
+                                }
+                            } else {
+                                echo '<p>Không tìm thấy sách nào.</p>';
+                            }
+                            ?>
+
+                        </div>
+                        <?php include './pagination.php'; ?>
                     </div>
                 </section>
             </div>
@@ -312,7 +332,7 @@
 
 
     </footer>
-    
+
 
 </body>
 
