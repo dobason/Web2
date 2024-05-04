@@ -227,7 +227,7 @@ select {
                 </div>
             </div>
         </div>
-        <form id="checkoutForm" action="process_payment.php" method="post">
+        <form id="checkoutForm" action="bill.php" method="post">
         <div class="slider5">
 
             <div class="in-checkout-top">
@@ -266,9 +266,9 @@ select {
     var citis = document.getElementById("city");
     var districts = document.getElementById("district");
     var wards = document.getElementById("ward");
-
+    var locationFileUrl = "js/location.js";
     var Parameter = {
-      url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+      url: locationFileUrl,
       method: "GET",
       responseType: "json" // Sử dụng responseType là "json" để Axios tự động parse JSON
     };
@@ -483,9 +483,7 @@ select {
             
                 // Lấy tổng tiền từ biến $totalAmount (đã tính toán trước đó)
                 $totalAmount = calculateTotalAmount($cartItems); // Hàm tính tổng hóa đơn từ danh sách sản phẩm trong giỏ hàng
-            
-                // Gọi hàm để cập nhật tổng tiền vào bảng hoa_don
-                updateTotalAmount($maKH, $totalAmount);
+    
             }
             
             // Hàm tính tổng hóa đơn từ danh sách sản phẩm trong giỏ hàng
@@ -502,35 +500,7 @@ select {
             // Lưu totalAmount vào session
 $_SESSION['totalAmount'] = $totalAmount;
 
-            // Hàm để cập nhật tổng tiền vào cột Tong_Tien của bảng hoa_don
-            function updateTotalAmount($maKH, $totalAmount)
-            {
-                // Kết nối đến cơ sở dữ liệu
-                $conn = openDatabaseConnection();
-            
-                // Sử dụng phương thức escape để tránh SQL Injection
-                $escapedTotalAmount = mysqli_real_escape_string($conn, $totalAmount);
-            
-                // Chuẩn bị truy vấn SQL để cập nhật tổng tiền vào cơ sở dữ liệu
-                $sql = "UPDATE hoa_don SET Tong_Tien = '$escapedTotalAmount' WHERE Ma_KH = ?";
-            
-                // Sử dụng tham số trong truy vấn SQL
-                $stmt = mysqli_prepare($conn, $sql);
-                mysqli_stmt_bind_param($stmt, 's', $maKH);
-            
-                // Thực thi truy vấn và kiểm tra kết quả
-                $result = mysqli_stmt_execute($stmt);
-            
-                if ($result) {
-                    echo "Cập nhật tổng tiền vào bảng hoa_don thành công!" . $maKH;
-                } else {
-                    echo "Lỗi: " . mysqli_error($conn);
-                }
-            
-                // Đóng câu lệnh và kết nối đến cơ sở dữ liệu
-                mysqli_stmt_close($stmt);
-                mysqli_close($conn);
-            }
+        
             
             
             ?>
@@ -542,8 +512,11 @@ $_SESSION['totalAmount'] = $totalAmount;
                     </div>
                 </a>
                 <button type="submit" class="show-popup-button" >Hoàn tất đặt hàng</button>
+                
             </div>
         </div>
+            </form> 
+      
 
     </footer>
 

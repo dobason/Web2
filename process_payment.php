@@ -22,7 +22,7 @@ if (isset($_SESSION['Ma_KH'])) {
     $result = mysqli_stmt_get_result($stmt);
 
     // Xử lý kết quả
-    if ($result && mysqli_num_rows($result) > 0) {
+  
         // Lấy thông tin đơn hàng
         $orderInfo = mysqli_fetch_assoc($result);
 
@@ -30,9 +30,7 @@ if (isset($_SESSION['Ma_KH'])) {
         $_SESSION['MaHD'] = $orderInfo['MaHD']; // Lưu MaHD vào session
         header('Location: bill.php');
         exit(); // Dừng luồng thực thi để chuyển hướng
-    } else {
-        echo "Không tìm thấy đơn hàng của khách hàng này.";
-    }
+   
 
     // Đóng câu lệnh và kết nối đến cơ sở dữ liệu
     mysqli_stmt_close($stmt);

@@ -1,121 +1,125 @@
 <?php
 session_start();
-
 require_once 'db/dbhelper.php';
 
-if (isset($_SESSION['Ma_KH'])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nhận thông tin được gửi từ form trang payment.php
     $maKH = $_SESSION['Ma_KH']; // Lấy Ma_KH từ session
-    $totalAmount = $_SESSION['totalAmount'];
-    $conn = openDatabaseConnection(); // Mở kết nối đến cơ sở dữ liệu
+    $tenNguoiNhan = $_POST['name'];
+    $soDienThoai = $_POST['phoneNumber'];
+    $diaChiNhanHang = $_POST['deliveryAddress'];
+    $thanhPhoId = $_POST['city']; // Lấy id của thành phố từ form
+    $quanId = $_POST['district']; // Lấy id của quận/huyện từ form
+    $phuongId = $_POST['ward']; // Lấy id của phường/xã từ form
+    $totalAmount = $_SESSION['totalAmount']; // Lấy tổng tiền từ session
 
-    // Truy vấn cơ sở dữ liệu để lấy thông tin đơn hàng dựa trên Ma_KH
-    $sql = "SELECT hd.*, kh.Ten_KH
-            FROM hoa_don hd
-            LEFT JOIN khach_hang kh ON hd.Ma_KH = kh.Ma_KH
-            WHERE hd.Ma_KH = '$maKH'";
+    // Thực hiện truy vấn INSERT để lưu thông tin đơn hàng vào bảng hoa_don
+    $conn = openDatabaseConnection();
 
+    // Sử dụng phương thức escape để tránh SQL Injection
+    $escapedTenNguoiNhan = mysqli_real_escape_string($conn, $tenNguoiNhan);
+    $escapedDiaChiNhanHang = mysqli_real_escape_string($conn, $diaChiNhanHang);
 
-    $conn = openDatabaseConnection(); // Mở kết nối đến cơ sở dữ liệu
+    // Lấy tên của thành phố từ id
+    $thanhPho = getCityNameById($thanhPhoId);
 
-    // Thực thi truy vấn
-    $result = executeResult($sql);
+    // Lấy tên của quận/huyện từ id
+    $quan = getDistrictNameById($quanId);
 
-    // Hiển thị thông tin đơn hàng trong trang bill.php
-    if (!empty($result)) {
-        $order = $result[0]; // Lấy thông tin đơn hàng đầu tiên
-       
-        echo '<div class="order-info">';
-        echo "<h2>Thông tin đơn hàng</h2>";
-        echo "<p><strong>Mã đơn hàng:</strong> " . $order['MaHD'] . "</p>";
-        echo "<p><strong>Mã khách hàng:</strong> " . $order['Ma_KH'] . "</p>";
-        echo "<p><strong>Tên khách hàng:</strong> " . $order['Ten_KH'] . "</p>";
-        echo "<p><strong>Tên người nhận hàng:</strong> " . $order['Ten_Nguoi_Nhan_Hang'] . "</p>";
-        echo "<p><strong>Số điện thoại:</strong> " . $order['SDT'] . "</p>";
-        echo "<p><strong>Địa chỉ nhận hàng:</strong> " . $order['Dia_Chi_Nhan_Hang'] . "</p>";
-        echo "<p><strong>Thành phố:</strong> " . $order['Thanh_Pho'] . "</p>";
-        echo "<p><strong>Quận:</strong> " . $order['Quan'] . "</p>";
-        echo "<p><strong>Phường:</strong> " . $order['Phuong'] . "</p>";
-        echo "<p><strong>Tổng tiền:</strong> " .   number_format($totalAmount) . " VNĐ</p>";
-        echo "<p><strong>Ngày đặt hàng:</strong> " .  $ngayDH = date('Y-m-d') . "</p>"; // Hiển thị ngày đặt hàng
-        echo '<button class="back-btn" onclick="window.location.href=\'index.php\'">Quay về trang chủ</button>';
-        echo '</div>';
+    // Lấy tên của phường/xã từ id
+    $phuong = getWardNameById($phuongId);
 
-        // Thêm thông tin đơn hàng vào bảng hoa_don
-        $maKH = $order['Ma_KH'];
-        $tenNguoiNhan = $order['Ten_Nguoi_Nhan_Hang'];
-        $soDienThoai = $order['SDT'];
-        $diaChiNhanHang = $order['Dia_Chi_Nhan_Hang'];
-        $thanhPho = $order['Thanh_Pho'];
-        $quan = $order['Quan'];
-        $phuong = $order['Phuong'];
-        $tongTien = number_format($totalAmount);
-        $tinhTrang = $order['Tinh_Trang'];
-        $ngayDH = date('Y-m-d'); // Lấy ngày hiện tại
+    // Xây dựng câu lệnh SQL chèn dữ liệu
+    $sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Tong_Tien, Ngay_DH) 
+                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$totalAmount', NOW())";
 
-        $sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Tong_Tien, Tinh_Trang, Ngay_DH) 
-                            VALUES ('$maKH', '$tenNguoiNhan', '$soDienThoai', '$diaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$tongTien', '$tinhTrang', '$ngayDH')";
+    // Thực thi câu lệnh SQL chèn dữ liệu vào bảng hoa_don
+    $resultInsertHoaDon = mysqli_query($conn, $sqlInsertHoaDon);
 
-        // Thực thi truy vấn
-        $resultInsertHoaDon = execute($sqlInsertHoaDon);
+    if ($resultInsertHoaDon) {
+        // Lấy Ma_HD của đơn hàng vừa được thêm vào
+        $maHD = mysqli_insert_id($conn);
 
-        // Kiểm tra kết quả thực hiện truy vấn
-        if ($resultInsertHoaDon) {
-            // Xử lý thành công, tiếp tục xóa các mục trong bảng gio_hang
-            $sqlDeleteGioHang = "DELETE FROM gio_hang WHERE Ma_KH = '$maKH'";
+        // Truy vấn INSERT để thêm chi tiết hóa đơn từ bảng gio_hang vào bảng chi_tiet_hoa_don
+        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (Ma_HD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia)
+                             SELECT ?, gh.Ma_KH, gh.Ma_GH, gh.Ten_Sach, gh.So_Luong, gh.Don_Gia
+                             FROM gio_hang gh
+                             WHERE gh.Ma_KH = ?";
 
-            // Thực thi truy vấn xóa trong bảng gio_hang
-            $resultDeleteGioHang = execute($sqlDeleteGioHang);
+        $stmtChiTiet = mysqli_prepare($conn, $sqlInsertChiTiet);
+        mysqli_stmt_bind_param($stmtChiTiet, "ii", $maHD, $maKH);
+        $resultInsertChiTiet = mysqli_stmt_execute($stmtChiTiet);
 
-            if ($resultDeleteGioHang) {
-                echo "Đã xử lý thành công đơn hàng và xóa sản phẩm trong giỏ hàng.";
+        if ($resultInsertChiTiet) {
+            // Xóa thông tin trong bảng gio_hang sau khi đã tạo đơn hàng thành công
+            $sqlDeleteCartItems = "DELETE FROM gio_hang WHERE Ma_KH = ?";
+            $stmtDeleteCartItems = mysqli_prepare($conn, $sqlDeleteCartItems);
+            mysqli_stmt_bind_param($stmtDeleteCartItems, "i", $maKH);
+            $resultDeleteCartItems = mysqli_stmt_execute($stmtDeleteCartItems);
+
+            if ($resultDeleteCartItems) {
+                // Xóa session liên quan sau khi đã tạo đơn hàng thành công
+                unset($_SESSION['cartItems']);
+                unset($_SESSION['totalAmount']);
+                echo "Đơn hàng đã được tạo thành công.";
             } else {
-                echo "Xảy ra lỗi khi xóa sản phẩm trong giỏ hàng.";
+                echo "Có lỗi xảy ra khi xóa thông tin trong bảng gio_hang.";
             }
         } else {
-            echo "Xảy ra lỗi khi thêm đơn hàng mới.";
+            echo "Có lỗi xảy ra khi thêm chi tiết đơn hàng.";
         }
     } else {
-        echo "Không tìm thấy thông tin đơn hàng.";
+        echo "Có lỗi xảy ra trong quá trình tạo đơn hàng.";
     }
 
     // Đóng kết nối đến cơ sở dữ liệu
+    mysqli_stmt_close($stmtChiTiet);
+    mysqli_stmt_close($stmtDeleteCartItems);
     mysqli_close($conn);
 } else {
-    echo "Không tìm thấy mã đơn hàng.";
+    echo "Dữ liệu không hợp lệ.";
+}
+
+// Các hàm lấy tên của thành phố, quận/huyện, phường/xã từ id
+function getCityNameById($cityId) {
+    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    foreach ($data as $city) {
+        if ($city['Id'] === $cityId) {
+            return $city['Name'];
+        }
+    }
+    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+}
+
+function getDistrictNameById($districtId) {
+    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    foreach ($data as $city) {
+        foreach ($city['Districts'] as $district) {
+            if ($district['Id'] === $districtId) {
+                return $district['Name'];
+            }
+        }
+    }
+    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+}
+
+function getWardNameById($wardId) {
+    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    foreach ($data as $city) {
+        foreach ($city['Districts'] as $district) {
+            foreach ($district['Wards'] as $ward) {
+                if ($ward['Id'] === $wardId) {
+                    return $ward['Name'];
+                }
+            }
+        }
+    }
+    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+}
+
+// Hàm để lấy dữ liệu từ tập dữ liệu JSON
+function getDataFromJson() {
+    $jsonData = file_get_contents('js/locations.json');
+    return json_decode($jsonData, true);
 }
 ?>
-
-<style>
-    .order-info {
-        width: 60%;
-        margin: 50px auto;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: #f9f9f9;
-        text-align: center;
-    }
-
-    .order-info h2 {
-        color: #333;
-    }
-
-    .order-info p {
-        margin-bottom: 10px;
-        text-align: left;
-    }
-
-    .back-btn {
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    .back-btn:hover {
-        background-color: #0056b3;
-    }
-</style>

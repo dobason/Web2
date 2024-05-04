@@ -213,41 +213,108 @@
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 15%;">Mã hóa đơn</th>
-                                        <th style="width: 12%;">Mã khách hàng</th>
-                                        <th style="width: 15%;">Tên người nhận hàng</th>
-                                        <th style="width: 3%;">SĐT</th>
-                                        <th style="width: 15%;">Địa chỉ</th>
+                                        <th style="width: 8%;">Mã hóa đơn</th>
+                                   
+                                    
+                                  
+                                     
+                                        <th style="width: 15%;">Thành phố</th>
+                                        <th style="width: 15%;">Quận</th>
+                                        <th style="width: 15%;">Phường</th>
                                         <th style="width: 12%;">Tổng tiền</th>
-                                 
-                                        <th style="width: 18%;">Ngày đặt</th>
+                                        <th style="width: 15%;">Ngày đặt</th>
                                         <th style="width: 10%;">Tình trạng</th>
+                                        <th style="width: 15%;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($result as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['MaHD']}</td>
-                                                <td>{$row['Ma_KH']}</td>
-                                                <td>{$row['Ten_Nguoi_Nhan_Hang']}</td>
-                                                <td>{$row['SDT']}</td>
-                                                <td>{$row['Dia_Chi_Nhan_Hang']}</td>
-                                                <td>{$row['Tong_Tien']}</td>
-                                     
-                                                <td>{$row['Ngay_DH']}</td>
-                                                <td>{$row['Tinh_Trang']}</td>                                     
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.html'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                              <?php
+require_once 'db/dbhelper.php'; // Include database helper functions
+
+// Retrieve invoice data from the database (assuming $result is fetched elsewhere)
+foreach ($result as $key => $row) {
+    $maHD = $row['Ma_HD'];
+    $thanhPho = $row['Thanh_Pho'];
+    $quan = $row['Quan'];
+    $phuong = $row['Phuong'];
+    $tongTien = number_format($row['Tong_Tien'], 0, ',', '.'); // Format total amount
+    $ngayDH = $row['Ngay_DH'];
+    $tinhTrang = $row['Tinh_Trang'];
+
+    echo '<tr>';
+    echo '<td>' . $maHD . '</td>'; // Mã hóa đơn
+    echo '<td>' . $thanhPho . '</td>'; // Thành phố
+    echo '<td>' . $quan . '</td>'; // Quận
+    echo '<td>' . $phuong . '</td>'; // Phường
+    echo '<td>' . $tongTien . '</td>'; // Tổng tiền
+    echo '<td>' . $ngayDH . '</td>'; // Ngày đặt hàng
+    echo '<td>' . $tinhTrang . '</td>'; // Tình trạng
+
+    echo '<td>';
+    echo '<div class="flex align-items-center list-user-action">';
+    echo '<a href="#" class="detail-btn" data-maHD="' . $maHD . '" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
+    
+    echo '</div>';
+    echo '</td>';
+
+    echo '</tr>';
+}
+?>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    $('.detail-btn').click(function(e) {
+        e.preventDefault();
+        var maHD = $(this).data('maHD');
+        
+        // Gọi ajax để lưu MaHD vào session
+        $.ajax({
+            url: 'save_session.php', // Đường dẫn đến tệp PHP xử lý AJAX
+            type: 'POST',
+            data: { maHD: maHD }, // Dữ liệu gửi lên server
+            success: function(response) {
+                console.log(response); // Hiển thị kết quả trả về từ server (thông báo thành công hoặc lỗi)
+            },
+            error: function(xhr, status, error) {
+                console.error('XHR Error:', error);
+            }
+        });
+    });
+});
+
+</script>
+
+<!-- Your custom JavaScript code -->
+
+
+
+<!-- Modal hiển thị chi tiết hóa đơn -->
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Chi tiết hóa đơn</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="detailModalBody">
+                <!-- Nội dung chi tiết hóa đơn sẽ được thay đổi bởi JavaScript -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+                            
+
+
+
+      
                                 </tbody>
                             </table>
                            </div>
