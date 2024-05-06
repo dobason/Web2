@@ -39,42 +39,52 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($resultInsertHoaDon) {
         // Lấy Ma_HD của đơn hàng vừa được thêm vào
         $maHD = mysqli_insert_id($conn);
-
+    
         // Truy vấn INSERT để thêm chi tiết hóa đơn từ bảng gio_hang vào bảng chi_tiet_hoa_don
-        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (Ma_HD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia)
+        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (MaHD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia)
                              SELECT ?, gh.Ma_KH, gh.Ma_GH, gh.Ten_Sach, gh.So_Luong, gh.Don_Gia
                              FROM gio_hang gh
                              WHERE gh.Ma_KH = ?";
-
+    
         $stmtChiTiet = mysqli_prepare($conn, $sqlInsertChiTiet);
-        mysqli_stmt_bind_param($stmtChiTiet, "ii", $maHD, $maKH);
-        $resultInsertChiTiet = mysqli_stmt_execute($stmtChiTiet);
-
-        if ($resultInsertChiTiet) {
-            // Xóa thông tin trong bảng gio_hang sau khi đã tạo đơn hàng thành công
-            $sqlDeleteCartItems = "DELETE FROM gio_hang WHERE Ma_KH = ?";
-            $stmtDeleteCartItems = mysqli_prepare($conn, $sqlDeleteCartItems);
-            mysqli_stmt_bind_param($stmtDeleteCartItems, "i", $maKH);
-            $resultDeleteCartItems = mysqli_stmt_execute($stmtDeleteCartItems);
-
-            if ($resultDeleteCartItems) {
-                // Xóa session liên quan sau khi đã tạo đơn hàng thành công
-                unset($_SESSION['cartItems']);
-                unset($_SESSION['totalAmount']);
-                echo "Đơn hàng đã được tạo thành công.";
+        if ($stmtChiTiet) {
+            mysqli_stmt_bind_param($stmtChiTiet, "ii", $maHD, $maKH);
+            $resultInsertChiTiet = mysqli_stmt_execute($stmtChiTiet);
+    
+            if ($resultInsertChiTiet) {
+                // Xóa thông tin trong bảng gio_hang sau khi đã tạo đơn hàng thành công
+                $sqlDeleteCartItems = "DELETE FROM gio_hang WHERE Ma_KH = ?";
+                $stmtDeleteCartItems = mysqli_prepare($conn, $sqlDeleteCartItems);
+                if ($stmtDeleteCartItems) {
+                    mysqli_stmt_bind_param($stmtDeleteCartItems, "i", $maKH);
+                    $resultDeleteCartItems = mysqli_stmt_execute($stmtDeleteCartItems);
+    
+                    if ($resultDeleteCartItems) {
+                        // Xóa session liên quan sau khi đã tạo đơn hàng thành công
+                        unset($_SESSION['cartItems']);
+                        unset($_SESSION['totalAmount']);
+                        echo "Đơn hàng đã được tạo thành công.";
+                    } else {
+                        echo "Có lỗi xảy ra khi xóa thông tin trong bảng gio_hang: " . mysqli_error($conn);
+                    }
+                    mysqli_stmt_close($stmtDeleteCartItems); // Đóng statement
+                } else {
+                    echo "Lỗi khi chuẩn bị truy vấn xóa thông tin trong bảng gio_hang: " . mysqli_error($conn);
+                }
+    
+                mysqli_stmt_close($stmtChiTiet); // Đóng statement
             } else {
-                echo "Có lỗi xảy ra khi xóa thông tin trong bảng gio_hang.";
+                echo "Có lỗi xảy ra khi thực hiện truy vấn thêm chi tiết đơn hàng: " . mysqli_error($conn);
             }
         } else {
-            echo "Có lỗi xảy ra khi thêm chi tiết đơn hàng.";
+            echo "Lỗi khi chuẩn bị truy vấn thêm chi tiết đơn hàng: " . mysqli_error($conn);
         }
     } else {
-        echo "Có lỗi xảy ra trong quá trình tạo đơn hàng.";
+        echo "Có lỗi xảy ra trong quá trình tạo đơn hàng: " . mysqli_error($conn);
     }
+    
 
     // Đóng kết nối đến cơ sở dữ liệu
-    mysqli_stmt_close($stmtChiTiet);
-    mysqli_stmt_close($stmtDeleteCartItems);
     mysqli_close($conn);
 } else {
     echo "Dữ liệu không hợp lệ.";

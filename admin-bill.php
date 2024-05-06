@@ -228,29 +228,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                       foreach ($result as $key => $row) {
-                                          echo "
-                                             <tr>
-                                                <td>{$row['MaHD']}</td>
-                                                <td>{$row['Ma_KH']}</td>
-                                                <td>{$row['Ten_Nguoi_Nhan_Hang']}</td>
-                                                <td>{$row['SDT']}</td>
-                                                <td>{$row['Dia_Chi_Nhan_Hang']}</td>
-                                                <td>{$row['Tong_Tien']}</td>
-                                     
-                                                <td>{$row['Ngay_DH']}</td>
-                                                <td>{$row['Tinh_Trang']}</td>                                     
-                                                <td>
-                                                   <div class='flex align-items-center list-user-action'>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Edit' href='admin-add-book.php'><i class='ri-pencil-line'></i></a>
-                                                      <a class='bg-primary' data-toggle='tooltip' data-placement='top' title='' data-original-title='Xoá' href='#'><i class='ri-delete-bin-line'></i></a>
-                                                   </div>
-                                                </td>
-                                             </tr>
-                                          ";
-                                        }
-                                    ?>        
+                           
                               <?php
 require_once 'db/dbhelper.php'; // Include database helper functions
 
@@ -275,7 +253,7 @@ foreach ($result as $key => $row) {
 
     echo '<td>';
     echo '<div class="flex align-items-center list-user-action">';
-    echo '<a href="#" class="detail-btn" data-maHD="' . $maHD . '" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
+    echo '<a href="#" class="detail-btn" data-maHD="<?php echo $maHD; ?>" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
     
     echo '</div>';
     echo '</td>';
@@ -287,51 +265,75 @@ foreach ($result as $key => $row) {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('.detail-btn').click(function(e) {
-        e.preventDefault();
-        var maHD = $(this).data('maHD');
-        
-        // Gọi ajax để lưu MaHD vào session
-        $.ajax({
-            url: 'save_session.php', // Đường dẫn đến tệp PHP xử lý AJAX
-            type: 'POST',
-            data: { maHD: maHD }, // Dữ liệu gửi lên server
-            success: function(response) {
-                console.log(response); // Hiển thị kết quả trả về từ server (thông báo thành công hoặc lỗi)
-            },
-            error: function(xhr, status, error) {
-                console.error('XHR Error:', error);
-            }
-        });
-    });
-});
+document.addEventListener('DOMContentLoaded', function() {
+  // Xử lý sự kiện khi click vào nút "Chi tiết"
+  document.querySelectorAll('.detail-btn').forEach(function(button) {
+    button.addEventListener('click', function() {
+      var maHD = this.getAttribute('data-maHD'); // Lấy mã hóa đơn từ thuộc tính data-maHD
 
+      // Gửi yêu cầu AJAX để lấy thông tin chi tiết đơn hàng
+      axios.get('get_order_details.php', {
+        params: {
+          maHD: maHD
+        }
+      })
+      .then(function(response) {
+        // Xử lý dữ liệu trả về từ AJAX
+        var orderDetails = response.data;
+        var tbody = document.getElementById('orderDetailBody');
+        tbody.innerHTML = ''; // Xóa dữ liệu cũ trong tbody
+
+        // Thêm thông tin chi tiết đơn hàng vào bảng trong modal
+        orderDetails.forEach(function(detail) {
+          var row = '<tr>' +
+                      '<td>' + detail.Ten_Sach + '</td>' +
+                      '<td>' + detail.Don_Gia + '</td>' +
+                    '</tr>';
+          tbody.innerHTML += row;
+        });
+      })
+      .catch(function(error) {
+        console.error('Error fetching order details:', error);
+      });
+    });
+  });
+});
 </script>
 
-<!-- Your custom JavaScript code -->
 
-
-
-<!-- Modal hiển thị chi tiết hóa đơn -->
-<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Chi tiết hóa đơn</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" id="detailModalBody">
-                <!-- Nội dung chi tiết hóa đơn sẽ được thay đổi bởi JavaScript -->
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
+<!-- Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailModalLabel">Chi tiết đơn hàng</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Tên Sách</th>
+              <th scope="col">Đơn Giá</th>
+            </tr>
+          </thead>
+          <tbody id="orderDetailBody">
+            <!-- Dữ liệu chi tiết đơn hàng sẽ được thêm vào đây -->
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+      </div>
     </div>
+  </div>
 </div>
+
+
+
+
 
                             
 
