@@ -55,7 +55,23 @@
 
         .slider-product-one-content-items {
             margin-top: 10px;
+            justify-content: center;
         }
+        .select-container {
+            display: flex;
+            justify-content: space-around; /* Căn các phần tử theo chiều ngang, giữa container */
+            align-items: center; /* Căn các phần tử theo chiều dọc, giữa container */
+        }
+
+        .select-container select {
+            margin: 25px 130px; /* Khoảng cách giữa các dropdown */
+        }
+
+        /* Căn giữa các option trong dropdown */
+        .select-container select option {
+            text-align: center;
+        }
+
     </style>
 
 
@@ -87,22 +103,29 @@
                 </button>
             </div>
         </nav>
-        <div class="slider1">
-            <img src="IMG/0e882cb6cd424a1a43bf572912a86425.jpg" style="width:100%">
+       
+        <!---Kết nối database-->
+        <?php require('./php/classes/database.php'); ?>
 
+    </header>
+
+
+    <main>
+        <!------------------------------------------------------------------>
+        <div class="slider1">
             <div class="in-slider1">
                 <div class="slidebody">
                     <div class="in-slidebody-left">
                         <a href="#"><img src="IMG/left-top.jpg"></a>
+                    </div>
+                    <div>
                         <a href="#"><img src="IMG/slide2.jpg"></a>
                     </div>
-
-                    <div class="in-slidebody-right">
-                        <div class="in-slidebody-left">
-                            <a href="#"><img src="IMG/banner1.jpg"></a>
-                            <a href="#"><img src="IMG/4.jpg"></a>
-                        </div>
-
+                    
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <div class="in-slidebody-right">
                         <div id="slideshow">
                             <div class="slide-wrapper">
                                 <div class="slide">
@@ -120,22 +143,7 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
-            </div>
-
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-        <!---Kết nối database-->
-        <?php require('./php/classes/database.php'); ?>
-
-    </header>
-
-
-    <main>
-        <!------------------------------------------------------------------>
-
         <div class="slider5">
             <div class="in-slider5">
                 <section class="slider-product-one">
@@ -220,19 +228,33 @@
                         $totalRecords = $totalRecords[0]['total'];
                         $totalPages = ceil($totalRecords / $item_per_page);
                         ?>
+                        <h1 style="text-align:center">Danh Mục Sản Phẩm</h1>
+                        <hr>
                         <div class="box">
-                            <h1>Danh Mục Sản Phẩm</h1>
+                        <div class="select-container">
+                        
+                            <!-- Category selection -->
                             <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                                 <option value="">Chọn chủ đề</option>
                                 <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
-                                <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=3">sad</option>
+                                <option <?php if ($theme == "2") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Lịch sử</option>
+                                <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Truyện tranh & Mangas</option>
+                                <option <?php if ($theme == "4") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Phim & Nhiếp ảnh</option>
+                                <option <?php if ($theme == "5") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh dị</option>
+                                <option <?php if ($theme == "6") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Máy tính & Internet</option>
+                                <option <?php if ($theme == "7") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Thể Thao</option>
+                                <option <?php if ($theme == "8") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Du lịch lữ hành</option>
+                                <option <?php if ($theme == "9") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh doanh & Kinh tế</option>
+                                <option <?php if ($theme == "10") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Nghệ thuật</option>
                                 <!-- Thêm các option cho chủ đề khác tương tự -->
                             </select>
+                            <!-- Sorting options -->
                             <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                                 <option value="">Sắp xếp giá</option>
                                 <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
                                 <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
                             </select>
+                            <!-- Price range selection -->
                             <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
                                 <option value="">Chọn khoảng giá</option>
                                 <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
@@ -241,7 +263,9 @@
                                 <option <?php if ($priceRange == "89000-") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=89000-">Trên 89.000 đồng</option>
                             </select>
                         </div>
-                        <div class="slider-product-one-content-items" id="bookListContainer">
+                    </div>
+
+                        <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:center">
                             <?php
                             // Kiểm tra nếu có sản phẩm trong danh sách
                             if ($sach) {
@@ -283,13 +307,566 @@
             </div>
         </div>
 
+        <!------------------------------------------------------------------>
+        <div class="slider5">
+            <div class="in-slider5">
+                <div class="in-slider5-text">
+                    <h3 style="text-align:center">NGUYỄN NHẬT ÁNH</h3>
+                </div>
+
+
+                <section class="slider-product-one">
+
+                    <div class="slider-product-one-content">
+
+                        <div class="slider-product-one-content-items">
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product.html"><img src="IMG/product1.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="product.html">
+                                        <p>Những người hàng xóm</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyen Nhat Anh</a></li>
+                                    </div>
+
+                                    <li>169,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product4.html"><img src="IMG/product2.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="product4.html">
+                                                <p>Tôi là Bêtô</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyen Nhat Anh</a></li>
+                                    </div>
+
+                                    <li>152,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product5.html"><img src="IMG/product3.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="product5.html">
+                                                <p>Tôi thấy hoa vàng trên cỏ xanh</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyen Nhat Anh</a></li>
+                                    </div>
+
+                                    <li>169,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product6.html"><img src="IMG/product4.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="product6.html">
+                                                <p>Mùa hè không tên</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                    <li><a href=#>Nguyen Nhat Anh</a></li>
+                                    </div>
+
+                                    <li>175,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product6.html"><img src="IMG/product4.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="product6.html">
+                                                <p>Mùa hè không tên</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyen Nhat Anh</a></li>
+                                    </div>
+
+                                    <li>175,000<sup><u>đ</u></sup></li>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+
+
+                </section>
+            </div>
+        </div>
+
+        <!------------------------------------------------------>
+        <div class="slider5">
+            <div class="in-slider5">
+                <div class="in-slider5-text">
+                    <h3 style="text-align:center">KĨ NĂNG SỐNG</h3>
+                </div>
+                <section class="slider-product-one">
+
+                    <div class="slider-product-one-content">
+
+                        <div class="slider-product-one-content-items">
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product.html"><img src="IMG/product10.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                        <p>Xin lỗi, tôi không thích</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Patrick King</a></li>
+                                    </div>
+
+                                    <li>84,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product.html"><img src="IMG/product11.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Lớp học tâm lý</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Jaehoon Choi</a></li>
+                                    </div>
+
+                                    <li>101,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product.html"><img src="IMG/product12.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Tư duy 0 giây</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Akaba Yuji</a></li>
+                                    </div>
+
+                                    <li>143,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product.html"><img src="IMG/product13.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Một đời được mất </p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Vãn Tĩnh</a></li>
+                                    </div>
+                                    <li>120,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+
+                            <div class="slider-product-one-content-item">
+
+                                <a href="product.html"><img src="IMG/product14.jpg" alt="" width="500"></a>
+                                <div class="slider-product-one-content-item-text">
+
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Tinh thần CHUTZPAH</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#></a>Inbal Arieli</li>
+                                    </div>
+
+                                    <li>76,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </section>
+            </div>
+        </div>
+        <!----------------------------------------------->
+        <div class="slider2">
+            <div class="in-slider2">
+                <div class="in-slider2-1">
+                    <img src="IMG/slide6.png">
+                </div>
+                <div class="in-slider2-2">
+                    <img src="IMG/slide7.png">
+                </div>
+            </div>
+        </div>
 
 
 
 
+        <!------------------------------------------>
+        <div class="slider6">
+            <div class="in-slider6-top" style="text-align:center">
+                <button type="button" onclick="showCategory('category1')">Manga mới</button>
+                <button type="button" onclick="showCategory('category2')">Live Novel mới</button>
+            </div>
+            <div class="in-slider6">
+            <section id="category1" class="product_love">
+                <div class="in-product-love">
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Thỏ bảy màu </a>
+                                </div>
+                                <div class="in-slider6-price">
 
+                                    <p>130.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic2.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Và rồi, tháng 9 không có cậu đã tới</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>100.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic5.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Spy X Family - Tập 9</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>130.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic6.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Nhóc miko tinh nghịch</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>23.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic7.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Thám tử lừng danh Conan</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>13.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic8.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Dưới ánh hào quang</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>30.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic9.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Blue Block</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>130.000d</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-------------------------------------------->
+                    <div class="in-slider6-picture">
+                        <div class="in-slider6-picture-product">
+                            <div class="in-slider6-picture-product-image">
+                                <a href="#"><img src="IMG/in-pic10.jpg"></a>
+                            </div>
+                            <div class="in-slider6-picture-product-image-bottom">
+                                <div class="in-slider6-title">
+                                    <a href="#">Thám tử lừng danh Conan</a>
+                                </div>
+                                <div class="in-slider6-price">
+
+                                    <p>130.000d</p>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------------------------------->
+                </div>
+            </section>
+            <!--------------Section2---------------->
+
+            <section id="category2" class="product_love">
+
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                    <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-------------------------------------------->
+                <div class="in-slider6-picture">
+                    <div class="in-slider6-picture-product">
+                        <div class="in-slider6-picture-product-image">
+                            <a href="#"><img src="IMG/in-pic1.jpg"></a>
+                        </div>
+                        <div class="in-slider6-picture-product-image-bottom">
+                            <div class="in-slider6-title">
+                                <a href="#">Spy X Family - Tập 9</a>
+                            </div>
+                            <div class="in-slider6-price">
+
+                                <p>130.000d</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            </div>
+
+            <script>
+                function showCategory(categoryId) {
+                    // Hide all categories
+                    document.getElementById('category1').style.display = 'none';
+                    document.getElementById('category2').style.display = 'none';
+
+                    // Show the selected category
+                    document.getElementById(categoryId).style.display = 'block';
+                }
+
+            </script>
+        </div>
     </main>
-
     <!---Footer----->
     <footer>
         <div class="footer">
