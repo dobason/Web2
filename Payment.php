@@ -38,20 +38,6 @@ select {
                 <div class="logo">
                     <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
-
-
-
-
-                <div class="box">
-                    <div class="container-1">
-                        <span class="icon"><i class="fa fa-search"></i></span>
-                        <input type="search" id="search" placeholder="Search..." />
-                        <ul id="searchSuggestions" class="search-suggestions"></ul>
-                    </div>
-                </div>
-
-
-
                 <?php
                 // Include file header.php để sử dụng giao diện phía trên
                 require_once 'header.php';

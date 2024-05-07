@@ -1,6 +1,15 @@
 <?php 
     session_start();
-    $_SESSION['use'] = [];
+
+    // Xóa session 'use' hoặc session 'admin', tùy thuộc vào cách bạn lưu trữ thông tin đăng nhập
+    unset($_SESSION['use']);
+
+    // Hoặc nếu bạn muốn xóa tất cả các session, bạn có thể sử dụng session_destroy()
+    // session_destroy();
+
+    // Sau khi xóa session, chuyển hướng người dùng về trang đăng nhập
+    header("Location: dangnhap.php");
+    exit();
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +40,8 @@
             <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
         </div>
       
-        <input type="submit" name="dangnhap" value="Đăng nhập">
+        <a class="bg-primary iq-sign-btn" href="admin-dashboard.php" role="button">Đăng xuất<i class="ri-login-box-line ml-2"></i></a>
+
 </form>
 <?php 
         if(isset($_POST['dangnhap']) && ($_POST['dangnhap'])){
@@ -46,6 +56,8 @@
 
         }
     ?>
+ 
+
 </div>
 
 <script src="js/dangky.js"></script>
