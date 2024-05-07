@@ -218,7 +218,8 @@ function displayProductDetail($product) {
     echo '<div class="product-right">';
     echo '<div class="product-right-top">';
     echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>';
-    echo '<p>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
+    echo '<p><span style="color:red;">Tác giả: </span>'. htmlentities($product['Ten_Tac_Gia']).'</p>';
+    echo '<p><span style="color:red;">Đơn giá:</span>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
     echo '<div class="product-shopping">';
     echo '<form action="add_to_cart.php" method="post">';
     echo '<input type="hidden" name="product_id" value="' . $product['Ma_Sach'] . '">';

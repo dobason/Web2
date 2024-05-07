@@ -36,7 +36,7 @@ select {
 
             <div class="in-big-menu">
                 <div class="logo">
-                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
 
 
@@ -239,11 +239,11 @@ select {
         <div class="in-check-out-bottom">
             <div class="in-check-out-name">
                 <label for="name">Họ và tên người nhận</label>
-                <input type="text" id="name" name="name" pattern="[a-zA-Z\s]+" placeholder="Nhập tên người nhận" required>
+                <input type="text" id="name" name="name" pattern="[a-zA-Z\s]+" placeholder="Nhập không dấu (son,kien,phuong)" required>
             </div>
             <div class="in-check-out-phone">
                 <label for="phoneNumber">Số điện thoại</label>
-                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" minlength="10" placeholder="Nhập đủ 10 số" required>
+                <input type="tel" id="phoneNumber" name="phoneNumber" pattern="[0-9]+" minlength="10" placeholder="Nhập không dấu cách(1234567891)" required>
             </div>
             <div class="in-check-out-address">
                 <label for="deliveryAddress">Địa chỉ nhận hàng</label>
