@@ -323,22 +323,7 @@ $results = executeResult($sql);
 $allCustomersUpdated = true;
 
 // Duyệt qua kết quả để cập nhật cột Tong_Hoa_Don trong bảng khach_hang
-foreach ($results as $result) {
-    $maKH = $result['Ma_KH'];
-    $tongHoaDon = $result['Tong_Hoa_Don'];
 
-    // Truy vấn SQL để cập nhật cột Tong_Hoa_Don trong bảng khach_hang
-    $updateSql = "
-        UPDATE khach_hang
-        SET Tong_Hoa_Don = $tongHoaDon
-        WHERE Ma_KH = $maKH;
-    ";
-
-    // Thực thi truy vấn cập nhật
-    execute($updateSql);
-
-  
-}
 ?>
     
        <div class="total-row">

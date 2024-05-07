@@ -305,10 +305,6 @@ $('#editCustomerModal').modal('show');
 
     
 </script>
-
-
-
-
                            </div>
                         </div>
                         <div class="iq-card-body">
@@ -326,7 +322,6 @@ $('#editCustomerModal').modal('show');
                                     <th style="width: 5%;">Thành phố</th>
                                     <th style="width: 1%;">Tình trạng</th>
                                     <th style="width: 26%;">Hoạt động</th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
