@@ -305,10 +305,6 @@ $('#editCustomerModal').modal('show');
 
     
 </script>
-
-
-
-
                            </div>
                         </div>
                         <div class="iq-card-body">
@@ -316,12 +312,16 @@ $('#editCustomerModal').modal('show');
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th style="width: 1%;">Mã khách hàng</th>
-                                        <th style="width: 16%;">Họ và tên</th>
-                                        <th style="width: 15%;">Tài khoản</th>
-                                        <th style="width: 5%;">Mật Khẩu</th>
-                                        <th style="width: 1%;">Tình trạng</th>
-                                        <th style="width: 20%;">Hoạt động</th>
+                                    <th style="width: 1%;">Mã khách hàng</th>
+                                    <th style="width: 10%;">Họ và tên</th>
+                                    <th style="width: 15%;">Tài khoản</th>
+                                    <th style="width: 5%;">Mật Khẩu</th>
+                                    <th style="width: 5%;">Địa chỉ</th>
+                                    <th style="width: 5%;">Phường</th>
+                                    <th style="width: 5%;">Quận</th>
+                                    <th style="width: 5%;">Thành phố</th>
+                                    <th style="width: 1%;">Tình trạng</th>
+                                    <th style="width: 26%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -331,6 +331,10 @@ foreach ($result as $key => $row) {
     $customerName = $row['Ten_KH'];
     $account = $row['Tai_Khoan'];
     $password = $row['Mat_Khau'];
+    $diachi = $row['Dia_Chi'];
+    $thanhPho = $row['Thanh_Pho'];
+    $quan = $row['Quan'];
+    $phuong = $row['Phuong'];
     $status = $row['Trang_Thai'];
 
     echo "
@@ -339,6 +343,10 @@ foreach ($result as $key => $row) {
             <td>{$customerName}</td>
             <td>{$account}</td>
             <td>{$password}</td>
+            <td>{$diachi}</td>
+            <td>{$thanhPho}</td>
+            <td>{$quan}</td>
+            <td>{$phuong}</td>
             <td>{$status}</td>
             <td>
                 <div class='flex align-items-center list-user-action'>

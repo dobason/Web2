@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+    $_SESSION['use'] = [];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +17,13 @@
 </head>
 
 <body>
+ 
+ 
 <div class="wrapper">
-    <form id="formDangNhap" method="post" action="process_login_admin.php">
+    <form id="formDangNhap" method="post" action="">
         <h1>Xin chào quản lý</h1>
         <div class="input-box">
-            <input type="text" id="username" name="username" placeholder="Tên đăng nhập" required
+            <input type="text" id="" name="admin" placeholder="Tên đăng nhập" required
                 <?php if (isset($_POST['username'])) echo 'value="' . htmlspecialchars($_POST['username']) . '"'; ?> />
         </div>
         <div class="input-box">
@@ -24,10 +31,21 @@
             <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
         </div>
       
-        <button type="submit" class="log">Đăng nhập</button>
-        
-           
+        <input type="submit" name="dangnhap" value="Đăng nhập">
 </form>
+<?php 
+        if(isset($_POST['dangnhap']) && ($_POST['dangnhap'])){
+            //input
+            $admin=$_POST['admin'];
+            $pass=$_POST['password'];
+            //ví dụ đã đúng admin/admin
+            $_SESSION['use'][0] = $admin;
+            $_SESSION['use'][1] = $pass;
+
+            echo "<script>window.location.href = 'admin-dashboard.php';</script>";
+
+        }
+    ?>
 </div>
 
 <script src="js/dangky.js"></script>
