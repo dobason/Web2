@@ -59,8 +59,7 @@
                   <i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
-                     <li><a href="admin-invoice-details.php
-                     "><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
+                   
                      <li><a href="admin-user.php
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php

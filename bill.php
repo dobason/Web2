@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $quanId = $_POST['district']; // Lấy id của quận/huyện từ form
     $phuongId = $_POST['ward']; // Lấy id của phường/xã từ form
     $totalAmount = $_SESSION['totalAmount']; // Lấy tổng tiền từ session
-
+    $paymentMethod = $_POST['paymentMethod'];
     // Thực hiện truy vấn INSERT để lưu thông tin đơn hàng vào bảng hoa_don
     $conn = openDatabaseConnection();
 
@@ -29,9 +29,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Lấy tên của phường/xã từ id
     $phuong = getWardNameById($phuongId);
 
-    // Xây dựng câu lệnh SQL chèn dữ liệu
-    $sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Tong_Tien, Ngay_DH) 
-                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$totalAmount', NOW())";
+ // Xây dựng nội dung cột Thanh_Toan tùy thuộc vào phương thức thanh toán
+$thanhToan = '';
+if ($paymentMethod === 'tienmat') {
+    $thanhToan = 'Tiền mặt';
+} elseif ($paymentMethod === 'online') {
+    $thanhToan = 'Trực tuyến';
+}
+
+$sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Thanh_Toan, Tong_Tien, Ngay_DH, Ngay_GH, Tinh_Trang) 
+VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY),'0')";
+
+
 
     // Thực thi câu lệnh SQL chèn dữ liệu vào bảng hoa_don
     $resultInsertHoaDon = mysqli_query($conn, $sqlInsertHoaDon);
@@ -41,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $maHD = mysqli_insert_id($conn);
     
         // Truy vấn INSERT để thêm chi tiết hóa đơn từ bảng gio_hang vào bảng chi_tiet_hoa_don
-        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (MaHD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia)
+        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (Ma_HD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia)
                              SELECT ?, gh.Ma_KH, gh.Ma_GH, gh.Ten_Sach, gh.So_Luong, gh.Don_Gia
                              FROM gio_hang gh
                              WHERE gh.Ma_KH = ?";
@@ -58,12 +67,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmtDeleteCartItems) {
                     mysqli_stmt_bind_param($stmtDeleteCartItems, "i", $maKH);
                     $resultDeleteCartItems = mysqli_stmt_execute($stmtDeleteCartItems);
-    
+                    
                     if ($resultDeleteCartItems) {
                         // Xóa session liên quan sau khi đã tạo đơn hàng thành công
                         unset($_SESSION['cartItems']);
                         unset($_SESSION['totalAmount']);
-                        echo "Đơn hàng đã được tạo thành công.";
+                        header('Location: print-bill.php');
+                        exit();
                     } else {
                         echo "Có lỗi xảy ra khi xóa thông tin trong bảng gio_hang: " . mysqli_error($conn);
                     }
