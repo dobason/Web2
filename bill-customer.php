@@ -17,9 +17,9 @@ if (isset($_SESSION['Ma_KH'])) {
             $maHD = $_GET['maHD'];
 
             // Truy vấn để lấy thông tin của hóa đơn có mã hóa đơn mong muốn và có cùng Ma_KH
-            $sql = "SELECT Ma_HD, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Phuong, Quan, Thanh_Pho, Tong_Tien, Thanh_Toan, Ngay_DH, Ngay_GH, Thanh_Toan, Tinh_Trang
+            $sql = "SELECT MaHD, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Phuong, Quan, Thanh_Pho, Tong_Tien,Ngay_DH, Ngay_GH, Thanh_Toan, Tinh_Trang
                     FROM hoa_don 
-                    WHERE Ma_HD = '$maHD'";
+                    WHERE MaHD = '$maHD'";
             $result = mysqli_query($conn, $sql);
 
             if ($result) {
@@ -31,14 +31,14 @@ if (isset($_SESSION['Ma_KH'])) {
                     while ($row = mysqli_fetch_assoc($result)) {
                         echo "<div class='bill-info'>";
                         echo "<h2>Hóa đơn thanh toán</h2>";
-                        echo "<p>Mã HĐ: " . $row['Ma_HD'] . "</p>";
+                        echo "<p>Mã HĐ: " . $row['MaHD'] . "</p>";
                         echo "<p>Tên Người Nhận: " . $row['Ten_Nguoi_Nhan_Hang'] . "</p>";
                         echo "<p>Số Điện Thoại: " . $row['SDT'] . "</p>";
                         echo "<p>Địa Chỉ: " . $row['Dia_Chi_Nhan_Hang'] . ", " . $row['Phuong'] . ", " . $row['Quan'] . ", " . $row['Thanh_Pho'] . "</p>";
 
-                        // Truy vấn chi tiết hóa đơn dựa trên Ma_HD
-                        $maHD = $row['Ma_HD'];
-                        $sql_detail = "SELECT Ten_Sach, So_Luong, Don_Gia FROM chi_tiet_hoa_don WHERE Ma_HD = '$maHD'";
+                        // Truy vấn chi tiết hóa đơn dựa trên MaHD
+                        $maHD = $row['MaHD'];
+                        $sql_detail = "SELECT Ten_Sach, So_Luong, Don_Gia FROM chi_tiet_hoa_don WHERE MaHD = '$maHD'";
                         $result_detail = mysqli_query($conn, $sql_detail);
 
                         if ($result_detail && mysqli_num_rows($result_detail) > 0) {

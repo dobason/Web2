@@ -230,7 +230,7 @@ require_once 'db/dbhelper.php'; // Include database helper functions
 
 // Retrieve invoice data from the database (assuming $result is fetched elsewhere)
 foreach ($result as $key => $row) {
-    $maHD = $row['Ma_HD']; 
+    $maHD = $row['MaHD']; 
     $ten = $row['Ten_Nguoi_Nhan_Hang'];
     $soluong = $row['Dia_Chi_Nhan_Hang'];
     $tongTien = number_format($row['Tong_Tien'], 0, ',', '.'); // Format total amount
