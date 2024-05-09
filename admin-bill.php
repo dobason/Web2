@@ -198,6 +198,8 @@
             <div class="container-fluid">
                <div class="row">
                   <div class="col-sm-12">
+
+
                      <div class="iq-card">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
@@ -208,13 +210,129 @@
                            </div> -->
                         </div>
                         <div class="iq-card-body">
+                        <form method="get">
+                        <style>
+                select {
+            width: 150px; /* Độ rộng */
+            height: 30px; /* Chiều cao */
+            padding: 5px; /* Khoảng cách nội dung trong select */
+            font-size: 14px; /* Cỡ chữ */
+        }
+        button{
+         border-radius:8px ;
+        }
+        .mb-3-1{
+         margin-left: 20px;
+        }
+                </style>
+        <label for="start_date"></label>
+        <input type="date" id="start_date" name="start_date">
+
+        <label for="end_date">Đến ngày:</label>
+        <input type="date" id="end_date" name="end_date">
+
+        <label for="status"></label>
+        <select id="status" name="status">
+            <option value="">Tình trạng</option>
+            <option value="Chưa xác nhận">Chưa xác nhận</option>
+            <option value="Đã Xác nhận">Đã xác nhận</option>
+            <option value="Đã giao">Đã giao</option>
+            <option value="Đã hủy">Hủy đơn</option>
+        </select>
+    
+        <select class="form-select form-select-sm mb-3-1" id="city" name="city" aria-label=".form-select-sm" >
+                    <option value="" selected>Chọn tỉnh thành</option >
+                </select>
+                <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm">
+                    <option value="" selected>Chọn quận huyện</option>
+                </select>
+                <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm">
+                    <option value="" selected>Chọn phường xã</option>
+                </select>
+              
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+   <!-- Đoạn mã JavaScript để lấy dữ liệu địa điểm và hiển thị lên các select -->
+   <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+    var locationFileUrl = "js/location.js";
+    var Parameter = {
+      url: locationFileUrl,
+      method: "GET",
+      responseType: "json" // Sử dụng responseType là "json" để Axios tự động parse JSON
+    };
+
+    axios(Parameter)
+      .then(function(response) {
+        renderCity(response.data);
+      })
+      .catch(function(error) {
+        console.error('Error fetching location data:', error);
+      });
+
+    function renderCity(data) {
+      // Đổ dữ liệu các thành phố vào dropdown thành phố (city)
+      data.forEach(function(city) {
+        citis.options[citis.options.length] = new Option(city.Name, city.Id);
+      });
+
+      // Xử lý sự kiện khi chọn thành phố
+      citis.onchange = function() {
+        districts.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+        wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+
+        if (this.value !== "") {
+          var selectedCity = data.find(function(item) {
+            return item.Id === this.value;
+          }, this);
+
+          // Đổ dữ liệu các quận/huyện vào dropdown quận/huyện (district)
+          if (selectedCity) {
+            selectedCity.Districts.forEach(function(district) {
+              districts.options[districts.options.length] = new Option(district.Name, district.Id);
+            });
+          }
+        }
+      };
+
+      // Xử lý sự kiện khi chọn quận/huyện
+      districts.onchange = function() {
+        wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+
+        if (this.value !== "") {
+          var selectedCity = data.find(function(item) {
+            return item.Id === citis.value;
+          });
+
+          if (selectedCity) {
+            var selectedDistrict = selectedCity.Districts.find(function(district) {
+              return district.Id === this.value;
+            }, this);
+
+            // Đổ dữ liệu các phường/xã vào dropdown phường/xã (ward)
+            if (selectedDistrict) {
+              selectedDistrict.Wards.forEach(function(ward) {
+                wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+              });
+            }
+          }
+        }
+      };
+    }
+  });
+</script>
+        <button type="submit">Lọc</button>
+    </form>
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="width: 8%;">Mã hóa đơn</th>
                                         <th style="width: 15%;">Tên người nhận</th>
-                                        <th style="width: 15%;">Địa chỉ</th>
+                                        <th style="width: 15%;">Thành phố</th>
+                                        <th style="width: 15%;">Quận</th>
                                         <th style="width: 12%;">Tổng tiền</th>
                                         <th style="width: 10%;">Ngày đặt</th>
                                         <th style="width: 10%;">Ngày giao</th>
@@ -228,41 +346,138 @@
                                 <?php
 require_once 'db/dbhelper.php'; // Include database helper functions
 
-// Retrieve invoice data from the database (assuming $result is fetched elsewhere)
-foreach ($result as $key => $row) {
-    $maHD = $row['MaHD']; 
+// Xử lý dữ liệu ngày bắt đầu và kết thúc được gửi từ form
+$start_date = $_GET['start_date'] ?? '';
+$end_date = $_GET['end_date'] ?? '';
+$status_filter = $_GET['status'] ?? ''; // Lấy giá trị filter theo Tinh_Trang
+$city_filter = $_GET['city'] ?? ''; // Lấy giá trị filter theo Tinh/Thanh pho
+$district_filter = $_GET['district'] ?? ''; // Lấy giá trị filter theo Quan/Huyen
+$ward_filter = $_GET['ward'] ?? ''; // Lấy giá trị filter theo Xa/Phuong
+
+// Đảm bảo thực hiện truy vấn an toàn bằng cách sử dụng prepared statements
+$query = "SELECT * FROM hoa_don WHERE 1"; // Bắt đầu từ WHERE 1 để có thể thêm điều kiện nếu có
+
+// Thêm điều kiện ngày nếu được cung cấp
+if (!empty($start_date) && !empty($end_date)) {
+    $query .= " AND Ngay_GH BETWEEN '$start_date' AND '$end_date'";
+}
+
+// Thêm điều kiện lọc theo Tinh_Trang nếu được chọn
+if (!empty($status_filter)) {
+    $query .= " AND Tinh_Trang = '$status_filter'";
+}
+
+// Thêm điều kiện lọc theo Tinh/Thanh pho nếu được chọn
+if (!empty($city_filter)) {
+    $cityName = getCityNameById($city_filter);
+    if (!empty($cityName)) {
+        $query .= " AND Thanh_Pho = '$cityName'";
+    }
+}
+
+// Thêm điều kiện lọc theo Quan/Huyen nếu được chọn
+if (!empty($district_filter)) {
+    $districtName = getDistrictNameById($district_filter);
+    if (!empty($districtName)) {
+        $query .= " AND Quan = '$districtName'";
+    }
+}
+
+// Thêm điều kiện lọc theo Xa/Phuong nếu được chọn
+if (!empty($ward_filter)) {
+    $wardName = getWardNameById($ward_filter);
+    if (!empty($wardName)) {
+        $query .= " AND Xa = '$wardName'";
+    }
+}
+
+// Thực hiện truy vấn
+$result = executeResult($query);
+
+// Hiển thị dữ liệu theo kết quả từ truy vấn
+foreach ($result as $row) {
+    $maHD = $row['Ma_HD']; 
     $ten = $row['Ten_Nguoi_Nhan_Hang'];
-    $soluong = $row['Dia_Chi_Nhan_Hang'];
+    $thanhpho = $row['Thanh_Pho'];
+    $quan = $row['Quan'];
     $tongTien = number_format($row['Tong_Tien'], 0, ',', '.'); // Format total amount
     $ngayDH = $row['Ngay_DH'];
     $ngayGH = $row['Ngay_GH'];
     $tinhTrang = $row['Tinh_Trang'];
 
     echo '<tr>';
-    echo '<td>' . $maHD . '</td>'; // Mã hóa đơn
-    echo '<td>' . $ten . '</td>'; 
-    echo '<td>' . $soluong . '</td>'; 
-    echo '<td>' . $tongTien . '</td>'; // Tổng tiền
-    echo '<td>' . $ngayDH . '</td>'; // Ngày đặt hàng
-    echo '<td>' . $ngayGH . '</td>'; // Ngày giao hàng
-    echo '<td>' . $tinhTrang . '</td>'; // Tình trạng
+    echo '<td>' . htmlspecialchars($maHD) . '</td>'; // Mã hóa đơn
+    echo '<td>' . htmlspecialchars($ten) . '</td>'; 
+    echo '<td>' . htmlspecialchars($thanhpho) . '</td>'; 
+    echo '<td>' . htmlspecialchars($quan) . '</td>'; 
+    echo '<td>' . htmlspecialchars($tongTien) . '</td>'; // Tổng tiền
+    echo '<td>' . htmlspecialchars($ngayDH) . '</td>'; // Ngày đặt hàng
+    echo '<td>' . htmlspecialchars($ngayGH) . '</td>'; // Ngày giao hàng
+    echo '<td>' . htmlspecialchars($tinhTrang) . '</td>'; // Tình trạng
 
     echo '<td>';
-    echo '<a href="bill-customer.php?maHD=' . $maHD . '" class="detail-btn" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
+    echo '<a href="detail-bill.php?maHD=' . urlencode($maHD) . '" class="detail-btn" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
     echo '</td>';
 
     echo '<td>'; // Cột điều khiển
     if ($tinhTrang === '0') {
-        echo '<button class="confirm-btn" data-maHD="' . $maHD . '">Xác nhận</button>';
+        echo '<button class="confirm-btn" data-maHD="' . htmlspecialchars($maHD) . '">Xác nhận</button>';
     } else if ($tinhTrang === 'Đã xác nhận') {
-        echo '<button class="success-btn" data-maHD="' . $maHD . '">Đã giao</button>';
-        echo '<button class="cancel-btn" data-maHD="' . $maHD . '">Hủy đơn</button>';
-      
+        echo '<button class="success-btn" data-maHD="' . htmlspecialchars($maHD) . '">Đã giao</button>';
+        echo '<button class="cancel-btn" data-maHD="' . htmlspecialchars($maHD) . '">Hủy đơn</button>';
     }
     echo '</td>';
     echo '</tr>';
 }
+
+// Các hàm lấy tên của thành phố, quận/huyện, phường/xã từ id
+function getCityNameById($cityId) {
+    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    foreach ($data as $city) {
+        if ($city['Id'] === $cityId) {
+            return $city['Name'];
+        }
+    }
+    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+}
+
+function getDistrictNameById($districtId) {
+    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    foreach ($data as $city) {
+        foreach ($city['Districts'] as $district) {
+            if ($district['Id'] === $districtId) {
+                return $district['Name'];
+            }
+        }
+    }
+    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+}
+
+function getWardNameById($wardId) {
+    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    foreach ($data as $city) {
+        foreach ($city['Districts'] as $district) {
+            foreach ($district['Wards'] as $ward) {
+                if ($ward['Id'] === $wardId) {
+                    return $ward['Name'];
+                }
+            }
+        }
+    }
+    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+}
+
+// Hàm để lấy dữ liệu từ tập dữ liệu JSON
+function getDataFromJson() {
+    $jsonData = file_get_contents('js/locations.json');
+    return json_decode($jsonData, true);
+}
 ?>
+
+
+
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
