@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+</style>
 <?php
 session_start();
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
@@ -22,9 +25,12 @@ if (isset($_SESSION['Ma_KH'])) {
                 <!-- Hiển thị các liên kết cho người dùng đã đăng nhập -->
                 <a href="logout.php" class="dropdown-item"><i class="np fa fa-sign-out-alt"></i>Đăng xuất</a>
                 <a href="cart.php" class="dropdown-item"><i class="np fa fa-cart-plus"></i>Giỏ hàng</a>
+                <a href="bill-customer.php" class="dropdown-item"><i class="fas fa-truck"style="margin-right:7px"></i></i> Đơn hàng</a>
+
             </div>
         </span>
     </div>
+    
 <?php
     }
 } else {

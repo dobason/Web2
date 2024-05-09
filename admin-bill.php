@@ -56,8 +56,7 @@
                   "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
-                     <li><a href="admin-invoice-details.php
-                     "><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
+                 
                      <li><a href="admin-user.php
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
@@ -214,129 +213,151 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 8%;">Mã hóa đơn</th>
-                                   
-                                    
-                                  
-                                     
-                                        <th style="width: 15%;">Thành phố</th>
-                                        <th style="width: 15%;">Quận</th>
-                                        <th style="width: 15%;">Phường</th>
+                                        <th style="width: 15%;">Tên người nhận</th>
+                                        <th style="width: 15%;">Địa chỉ</th>
                                         <th style="width: 12%;">Tổng tiền</th>
-                                        <th style="width: 15%;">Ngày đặt</th>
-                                        <th style="width: 10%;">Tình trạng</th>
-                                        <th style="width: 15%;"></th>
+                                        <th style="width: 10%;">Ngày đặt</th>
+                                        <th style="width: 10%;">Ngày giao</th>
+                                        <th style="width: 5%;">Tình trạng</th>
+                                        <th style="width: 8%;">Xem</th>
+                                        <th style="width: 15%;">Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                            
-                              <?php
+                                <?php
 require_once 'db/dbhelper.php'; // Include database helper functions
 
 // Retrieve invoice data from the database (assuming $result is fetched elsewhere)
 foreach ($result as $key => $row) {
-    $maHD = $row['Ma_HD'];
-    $thanhPho = $row['Thanh_Pho'];
-    $quan = $row['Quan'];
-    $phuong = $row['Phuong'];
+    $maHD = $row['Ma_HD']; 
+    $ten = $row['Ten_Nguoi_Nhan_Hang'];
+    $soluong = $row['Dia_Chi_Nhan_Hang'];
     $tongTien = number_format($row['Tong_Tien'], 0, ',', '.'); // Format total amount
     $ngayDH = $row['Ngay_DH'];
+    $ngayGH = $row['Ngay_GH'];
     $tinhTrang = $row['Tinh_Trang'];
 
     echo '<tr>';
     echo '<td>' . $maHD . '</td>'; // Mã hóa đơn
-    echo '<td>' . $thanhPho . '</td>'; // Thành phố
-    echo '<td>' . $quan . '</td>'; // Quận
-    echo '<td>' . $phuong . '</td>'; // Phường
+    echo '<td>' . $ten . '</td>'; 
+    echo '<td>' . $soluong . '</td>'; 
     echo '<td>' . $tongTien . '</td>'; // Tổng tiền
     echo '<td>' . $ngayDH . '</td>'; // Ngày đặt hàng
+    echo '<td>' . $ngayGH . '</td>'; // Ngày giao hàng
     echo '<td>' . $tinhTrang . '</td>'; // Tình trạng
 
     echo '<td>';
-    echo '<div class="flex align-items-center list-user-action">';
-    echo '<a href="#" class="detail-btn" data-maHD="<?php echo $maHD; ?>" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
-    
-    echo '</div>';
+    echo '<a href="bill-customer.php?maHD=' . $maHD . '" class="detail-btn" data-toggle="modal" data-target="#detailModal">Chi tiết</a>';
     echo '</td>';
 
+    echo '<td>'; // Cột điều khiển
+    if ($tinhTrang === '0') {
+        echo '<button class="confirm-btn" data-maHD="' . $maHD . '">Xác nhận</button>';
+    } else if ($tinhTrang === 'Đã xác nhận') {
+        echo '<button class="success-btn" data-maHD="' . $maHD . '">Đã giao</button>';
+        echo '<button class="cancel-btn" data-maHD="' . $maHD . '">Hủy đơn</button>';
+      
+    }
+    echo '</td>';
     echo '</tr>';
 }
 ?>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Xử lý sự kiện khi click vào nút "Chi tiết"
-  document.querySelectorAll('.detail-btn').forEach(function(button) {
-    button.addEventListener('click', function() {
-      var maHD = this.getAttribute('data-maHD'); // Lấy mã hóa đơn từ thuộc tính data-maHD
-
-      // Gửi yêu cầu AJAX để lấy thông tin chi tiết đơn hàng
-      axios.get('get_order_details.php', {
-        params: {
-          maHD: maHD
-        }
-      })
-      .then(function(response) {
-        // Xử lý dữ liệu trả về từ AJAX
-        var orderDetails = response.data;
-        var tbody = document.getElementById('orderDetailBody');
-        tbody.innerHTML = ''; // Xóa dữ liệu cũ trong tbody
-
-        // Thêm thông tin chi tiết đơn hàng vào bảng trong modal
-        orderDetails.forEach(function(detail) {
-          var row = '<tr>' +
-                      '<td>' + detail.Ten_Sach + '</td>' +
-                      '<td>' + detail.Don_Gia + '</td>' +
-                    '</tr>';
-          tbody.innerHTML += row;
+$(document).ready(function() {
+    $('.confirm-btn').click(function() {
+        var maHD = $(this).attr('data-maHD'); // Lấy mã hóa đơn từ thuộc tính data-maHD của nút
+        
+        // Gửi yêu cầu AJAX để cập nhật trạng thái đã giao
+        $.ajax({
+            type: 'POST',
+            url: 'update_status.php',
+            data: { maHD: maHD, tinhTrang: 'Đã xác nhận' },
+            success: function(response) {
+                // Xử lý phản hồi từ server nếu cần
+                console.log(response); // In phản hồi ra console (có thể xử lý tiếp theo ở đây)
+                location.reload();
+                // Hiển thị thông báo đã giao (div-da-giao)
+                $('#div-da-giao-' + maHD).show();
+            },
+            error: function(xhr, status, error) {
+                console.error(error); // Xử lý lỗi nếu có
+            }
         });
-      })
-      .catch(function(error) {
-        console.error('Error fetching order details:', error);
-      });
     });
-  });
+
+    $('.success-btn').click(function() {
+        var maHD = $(this).attr('data-maHD'); // Lấy mã hóa đơn từ thuộc tính data-maHD của nút
+        
+        // Gửi yêu cầu AJAX để cập nhật trạng thái đã giao
+        $.ajax({
+            type: 'POST',
+            url: 'update_status.php',
+            data: { maHD: maHD, tinhTrang: 'Đã giao' },
+            success: function(response) {
+                // Xử lý phản hồi từ server nếu cần
+                console.log(response); // In phản hồi ra console (có thể xử lý tiếp theo ở đây)
+                location.reload();
+                // Hiển thị thông báo đã giao (div-da-giao)
+                $('#div-da-giao-' + maHD).show();
+            },
+            error: function(xhr, status, error) {
+                console.error(error); // Xử lý lỗi nếu có
+            }
+        });
+    });
+
+    $('.cancel-btn').click(function() {
+        var maHD = $(this).attr('data-maHD'); // Lấy mã hóa đơn từ thuộc tính data-maHD của nút
+        
+        // Gửi yêu cầu AJAX để cập nhật trạng thái đã hủy
+        $.ajax({
+            type: 'POST',
+            url: 'update_status.php',
+            data: { maHD: maHD, tinhTrang: 'Đã hủy' },
+            success: function(response) {
+                // Xử lý phản hồi từ server nếu cần
+                console.log(response); // In phản hồi ra console (có thể xử lý tiếp theo ở đây)
+                location.reload();
+                // Hiển thị thông báo đã hủy (div-da-huy)
+                $('#div-da-huy-' + maHD).show();
+            },
+            error: function(xhr, status, error) {
+                console.error(error); // Xử lý lỗi nếu có
+            }
+        });
+    });
 });
 </script>
 
 
-<!-- Modal -->
-<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="detailModalLabel">Chi tiết đơn hàng</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Tên Sách</th>
-              <th scope="col">Đơn Giá</th>
-            </tr>
-          </thead>
-          <tbody id="orderDetailBody">
-            <!-- Dữ liệu chi tiết đơn hàng sẽ được thêm vào đây -->
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 
 
 
-                            
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Đợi tài liệu HTML được tải hoàn chỉnh trước khi gắn các sự kiện
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lắng nghe sự kiện click trên các phần tử có class là 'detail-btn'
+        const detailButtons = document.querySelectorAll('.detail-btn');
+        detailButtons.forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                // Ngăn chặn hành vi mặc định của thẻ <a> (chuyển hướng)
+                event.preventDefault();
+                // Lấy giá trị của thuộc tính 'href' của thẻ <a>
+                const url = button.getAttribute('href');
+                // Chuyển hướng người dùng đến URL đã lấy được
+                window.location.href = url;
+            });
+        });
+    });
+</script>
 
 
       

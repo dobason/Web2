@@ -192,27 +192,6 @@ select {
     </header>
 
     <main>
-        <div class="popup" id="popup">
-            <div class="in-popup">
-                <div class="in-popup-top">
-                    <img src="IMG/in-popup.png">
-                </div>
-                <div class="in-popup-bottom">
-                    <p>THANH TOÁN THÀNH CÔNG</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="popup-false" id="popup-false">
-            <div class="in-popup">
-                <div class="in-popup-top">
-                    <img src="IMG/dau cheo.png">
-                </div>
-                <div class="in-popup-bottom">
-                    <p>VUI LÒNG ĐIỀN LẠI THÔNG TIN</p>
-                </div>
-            </div>
-        </div>
         <form id="checkoutForm" action="bill.php" method="post">
         <div class="slider5">
 
@@ -236,13 +215,13 @@ select {
                 <input type="text" id="deliveryAddress" name="deliveryAddress" placeholder="Nhập địa chỉ giao hàng" required>
             </div>
             <div>
-                <select class="form-select form-select-sm mb-3" id="city" name="city" aria-label=".form-select-sm">
-                    <option value="" selected>Chọn tỉnh thành</option>
+                <select class="form-select form-select-sm mb-3" id="city" name="city" aria-label=".form-select-sm"required>
+                    <option value="" selected>Chọn tỉnh thành</option >
                 </select>
-                <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm">
+                <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm" required>
                     <option value="" selected>Chọn quận huyện</option>
                 </select>
-                <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm">
+                <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm"required>
                     <option value="" selected>Chọn phường xã</option>
                 </select>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -335,28 +314,14 @@ select {
             <h3>PHƯƠNG THỨC THANH TOÁN</h3>
         </div>
         
-                <div class="in-transport-bottom">
-                   
-                        <input type="radio" id="zalopay" name="paymentMethod" value="ZaloPay">
-                        <label for="zalopay"><img src="IMG/pay1.png" style="width:40px;height:24px"><span>APPLE PAY</span></label>
-                        <br><br>
-                        <input type="radio" id="vnpay" name="paymentMethod" value="VNPAY">
-                        <label for="vnpay"><img src="IMG/pay2.png" style="width:40px;height:24px"><span>VNPAY</span></label>
-                        <br><br>
-                        <input type="radio" id="shopeepay" name="paymentMethod" value="ShopeePay">
-                        <label for="shopeepay"><img src="IMG/pay3.png" style="width:40px;height:24px"><span>Ví MOMO</span></label>
-                        <br><br>
-                        <input type="radio" id="momo" name="paymentMethod" value="Momo">
-                        <label for="momo"><img src="IMG/pay4.png" style="width:40px;height:24px"><span>ONEPAY</span></label>
-                        <br><br>
-                        <input type="radio" id="atm" name="paymentMethod" value="ATM">
-                        <label for="atm"><img src="IMG/pay5.webp" style="width:40px;height:24px"><span>ZaloPay</span></label>
-                        <br><br>
-                        <input type="radio" id="money" name="paymentMethod" value="Money">
-                        <label for="money"><img src="IMG/pay6.png" style="width:40px;height:24px"><span>Thanh toán bằng tiền mặt khi nhận hàng</span></label>
-                        <br>
-                    
-                </div>
+        <div class="in-transport-bottom">
+        <input type="radio" id="tienmat" name="paymentMethod" value="tienmat" required>
+        <label for="tienmat"><span>Thanh toán bằng tiền mặt</span></label>
+        <br><br>
+        <input type="radio" id="online" name="paymentMethod" value="online" required>
+        <label for="online"><span>Thanh toán trực tuyến</span></label>
+    </div>
+
             </div>
         </div>
     </div>
