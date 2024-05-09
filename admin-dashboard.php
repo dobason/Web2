@@ -58,7 +58,6 @@
                   <div class="iq-card">
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
                         </div>
                      </div>
                   </div>

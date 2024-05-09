@@ -63,7 +63,7 @@
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.php
                      "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
-                     <li><a href="dangnhap.php
+                     <li><a href="admin-login.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
@@ -72,7 +72,6 @@
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
                            <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">Become Membership</button>
                         </div>
                      </div>
                   </div>
