@@ -3,46 +3,35 @@ session_start();
 require_once 'db/dbhelper.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Nhận thông tin được gửi từ form trang payment.php
-    $maKH = $_SESSION['Ma_KH']; // Lấy Ma_KH từ session
+    $maKH = $_SESSION['Ma_KH'];
     $tenNguoiNhan = $_POST['name'];
     $soDienThoai = $_POST['phoneNumber'];
     $diaChiNhanHang = $_POST['deliveryAddress'];
-    $thanhPhoId = $_POST['city']; // Lấy id của thành phố từ form
-    $quanId = $_POST['district']; // Lấy id của quận/huyện từ form
-    $phuongId = $_POST['ward']; // Lấy id của phường/xã từ form
-    $totalAmount = $_SESSION['totalAmount']; // Lấy tổng tiền từ session
+    $thanhPhoId = $_POST['city'];
+    $quanId = $_POST['district'];
+    $phuongId = $_POST['ward'];
+    $totalAmount = $_SESSION['totalAmount'];
     $paymentMethod = $_POST['paymentMethod'];
-    // Thực hiện truy vấn INSERT để lưu thông tin đơn hàng vào bảng hoa_don
+
     $conn = openDatabaseConnection();
 
-    // Sử dụng phương thức escape để tránh SQL Injection
     $escapedTenNguoiNhan = mysqli_real_escape_string($conn, $tenNguoiNhan);
     $escapedDiaChiNhanHang = mysqli_real_escape_string($conn, $diaChiNhanHang);
 
-    // Lấy tên của thành phố từ id
     $thanhPho = getCityNameById($thanhPhoId);
-
-    // Lấy tên của quận/huyện từ id
     $quan = getDistrictNameById($quanId);
-
-    // Lấy tên của phường/xã từ id
     $phuong = getWardNameById($phuongId);
 
- // Xây dựng nội dung cột Thanh_Toan tùy thuộc vào phương thức thanh toán
-$thanhToan = '';
-if ($paymentMethod === 'tienmat') {
-    $thanhToan = 'Tiền mặt';
-} elseif ($paymentMethod === 'online') {
-    $thanhToan = 'Trực tuyến';
-}
+    $thanhToan = '';
+    if ($paymentMethod === 'tienmat') {
+        $thanhToan = 'Tiền mặt';
+    } elseif ($paymentMethod === 'online') {
+        $thanhToan = 'Trực tuyến';
+    }
 
-$sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Thanh_Toan, Tong_Tien, Ngay_DH, Ngay_GH, Tinh_Trang) 
-VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY),'0')";
+    $sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Thanh_Toan, Tong_Tien, Ngay_DH, Ngay_GH, Tinh_Trang) 
+                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY),'Chưa xác nhận')";
 
-
-
-    // Thực thi câu lệnh SQL chèn dữ liệu vào bảng hoa_don
     $resultInsertHoaDon = mysqli_query($conn, $sqlInsertHoaDon);
 
     if ($resultInsertHoaDon) {
@@ -69,11 +58,33 @@ VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang
                     $resultDeleteCartItems = mysqli_stmt_execute($stmtDeleteCartItems);
                     
                     if ($resultDeleteCartItems) {
-                        // Xóa session liên quan sau khi đã tạo đơn hàng thành công
-                        unset($_SESSION['cartItems']);
-                        unset($_SESSION['totalAmount']);
-                        header('Location: print-bill.php');
-                        exit();
+                        // Truy vấn UPDATE để cập nhật bảng khach_hang
+                        $sqlUpdateKhachHang = "UPDATE khach_hang 
+                                               SET Tong_Tien = (
+                                                   SELECT SUM(Tong_Tien) 
+                                                   FROM hoa_don 
+                                                   WHERE Ma_KH = '$maKH'
+                                               ),
+                                               So_Luong = (
+                                                   SELECT SUM(Ma_HD) 
+                                                   FROM hoa_don 
+                                                   WHERE Ma_KH = '$maKH'
+                                               )
+                                               WHERE Ma_KH = '$maKH'";
+    
+                        $resultUpdateKhachHang = mysqli_query($conn, $sqlUpdateKhachHang);
+    
+                        if ($resultUpdateKhachHang) {
+                            // Xóa session liên quan sau khi đã tạo đơn hàng thành công
+                            unset($_SESSION['cartItems']);
+                            unset($_SESSION['totalAmount']);
+                            header('Location: print-bill.php');
+                            exit();
+                        } else {
+                            echo "Có lỗi xảy ra khi cập nhật thông tin khách hàng: " . mysqli_error($conn);
+                        }
+    
+                        mysqli_stmt_close($stmtDeleteCartItems); // Đóng statement
                     } else {
                         echo "Có lỗi xảy ra khi xóa thông tin trong bảng gio_hang: " . mysqli_error($conn);
                     }
@@ -92,27 +103,24 @@ VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang
     } else {
         echo "Có lỗi xảy ra trong quá trình tạo đơn hàng: " . mysqli_error($conn);
     }
-    
 
-    // Đóng kết nối đến cơ sở dữ liệu
     mysqli_close($conn);
 } else {
     echo "Dữ liệu không hợp lệ.";
 }
 
-// Các hàm lấy tên của thành phố, quận/huyện, phường/xã từ id
 function getCityNameById($cityId) {
-    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    $data = getDataFromJson();
     foreach ($data as $city) {
         if ($city['Id'] === $cityId) {
             return $city['Name'];
         }
     }
-    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+    return '';
 }
 
 function getDistrictNameById($districtId) {
-    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    $data = getDataFromJson();
     foreach ($data as $city) {
         foreach ($city['Districts'] as $district) {
             if ($district['Id'] === $districtId) {
@@ -120,11 +128,11 @@ function getDistrictNameById($districtId) {
             }
         }
     }
-    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+    return '';
 }
 
 function getWardNameById($wardId) {
-    $data = getDataFromJson(); // Lấy dữ liệu từ JSON
+    $data = getDataFromJson();
     foreach ($data as $city) {
         foreach ($city['Districts'] as $district) {
             foreach ($district['Wards'] as $ward) {
@@ -134,10 +142,9 @@ function getWardNameById($wardId) {
             }
         }
     }
-    return ''; // Trả về chuỗi rỗng nếu không tìm thấy
+    return '';
 }
 
-// Hàm để lấy dữ liệu từ tập dữ liệu JSON
 function getDataFromJson() {
     $jsonData = file_get_contents('js/locations.json');
     return json_decode($jsonData, true);

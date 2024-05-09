@@ -178,7 +178,7 @@
 
                         include 'connect_db.php';
 
-                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
                         $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
                         $offset = ($current_page - 1) * $item_per_page;
 
@@ -198,7 +198,7 @@
                         $totalPages = ceil($totalRecords / $item_per_page);
                         ?>
                      
-                        <hr>
+                       
                         <div class="box">
                         <div class="select-container">
                         
@@ -261,7 +261,7 @@
                                     // Chỉnh sửa CSS trực tiếp tại đây
                                     echo '<style>';
                                     echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
+                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; }';
                                     echo '</style>';
                                 }
                             } else {
