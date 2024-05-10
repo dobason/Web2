@@ -29,8 +29,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $thanhToan = 'Trực tuyến';
     }
 
+    $ngayDH = date('d-m-Y'); // Lấy ngày hiện tại theo định dạng 'DD-MM-YYYY'
+    $ngayGH = date('d-m-Y', strtotime('+2 days')); // Lấy ngày hiện tại +2 ngày theo định dạng 'DD-MM-YYYY'
+    
     $sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Thanh_Toan, Tong_Tien, Ngay_DH, Ngay_GH, Tinh_Trang) 
-                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY),'Chưa xác nhận')";
+                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', 
+                        '$ngayDH', '$ngayGH', 'Chưa xác nhận')";
+    $sqlupdate ="UPDATE khach_hang(Ngay_Hoat_Dong) VaLUES('$ngayDH')";
+    
 
     $resultInsertHoaDon = mysqli_query($conn, $sqlInsertHoaDon);
 
@@ -60,17 +66,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($resultDeleteCartItems) {
                         // Truy vấn UPDATE để cập nhật bảng khach_hang
                         $sqlUpdateKhachHang = "UPDATE khach_hang 
-                                               SET Tong_Tien = (
-                                                   SELECT SUM(Tong_Tien) 
-                                                   FROM hoa_don 
-                                                   WHERE Ma_KH = '$maKH'
-                                               ),
-                                               So_Luong = (
-                                                   SELECT SUM(Ma_HD) 
-                                                   FROM hoa_don 
-                                                   WHERE Ma_KH = '$maKH'
-                                               )
-                                               WHERE Ma_KH = '$maKH'";
+                        SET Tong_Tien = (
+                            SELECT SUM(Tong_Tien) 
+                            FROM hoa_don 
+                            WHERE Ma_KH = '$maKH'
+                        ),
+                        So_Luong = (
+                            SELECT COUNT(Ma_HD) 
+                            FROM hoa_don 
+                            WHERE Ma_KH = '$maKH'
+                        ),
+                        Ngay_Hoat_Dong = '$ngayDH'
+                        WHERE Ma_KH = '$maKH'";
+ 
+ 
     
                         $resultUpdateKhachHang = mysqli_query($conn, $sqlUpdateKhachHang);
     

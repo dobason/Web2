@@ -13,7 +13,7 @@ if (isset($_SESSION['Ma_KH'])) {
     if ($conn) {
         // Truy vấn thông tin hóa đơn mới nhất của khách hàng dựa trên Ma_KH
         $sql = "SELECT hd.Ma_HD, hd.Ten_Nguoi_Nhan_Hang, hd.SDT, hd.Dia_Chi_Nhan_Hang, 
-                hd.Tong_Tien, hd.Ngay_DH, DATE_FORMAT(hd.Ngay_GH, '%Y-%m-%d') AS Ngay_GH,
+                hd.Tong_Tien, hd.Ngay_DH, hd.Ngay_GH,
                 cthd.Ten_Sach, cthd.So_Luong, cthd.Don_Gia, hd.Thanh_Toan, hd.Thanh_Pho, hd.Quan, hd.Phuong
                 FROM hoa_don hd
                 JOIN chi_tiet_hoa_don cthd ON hd.Ma_HD = cthd.Ma_HD

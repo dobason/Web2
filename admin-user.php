@@ -308,6 +308,17 @@ $('#editCustomerModal').modal('show');
                            </div>
                         </div>
                         <div class="iq-card-body">
+                        <div class="filter">
+                        <form method="get">
+                        <label for="start_date"></label>
+        <input type="date" id="start_date" name="start_date">
+
+        <label for="end_date">Đến ngày:</label>
+        <input type="date" id="end_date" name="end_date">
+
+        <button type="submit">Lọc</button>
+    </form>
+</div>
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
@@ -315,58 +326,96 @@ $('#editCustomerModal').modal('show');
                                     <th style="width: 1%;">Mã khách hàng</th>
                                     <th style="width: 10%;">Họ và tên</th>
                                     <th style="width: 15%;">Tài khoản</th>
-                                    <th style="width: 5%;">Mật Khẩu</th>
-                                    <th style="width: 5%;">Địa chỉ</th>
-                                    <th style="width: 5%;">Phường</th>
-                                    <th style="width: 5%;">Quận</th>
-                                    <th style="width: 5%;">Thành phố</th>
+                                    <th style="width: 5%;">Số đơn mua</th>
+                                    <th style="width: 5%;">Tổng tiền</th>
+                                    <th style="width: 5%;">Thời gian</th>
                                     <th style="width: 1%;">Tình trạng</th>
                                     <th style="width: 26%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-foreach ($result as $key => $row) {
-    $customerId = $row['Ma_KH'];
-    $customerName = $row['Ten_KH'];
-    $account = $row['Tai_Khoan'];
-    $password = $row['Mat_Khau'];
-    $diachi = $row['Dia_Chi'];
-    $thanhPho = $row['Thanh_Pho'];
-    $quan = $row['Quan'];
-    $phuong = $row['Phuong'];
-    $status = $row['Trang_Thai'];
 
-    echo "
-        <tr>
-            <td>{$customerId}</td>
-            <td>{$customerName}</td>
-            <td>{$account}</td>
-            <td>{$password}</td>
-            <td>{$diachi}</td>
-            <td>{$thanhPho}</td>
-            <td>{$quan}</td>
-            <td>{$phuong}</td>
-            <td>{$status}</td>
-            <td>
-                <div class='flex align-items-center list-user-action'>
-                
-                <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$customerId})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
-                <i class='ri-pencil-line'></i>
-                  
-                    <a href='#' class='bg-primary' onclick='confirmLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
-                        <i class='ri-delete-bin-line'></i>
-                    </a>
-                 
-                    <a href='#' class='bg-primary' onclick='confirmunLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
-                        <i class='ri-lock-line'></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-    ";
+                                <?php
+require_once 'db/dbhelper.php';
+
+// Xử lý dữ liệu ngày bắt đầu và kết thúc được gửi từ form
+$start_date = $_GET['start_date'] ?? '';
+$end_date = $_GET['end_date'] ?? '';
+
+// Đảm bảo thực hiện truy vấn an toàn bằng cách sử dụng prepared statements
+$query = "SELECT Ma_KH, Ten_KH, Tai_Khoan, So_Luong, Tong_Tien, Ngay_Hoat_Dong, Trang_Thai 
+          FROM khach_hang
+          WHERE 1";
+
+// Thêm điều kiện ngày nếu được cung cấp
+if (!empty($start_date) && !empty($end_date)) {
+   $query .= " AND Ngay_Hoat_Dong BETWEEN '$start_date' AND '$end_date'";
 }
+
+// Thêm sắp xếp theo tổng tiền giảm dần và giới hạn kết quả cho 6 bản ghi
+$query .= " ORDER BY Tong_Tien DESC LIMIT 5";
+
+// Thực hiện truy vấn sử dụng prepared statements
+$conn = openDatabaseConnection();
+$stmt = mysqli_prepare($conn, $query);
+
+if ($stmt) {
+    // Nếu có thêm điều kiện ngày, bind các tham số và thực hiện truy vấn
+    if (!empty($start_date) && !empty($end_date)) {
+        mysqli_stmt_bind_param($stmt, "ss", $start_date, $end_date);
+    }
+    
+    mysqli_stmt_execute($stmt);
+    
+    // Lấy kết quả của truy vấn
+    $result = mysqli_stmt_get_result($stmt);
+    
+    // Hiển thị dữ liệu theo kết quả từ truy vấn
+    while ($row = mysqli_fetch_assoc($result)) {
+        $customerId = $row['Ma_KH'];
+        $customerName = htmlspecialchars($row['Ten_KH']);
+        $account = htmlspecialchars($row['Tai_Khoan']);
+        $number = htmlspecialchars($row['So_Luong']);
+        $total = number_format($row['Tong_Tien'], 0, ',', '.');
+        $thanhPho = htmlspecialchars($row['Ngay_Hoat_Dong']);
+        $status = htmlspecialchars($row['Trang_Thai']);
+
+        echo "
+            <tr>
+                <td>{$customerId}</td>
+                <td>{$customerName}</td>
+                <td>{$account}</td>
+                <td>{$number}</td>
+                <td>{$total}</td>
+                <td>{$thanhPho}</td>
+                <td>{$status}</td>
+                <td>
+                    <div class='flex align-items-center list-user-action'>
+                        <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$customerId})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                            <i class='ri-pencil-line'></i>
+                        </a>
+                        <a href='#' class='bg-primary' onclick='confirmLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                            <i class='ri-delete-bin-line'></i>
+                        </a>
+                        <a href='#' class='bg-primary' onclick='confirmunLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                            <i class='ri-lock-line'></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        ";
+    }
+
+    mysqli_stmt_close($stmt); // Đóng statement
+} else {
+    echo "Có lỗi xảy ra trong quá trình thực hiện truy vấn.";
+}
+
+mysqli_close($conn); // Đóng kết nối
+
 ?>
+
+
 
 
 <script>

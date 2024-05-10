@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Perform registration
         $sql = "INSERT INTO khach_hang (Ten_KH, Tai_Khoan, Mat_Khau, Trang_Thai, Thanh_Pho, Quan, Phuong) VALUES ('$fullname', '$username', '$password', 1, '$thanhPho', '$quan', '$phuong')";
         execute($sql);
-        echo   header('Location: print-bill.php');
+        echo   header('Location: dangnhap.php');
     }
 }
 ?>
