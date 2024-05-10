@@ -39,7 +39,7 @@ if (isset($_SESSION['Ma_KH'])) {
     <div class="top-right-item">
         <i class="fa fa-user"></i>
         <span class="text-tk">
-            <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
+            <p id="namelogin"></p>
             <div class="dropdown-content">
                 <!-- Hiển thị các liên kết cho người dùng chưa đăng nhập -->
                 <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng nhập</a>

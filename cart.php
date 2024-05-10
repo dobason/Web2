@@ -335,7 +335,7 @@ $allCustomersUpdated = true;
 
 
                             <a href="Payment.php">
-                                <div class="pay">
+                                <div class="pay" style="background:var(--bs-success);">
                                     <p>THANH TOÁN</p>
                                 </div>
                             </a>

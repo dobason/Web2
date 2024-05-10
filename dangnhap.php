@@ -8,7 +8,7 @@
     <link rel=" stylesheet" href="css/dangnhap.css" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
     <script src="vendor/fontawesome/js/all.min.js"></script>
-    <title>Login</title>
+    <title>Đăng Nhập</title>
 </head>
 
 <body>
@@ -26,10 +26,10 @@
         <div class="forgot">
             <label><input type="checkbox" id="remember" name="remember" /> Lưu đăng nhập</label>
         </div>
-        <button type="submit" class="log">Đăng nhập</button>
+        <input type="submit" value="Đăng Nhập" class="log" href="index2.php">
         <div class="register">
             <p>Không có tài khoản? <a href="dangki.php">Đăng ký</a></p><br>
-            <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
+            <p><a href="index2.php"><i class="fa-solid fa-house"></i></a></p>
         </div>
     </form>
 </div>

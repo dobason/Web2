@@ -25,9 +25,9 @@
                     <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
                 <?php
-// Include file header.php để sử dụng giao diện phía trên
-require_once 'header.php';
-?>
+                // Include file header.php để sử dụng giao diện phía trên
+                require_once 'header.php';
+                ?>
 
                 <div class="top-right-item">
                     <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
