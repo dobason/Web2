@@ -15,10 +15,10 @@
 <body>
     <!-- Header section star -->
 
-    <header class="header">
+<header class="header">
 
 <div class="header-1">
-    <a href="#" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
+    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
 
     <!-- Tìm Kiếm -->
     <form class="search-form" method="GET">
@@ -124,7 +124,7 @@
 
 <section class="featured" id="featured">
 
-<h1 class="heading"><span>Danh mục sản phẩm</span></h1>
+<h1 class="heading"><span>Danh Mục </span></h1>
     <div class="swiper featured-slider">
                 <?php
                         require_once 'db/dbhelper.php';
@@ -277,6 +277,7 @@
                         </select>
                     </div>
             </div>
+          
             <?php include './pagination.php'; ?>
         </section>
 

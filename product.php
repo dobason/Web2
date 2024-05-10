@@ -10,176 +10,46 @@
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="js/main.js"></script>
     <title>Document</title>
+    <link rel="stylesheet" href="./css/Style2.css">
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+
 </head>
 
 <body>
 
-    <header>
+<header class="header">
 
+<div class="header-1">
+    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
 
-        <div class="big-menu">
+    <!-- Tìm Kiếm -->
+    <form class="search-form" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+        <div id="bookListContainer"></div>
+    </form>
 
+    <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
+    <div class="icons" style="display:flex;">
+        <a href="cart.php" class="fas fa-shopping-cart"></a>
+        <?php require_once 'header.php'; ?>
+    </div>
+</div>
 
-            <div class="in-big-menu">
-                <div class="logo">
-                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
-                </div>
-                <?php
-                // Include file header.php để sử dụng giao diện phía trên
-                require_once 'header.php';
-                ?>
+<div class="header-2">
+    <nav class="navbar">
+        <a href="#home">Trang chủ</a>
+        <a href="#featured">Danh mục</a>
+        <a href="#arrivals">Sách mới</a>
+        <a href="#reviews">Khách hàng</a>
+        <a href="#blogs">Bài viết</a>
+    </nav>
+</div>
 
-                <div class="top-right-item">
-                    <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-                    <p id="cartItemCount">0</p>
-                </div>
+<!---Kết nối database-->
+<?php require('./php/classes/database.php'); ?>
 
-            </div>
-        </div>
-        <div class="menu-bar">
-            <div class="menu-bar-content">
-                <ul>
-                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span
-                                class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="web1.html">Tiểu thuyết</a></li>
-                                        <li> <a href="web1.html">Truyện ngắn</a></li>
-                                        <li> <a href="web1.html">Light Novel</a></li>
-                                        <li> <a href="web1.html">Trinh thám</a></li>
-                                      
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="web1.html">Ngôn Tình
-                                            </a></li>
-                                        <li> <a href="web1.html">Thơ Ca
-                                            </a></li>
-                                        <li> <a href="web1.html">Huyền bí
-                                            </a></li>
-                                        <li> <a href="web1.html">Combo Văn Học
-                                            </a></li>
-                                            <li> <a href="web1.html"> Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-paintbrush"></i> Sách theo chủ đề <i
-                                class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Trí tuệ Do Thái</a></li>
-                                            <li> <a href="#">Ngoại ngữ</a></li>
-                                            <li> <a href="#">Triết học Phương Đông</a></li>
-                                            <li> <a href="#">Triết học Phương Tây</a></li>
-
-                                            
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                       <li> <a href="#">Chính trị </a></li>
-                                            <li> <a href="#">Lịch sử thế giới</a></li>
-                                            <li> <a href="#">Tôn giáo</a></li>
-                                            <li> <a href="#">Kỹ năng sống</a></li>
-                                            <li> <a href="web1.html">Tất cả sách ></a></li>
-                                         
-                                    </div>
-
-                                    
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-tablet"></i> Truyện tranh - Thiếu nhi <i
-                                class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="#">Sách truyện thiếu nhi</a></li>
-                                        <li> <a href="#">Sách teen</a></li>
-                                        <li> <a href="#">Doraemon</a></li>
-                                        <li> <a href="#">Conan</a></li>
-                                        <li> <a href="#">Tặng kèm poster</a></li>
-                                    </div>
-
-
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Sách ảnh</a></li>
-                                        <li> <a href="#">Triết học cho trẻ</a></li>
-                                        <li> <a href="#">Nhập môn lập trình</a></li>
-                                        <li> <a href="#">Tư tưởng Hồ Chí Minh</a></li>
-                                        <li> <a href="#">Triết học Mác - Lênin</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li><a href="#"><i class="fa-solid fa-gift"></i> Sách giáo khoa <i
-                                class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Sách giáo khoa cấp 1</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 2</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 3</a></li>
-                                            <li> <a href="#">Sách giáo khoa nâng cao</a></li>
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Bộ đề thi các năm</a></li>
-                                        <li> <a href="#">Luyện đề Ielts</a></li>
-                                        <li> <a href="#">Sách bài tập nâng cao</a></li>
-                                        <li> <a href="#">Sách Mai Lan Hương</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-
-                </ul>
-            </div>
-        </div>
-
-        <div id="backtop">
-            <i class="fa-solid fa-arrow-up"></i>
-
-        </div>
-    </header>
+</header>
 
 <main>
 
@@ -258,131 +128,93 @@ function displayProductDetail($product) {
 }
 
 ?>
-        <div class="slider5">
+    <section class="featured" id="featured">
 
-            <section class="slider-product-one">
-                <div class="container">
+<h1 class="heading"><span>Sách Khác </span></h1>
+    <div class="swiper featured-slider">
+                <?php
+                        require_once 'db/dbhelper.php';
 
-                    <div class="slider-product-one-content">
-                        <h2>Sản phẩm có liên quan</h2>
-                        <div class="slider-product-one-content-items">
+                        $param = [];
+                        $sortParam = [];
+                        $where = "";
+                        $orderCondition = "";
 
-                            <div class="slider-product-one-content-item">
+                        // Tìm kiếm tên sách
+                        $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
+                        if ($search) {
+                            $where = " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                            $param['Ten_Sach'] = $search;
+                            $sortParam['Ten_Sach'] = $search;
+                        }
 
-                                <a href="product.html"><img src="IMG/product2.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Tôi là Bêtô</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                  
-                                    <li>72,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
+                        include 'connect_db.php';
 
-                            <div class="slider-product-one-content-item">
+                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
+                        $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+                        $offset = ($current_page - 1) * $item_per_page;
 
-                                <a href="product.html"><img src="IMG/product3.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Tôi thấy hoa vàng trên cỏ xanh</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                    
-                                    <li>56.500<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
+                        // Tạo URL từ mảng tham số
+                        $queryString = http_build_query($param);
 
+                        // Thực hiện truy vấn sử dụng executeResult
+                        $sql = "SELECT * FROM `sach`" . $where . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
 
-                            <div class="slider-product-one-content-item">
+                        $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
 
-                                <a href="product.html"><img src="IMG/product4.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Mùa hè không tên</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                   
-                                    <li>110,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
+                        // Đếm tổng số bản ghi
+                        $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
 
+                        $totalRecords = executeResult($countSql);
+                        $totalRecords = $totalRecords[0]['total'];
+                        $totalPages = ceil($totalRecords / $item_per_page);
+                    ?>
 
-                            <div class="slider-product-one-content-item">
+                        <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:center">
+                            <?php
+                            // Kiểm tra nếu có sản phẩm trong danh sách
+                            if ($sach) {
+                                foreach ($sach as $index => $book) {
+                                    $bookName = $book['Ten_Sach'];
+                                    $Tac_Gia = $book['Ten_Tac_Gia'];
+                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
+                                    $imagePath = $book['Hinh_Anh'];
 
-                                <a href="product.html"><img src="IMG/product5.jpg" alt=""></a>
-                                <div class="slider-product-one-content-item-text">
-                                    <div class="slider-product-one-content-item-picture">
-                                        <li><img src="IMG/freeship.png" alt="">
-                                            <p> Miễn phí giao hàng</p>
-                                        </li>
-                                    </div>
-                                    <div class="slider-text1">
-                                        <li><a href="#">
-                                                <p>Cho tôi xin một vé đi Tuổi Thơ</p>
-                                            </a></li>
-                                    </div>
-                                    <div class="slider-text2">
-                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
-                                    </div>
-                                    <li>80,000<sup><u>đ</u></sup></li>
-                                </div>
-                            </div>
+                                    // Hiển thị sản phẩm
+                                    echo '<div class="slider-product-one-content-item">';
+                                    echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                                    echo '<div class="slider-product-one-content-item-text">';
+                                    echo '<div class="slider-text1">';
+                                    echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
+                                    echo '</div>';
+                                    echo '<div class="slider-text2">';
+                                    echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
+                                    echo '</div>';
+                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                                    echo '</div>';
+                                    echo '</div>';
 
-
-
-
-
-                        </div>
-                    </div>
-
+                                    // Chỉnh sửa CSS trực tiếp tại đây
+                                    echo '<style>';
+                                    echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
+                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; }';
+                                    echo '</style>';
+                                }
+                            } else {
+                                echo '<p>Không tìm thấy sách nào.</p>';
+                            }
+                            ?>
                 </div>
-            </section>
-        </div>
+            </div>
+          
+            <?php include './pagination.php'; ?>
+        </section>
 
-    </div>
 </main>
-    <footer>
-        <div class="footer">
-           
-        
-            <div class="in-footer-body">
-                <div class="in-footer-body-left">
-                    <p>Phương thức thanh toán</p>
-                    <li><img src="IMG/pay1.png"></li>
-                    <li><img src="IMG/pay2.png"></li>
-                    <li><img src="IMG/pay3.png"></li>
-                    <li><img src="IMG/pay4.png"></li>
-                    <li><img src="IMG/pay5.webp"></li>
-                </div>
-        
+<footer>
+        <div class="footer" style="background:var(--green);">
+            <div class="in-footer-body" >
+
                 <div class="in-footer-body-mid">
                     <p>Tài khoản của bạn</p>
                     <li><a href="">Cập nhật tài khoản</a></li>
@@ -391,39 +223,28 @@ function displayProductDetail($product) {
                     <li><a href="">Sản phẩm yêu thích</a></li>
                     <li><a href="">Kiểm tra đơn hàng</a></li>
                 </div>
-        
+
                 <div class="in-footer-body-mid">
                     <p>GOODREADS</a>
-                    <li><a href="/gioi_thieu.html">Giới thiệu GOODREADS</a></li>
-                    <li><a href="">GOODREADS trên Facebook</a></li>
-                    <li><a href="">Liên hệ GOODREADS</a></li>
-                    <li><a href="">Đặt hàng theo yêu cầu</a</li>
+                        <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
+                        <li><a href="">GOODREADS trên Facebook</a></li>
+                        <li><a href="">Liên hệ GOODREADS</a></li>
+                        <li><a href="">Đặt hàng theo yêu cầu</a< /li>
                 </div>
-                 <div class="in-footer-body-right">
+                <div class="in-footer-body-right">
                     <p>Kết nối với chúng tôi</p>
-                    <li><a href="#"><img src="IMG/contact1.webp"></a></li>
-                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
-                    <li><a href="#"><img src="IMG/contact3.webp"></a></li>
-                    <li><a href="#"><img src="IMG/contact4.webp"></a></li>
                     <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
                     <li><a href="#">Tuyển dụng</a></li><br>
                     <li><a href="#">Chính sách đổi - trả</a></li>
                     <li><a href="#">Chính sách bồi hoàn</a></li>
                     <li><a href="#">Câu hỏi thường gặp (FAQs)</a></li>
-        
-        
-        
                 </div>
-                </div>
-        
-               
+            </div>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Bookstore</p>
+        <div class="footer-bottom" style="background:var(--dark-color);">
+            <p>&copy; 2023 sachtore</p>
         </div>
-       
-         
-        </footer>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
      

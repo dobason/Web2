@@ -421,6 +421,19 @@ section{
     color:#fff;
 }
 
+
+.buyNowButton {
+    background: var(--green);
+    color: white; /* Đảm bảo văn bản trên nút là màu trắng hoặc tương phản đủ */
+    font-size: 20px; /* Đặt font-size tùy ý */
+    text-align: right; /* Đặt căn lề phải */
+  }
+
+.pagination {
+    font-size: 20px;
+    text-align: right;
+}
+
 .featured .featured-slider .box .content{
     background: #eee;
     padding:1.5rem;

@@ -46,3 +46,10 @@
     }
     ?>
 </div>
+
+<style>
+            #pagination {
+                font-size: 20px;
+                text-align: right;
+            }
+</style>
