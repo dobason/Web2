@@ -56,13 +56,15 @@
                   "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
+                     <li><a href="admin-invoice-details.php
+                     "><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
                      <li><a href="admin-user.php
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.php
                      "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
-                     <li><a href="admin-login.php
+                     <li><a href="dangnhap.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
@@ -71,6 +73,7 @@
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
                            <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
+                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
                         </div>
                      </div>
                   </div>
@@ -179,7 +182,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -302,68 +305,265 @@ $('#editCustomerModal').modal('show');
 
     
 </script>
+
+
+
+
                            </div>
                         </div>
                         <div class="iq-card-body">
+                        <form method="get">
+                        <style>
+                select {
+            width: 150px; /* Độ rộng */
+            height: 30px; /* Chiều cao */
+            padding: 5px; /* Khoảng cách nội dung trong select */
+            font-size: 14px; /* Cỡ chữ */
+                }
+                </style>
+        <label for="start_date"></label>
+        <input type="date" id="start_date" name="start_date">
+
+        <label for="end_date">Đến ngày:</label>
+        <input type="date" id="end_date" name="end_date">
+        <button type="submit">Lọc</button>
+                                <!-- Thêm nút button để chuyển hướng -->
+<button id="goToAdminBillPage" class="btn btn-primary">Tải lại</button>
+
+<!-- Đoạn mã JavaScript để xử lý sự kiện khi nhấp vào nút button -->
+<script>
+    // Bắt sự kiện khi nút button được nhấp
+    document.getElementById('goToAdminBillPage').addEventListener('click', function() {
+        // Chuyển hướng người dùng đến trang admin-bill.php
+        window.location.href = 'admin-bill.php';
+    });
+</script>
+                        </form>
+
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                    <th style="width: 1%;">Mã khách hàng</th>
-                                    <th style="width: 10%;">Họ và tên</th>
-                                    <th style="width: 15%;">Tài khoản</th>
-                                    <th style="width: 5%;">Mật Khẩu</th>
-                                    <th style="width: 5%;">Địa chỉ</th>
-                                    <th style="width: 5%;">Phường</th>
-                                    <th style="width: 5%;">Quận</th>
-                                    <th style="width: 5%;">Thành phố</th>
-                                    <th style="width: 1%;">Tình trạng</th>
-                                    <th style="width: 26%;">Hoạt động</th>
+                                        <th style="width: 1%;">Mã khách hàng</th>
+                                        <th style="width: 16%;">Họ và tên</th>
+                                        <th style="width: 15%;">Tài khoản</th>
+                                        <th style="width: 5%;">Mật Khẩu</th>
+                                          <th style="width: 5%;">Số lượng</th>
+                                        <th style="width: 5%;">Tổng tiền</th>
+                                        <th style="width: 1%;">Tình trạng</th>
+                                        <th style="width: 20%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-foreach ($result as $key => $row) {
-    $customerId = $row['Ma_KH'];
-    $customerName = $row['Ten_KH'];
-    $account = $row['Tai_Khoan'];
-    $password = $row['Mat_Khau'];
-    $diachi = $row['Dia_Chi'];
-    $thanhPho = $row['Thanh_Pho'];
-    $quan = $row['Quan'];
-    $phuong = $row['Phuong'];
-    $status = $row['Trang_Thai'];
 
-    echo "
-        <tr>
-            <td>{$customerId}</td>
-            <td>{$customerName}</td>
-            <td>{$account}</td>
-            <td>{$password}</td>
-            <td>{$diachi}</td>
-            <td>{$thanhPho}</td>
-            <td>{$quan}</td>
-            <td>{$phuong}</td>
-            <td>{$status}</td>
-            <td>
-                <div class='flex align-items-center list-user-action'>
-                
-                <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$customerId})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
-                <i class='ri-pencil-line'></i>
-                  
-                    <a href='#' class='bg-primary' onclick='confirmLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
-                        <i class='ri-delete-bin-line'></i>
-                    </a>
-                 
-                    <a href='#' class='bg-primary' onclick='confirmunLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
-                        <i class='ri-lock-line'></i>
-                    </a>
-                </div>
-            </td>
-        </tr>
-    ";
+                                <?php
+require_once 'db/dbhelper.php';
+
+// Kết nối đến CSDL
+$conn = openDatabaseConnection();
+
+$start_date = $_GET['start_date'] ?? '';
+$end_date = $_GET['end_date'] ?? '';
+if (!empty($start_date) && !empty($end_date)) {
+// Thực hiện truy vấn UPDATE để cập nhật số lượng hóa đơn và tổng tiền cho từng khách hàng trong tháng được chọn
+$query_update = "
+    UPDATE khach_hang kh
+    JOIN (
+        SELECT kh.Ma_KH,
+               SUM(CASE WHEN hd.Tinh_Trang = 'Đã giao' THEN 1 ELSE 0 END ) AS So_Hoa_Don_Da_Giao,
+               SUM(CASE WHEN hd.Tinh_Trang = 'Đã giao' THEN hd.Tong_Tien ELSE 0 END) AS Tong_Tien_Tat_Ca
+        FROM khach_hang kh
+        LEFT JOIN hoa_don hd ON kh.Ma_KH = hd.Ma_KH AND hd.Tinh_Trang = 'Đã giao' AND hd.Ngay_XN BETWEEN '$start_date' AND '$end_date'
+        WHERE kh.Trang_Thai = 1
+        GROUP BY kh.Ma_KH
+    ) AS temp ON kh.Ma_KH = temp.Ma_KH
+    SET kh.So_Luong = temp.So_Hoa_Don_Da_Giao,
+        kh.Tong_Tien = temp.Tong_Tien_Tat_Ca;
+";
+
+// Thực hiện truy vấn UPDATE
+$update_result = mysqli_query($conn, $query_update);
+
+if (!$update_result) {
+    echo "Đã có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng.";
+    mysqli_close($conn);
+    exit; // Thoát khỏi mã nếu có lỗi cập nhật
 }
+
+// Bây giờ thực hiện truy vấn SELECT để lấy thông tin khách hàng sau khi cập nhật
+$query_select = "
+    SELECT kh.Ma_KH,
+           kh.Ten_KH,
+           kh.Tai_Khoan,
+           kh.Mat_Khau,
+           kh.So_Luong,
+           kh.Tong_Tien,
+           kh.Trang_Thai
+    FROM khach_hang kh
+         WHERE kh.Trang_Thai ='1'
+    ORDER BY kh.Ma_KH
+";
+
+$result = mysqli_query($conn, $query_select);
+
+if ($result) {
+    // Duyệt qua kết quả từ truy vấn SELECT để hiển thị thông tin
+    while ($row = mysqli_fetch_assoc($result)) {
+        $maKH = $row['Ma_KH'];
+        $customerName = $row['Ten_KH'];
+        $account = $row['Tai_Khoan'];
+        $password = $row['Mat_Khau'];
+        $number = $row['So_Luong'];
+        $total =number_format($row['Tong_Tien'], 0, ',', '.'); 
+        $status = $row['Trang_Thai'];
+
+        // Kiểm tra Trang_Thai để hiển thị cụ thể
+        if ($status == 0) {
+            $statusText = 'Inactive';
+        } else {
+            $statusText = 'Active';
+        }
+
+        echo "
+            <tr>
+                <td>{$maKH}</td>
+                <td>{$customerName}</td>
+                <td>{$account}</td>
+                <td>{$password}</td>
+                <td>{$number}</td>
+                <td>{$total}</td>
+                <td>{$statusText}</td>
+                <td>
+                    <div class='flex align-items-center list-user-action'>
+                        <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$maKH})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                            <i class='ri-pencil-line'></i>
+                        </a>
+                        <a href='#' class='bg-primary' onclick='confirmLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                            <i class='ri-delete-bin-line'></i>
+                        </a>
+                        <a href='#' class='bg-primary' onclick='confirmunLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                            <i class='ri-lock-line'></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        ";
+    }
+} else {
+    echo "Đã có lỗi xảy ra trong quá trình truy vấn thông tin khách hàng.";
+}
+}
+else{
+   
+   
+   require_once 'db/dbhelper.php';
+   
+   // Kết nối đến CSDL
+   $conn = openDatabaseConnection();
+   
+   // Truy vấn UPDATE để cập nhật tổng tiền và số lượng đơn vào bảng khach_hang
+   $query_update = "
+       UPDATE khach_hang kh
+       JOIN (
+           SELECT 
+               kh.Ma_KH,
+               COUNT(hd.Ma_HD) AS Tong_SoLuong,
+               SUM(hd.Tong_Tien) AS Tong_HD
+           FROM 
+               khach_hang kh
+           LEFT JOIN 
+               hoa_don hd ON kh.Ma_KH = hd.Ma_KH
+           WHERE 
+               hd.Tinh_Trang = 'Đã giao'
+           GROUP BY 
+               kh.Ma_KH
+       ) AS temp ON kh.Ma_KH = temp.Ma_KH
+       SET kh.Tong_SoLuong = temp.Tong_SoLuong,
+           kh.Tong_HD = temp.Tong_HD;
+   ";
+   
+   // Thực hiện truy vấn UPDATE
+   $update_result = mysqli_query($conn, $query_update);
+   
+   if (!$update_result) {
+       echo "Đã có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng.";
+       mysqli_close($conn);
+       exit; // Thoát khỏi mã nếu có lỗi cập nhật
+   }
+   
+   // Bây giờ thực hiện truy vấn SELECT để lấy thông tin khách hàng sau khi cập nhật
+   $query_select = "
+       SELECT 
+           Ma_KH,
+           Ten_KH,
+           Tai_Khoan,
+           Mat_Khau,
+           Tong_SoLuong,
+           Tong_HD,
+           Trang_Thai
+       FROM 
+           khach_hang
+       ORDER BY 
+           Ma_KH;
+   ";
+   
+   $result = mysqli_query($conn, $query_select);
+   
+   if ($result) {
+       // Duyệt qua kết quả từ truy vấn SELECT để hiển thị thông tin
+       while ($row = mysqli_fetch_assoc($result)) {
+           $maKH = $row['Ma_KH'];
+           $customerName = $row['Ten_KH'];
+           $account = $row['Tai_Khoan'];
+           $password = $row['Mat_Khau'];
+           $number = $row['Tong_SoLuong'];
+           $total =      number_format($row['Tong_HD'], 0, ',', '.'); 
+     
+           $status = $row['Trang_Thai'];
+   
+           // Hiển thị thông tin khách hàng
+           echo "
+               <tr>
+                   <td>{$maKH}</td>
+                   <td>{$customerName}</td>
+                   <td>{$account}</td>
+                   <td>{$password}</td>
+                   <td>{$number}</td>
+                   <td>{$total}</td>
+                   <td>{$status}</td>
+                   <td>
+                       <div class='flex align-items-center list-user-action'>
+                           <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$maKH})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                               <i class='ri-pencil-line'></i>
+                           </a>
+                           <a href='#' class='bg-primary' onclick='confirmLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                               <i class='ri-delete-bin-line'></i>
+                           </a>
+                           <a href='#' class='bg-primary' onclick='confirmunLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                               <i class='ri-lock-line'></i>
+                           </a>
+                       </div>
+                   </td>
+               </tr>
+           ";
+       }
+   } else {
+       echo "Đã có lỗi xảy ra trong quá trình truy vấn thông tin khách hàng.";
+   }
+   
+
+
+}
+// Đóng kết nối
+mysqli_close($conn);
 ?>
+
+
+
+
+
+
+
 
 
 <script>

@@ -30,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     $sqlInsertHoaDon = "INSERT INTO hoa_don (Ma_KH, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Thanh_Pho, Quan, Phuong, Thanh_Toan, Tong_Tien, Ngay_DH, Ngay_GH, Tinh_Trang) 
-                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', CURDATE(), DATE_ADD(CURDATE(), INTERVAL 2 DAY),'Chưa xác nhận')";
+                        VALUES ('$maKH', '$escapedTenNguoiNhan', '$soDienThoai', '$escapedDiaChiNhanHang', '$thanhPho', '$quan', '$phuong', '$thanhToan', '$totalAmount', CURDATE(), '0','Chưa xác nhận')";
 
     $resultInsertHoaDon = mysqli_query($conn, $sqlInsertHoaDon);
 
@@ -60,13 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if ($resultDeleteCartItems) {
                         // Truy vấn UPDATE để cập nhật bảng khach_hang
                         $sqlUpdateKhachHang = "UPDATE khach_hang 
-                                               SET Tong_Tien = (
+                                               SET Tong_HD = (
                                                    SELECT SUM(Tong_Tien) 
                                                    FROM hoa_don 
                                                    WHERE Ma_KH = '$maKH'
                                                ),
-                                               So_Luong = (
-                                                   SELECT SUM(Ma_HD) 
+                                               Tong_SoLuong = (
+                                                   SELECT COUNT(Ma_HD) 
                                                    FROM hoa_don 
                                                    WHERE Ma_KH = '$maKH'
                                                )
