@@ -52,7 +52,7 @@ select {
 
     <div class="header-2">
         <nav class="navbar">
-            <a href="#home">Trang chủ</a>
+            <a href="index.php">Trang chủ</a>
             <a href="#featured">Danh mục</a>
             <a href="#arrivals">Sách mới</a>
             <a href="#reviews">Khách hàng</a>
