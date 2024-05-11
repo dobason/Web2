@@ -11,6 +11,9 @@
     <script src="js/payment.js"></script>
     <link rel="stylesheet" href="css/stylesheet.css">
     <link rel="stylesheet" href="css/payment.css">
+    <!--Font awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="./css/Style2.css">
     <link rel="stylesheet" href="css/cart.css">
     <style>
         /* Đảm bảo các select được hiển thị trên các dòng riêng biệt */
@@ -28,168 +31,39 @@ select {
 </head>
 
 <body>
-    <header>
+<header class="header">
 
+    <div class="header-1">
+        <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
 
-        <div class="big-menu">
+        <!-- Tìm Kiếm -->
+        <form class="search-form" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+            <div id="bookListContainer"></div>
+        </form>
 
-
-            <div class="in-big-menu">
-                <div class="logo">
-                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
-                </div>
-                <?php
-                // Include file header.php để sử dụng giao diện phía trên
-                require_once 'header.php';
-                ?>
-
-                <div class="top-right-item">
-                    <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-                    <p id="cartItemCount">0</p>
-                </div>
-
-            </div>
+        <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
+        <div class="icons" style="display:flex;">
+            <a href="cart.php" class="fas fa-shopping-cart"></a>
+            <?php require_once 'header.php'; ?>
         </div>
-        <div class="menu-bar">
-            <div class="menu-bar-content">
-                <ul>
-                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="web1.html">Tiểu thuyết</a></li>
-                                        <li> <a href="web1.html">Truyện ngắn</a></li>
-                                        <li> <a href="web1.html">Light Novel</a></li>
-                                        <li> <a href="web1.html">Trinh thám</a></li>
+    </div>
 
+    <div class="header-2">
+        <nav class="navbar">
+            <a href="#home">Trang chủ</a>
+            <a href="#featured">Danh mục</a>
+            <a href="#arrivals">Sách mới</a>
+            <a href="#reviews">Khách hàng</a>
+            <a href="#blogs">Bài viết</a>
+        </nav>
+    </div>
 
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="web1.html">Ngôn Tình
-                                            </a></li>
-                                        <li> <a href="web1.html">Thơ Ca
-                                            </a></li>
-                                        <li> <a href="web1.html">Huyền bí
-                                            </a></li>
-                                        <li> <a href="web1.html">Combo Văn Học
-                                            </a></li>
-                                        <li> <a href="web1.html"> Tất cả sách ></a></li>
-                                    </div>
+    <!---Kết nối database-->
+    <?php require('./php/classes/database.php'); ?>
 
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-paintbrush"></i> Sách theo chủ đề <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Trí tuệ Do Thái</a></li>
-                                            <li> <a href="#">Ngoại ngữ</a></li>
-                                            <li> <a href="#">Triết học Phương Đông</a></li>
-                                            <li> <a href="#">Triết học Phương Tây</a></li>
-
-
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Chính trị </a></li>
-                                        <li> <a href="#">Lịch sử thế giới</a></li>
-                                        <li> <a href="#">Tôn giáo</a></li>
-                                        <li> <a href="#">Kỹ năng sống</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-
-                                    </div>
-
-
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-tablet"></i> Truyện tranh - Thiếu nhi <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="#">Sách truyện thiếu nhi</a></li>
-                                        <li> <a href="#">Sách teen</a></li>
-                                        <li> <a href="#">Doraemon</a></li>
-                                        <li> <a href="#">Conan</a></li>
-                                        <li> <a href="#">Tặng kèm poster</a></li>
-                                    </div>
-
-
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Sách ảnh</a></li>
-                                        <li> <a href="#">Triết học cho trẻ</a></li>
-                                        <li> <a href="#">Nhập môn lập trình</a></li>
-                                        <li> <a href="#">Tư tưởng Hồ Chí Minh</a></li>
-                                        <li> <a href="#">Triết học Mác - Lênin</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li><a href="#"><i class="fa-solid fa-gift"></i> Sách giáo khoa <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Sách giáo khoa cấp 1</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 2</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 3</a></li>
-                                            <li> <a href="#">Sách giáo khoa nâng cao</a></li>
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Bộ đề thi các năm</a></li>
-                                        <li> <a href="#">Luyện đề Ielts</a></li>
-                                        <li> <a href="#">Sách bài tập nâng cao</a></li>
-                                        <li> <a href="#">Sách Mai Lan Hương</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-
-                </ul>
-            </div>
-        </div>
-
-        <div id="backtop">
-            <i class="fa-solid fa-arrow-up"></i>
-
-        </div>
-    </header>
+</header>
 
     <main>
         <form id="checkoutForm" action="bill.php" method="post">
@@ -316,10 +190,10 @@ select {
         
         <div class="in-transport-bottom">
         <input type="radio" id="tienmat" name="paymentMethod" value="tienmat" required>
-        <label for="tienmat"><span>Thanh toán bằng tiền mặt</span></label>
+        <label for="tienmat">Thanh toán bằng tiền mặt</label>
         <br><br>
         <input type="radio" id="online" name="paymentMethod" value="online" required>
-        <label for="online"><span>Thanh toán trực tuyến</span></label>
+        <label for="online">Thanh toán trực tuyến</label>
     </div>
 
             </div>
@@ -462,7 +336,7 @@ $_SESSION['totalAmount'] = $totalAmount;
                         <p>Trở lại</p>
                     </div>
                 </a>
-                <button type="submit" class="show-popup-button" >Hoàn tất đặt hàng</button>
+                <button type="submit" class="show-popup-button" style="background:var(--green);" >Hoàn tất đặt hàng</button>
                 
             </div>
         </div>
