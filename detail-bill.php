@@ -12,7 +12,7 @@ if (isset($_GET['maHD'])) {
     // Kiểm tra kết nối CSDL
     if ($conn) {
         // Truy vấn để lấy thông tin của hóa đơn có mã hóa đơn mong muốn
-        $sql = "SELECT Ma_HD, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Phuong, Quan, Thanh_Pho, Tong_Tien, Thanh_Toan, Ngay_DH, Ngay_GH, Thanh_Toan, Tinh_Trang
+        $sql = "SELECT Ma_HD, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Phuong, Quan, Thanh_Pho, Tong_Tien, Ngay_DH, Ngay_GH, Thanh_Toan, Tinh_Trang
                 FROM hoa_don 
                 WHERE Ma_HD = '$maHD'";
         $result = mysqli_query($conn, $sql);
@@ -25,7 +25,7 @@ if (isset($_GET['maHD'])) {
                 // Lặp qua từng dòng kết quả để hiển thị thông tin hóa đơn
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<div class='bill-info'>";
-                    echo "<h2>Mã HĐ: " . $row['Ma_HD'] . "</h2>";
+                    echo "<h2 style='text-align:center;'>Mã hóa đơn: " . $row['Ma_HD'] . "</h2>";
                  
                     echo "<p>Tên Người Nhận: " . $row['Ten_Nguoi_Nhan_Hang'] . "</p>";
                     echo "<p>Số Điện Thoại: " . $row['SDT'] . "</p>";
@@ -88,7 +88,7 @@ if (isset($_GET['maHD'])) {
         echo "Không thể kết nối đến CSDL.";
     }
 } else {
-    echo "Không có Ma_HD được truyền qua tham số URL.";
+    echo "Không có mã hóa đơn được truyền qua tham số URL.";
 }
 ?>
 

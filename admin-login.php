@@ -1,6 +1,8 @@
 <?php 
     session_start();
-    $_SESSION['use'] = [];
+
+    // Xóa session 'use' hoặc session 'admin', tùy thuộc vào cách bạn lưu trữ thông tin đăng nhập
+    unset($_SESSION['use']);
 ?>
 
 <!DOCTYPE html>
@@ -11,7 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel=" stylesheet" href="css/dangnhap.css" />
-    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <title>Login</title>
 </head>
@@ -31,21 +33,10 @@
             <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
         </div>
       
-        <input type="submit" name="dangnhap" value="Đăng nhập">
-</form>
-<?php 
-        if(isset($_POST['dangnhap']) && ($_POST['dangnhap'])){
-            //input
-            $admin=$_POST['admin'];
-            $pass=$_POST['password'];
-            //ví dụ đã đúng admin/admin
-            $_SESSION['use'][0] = $admin;
-            $_SESSION['use'][1] = $pass;
+        <a class="bg-primary iq-sign-btn" href="admin-dashboard.php" role="button" ><i class="ri-login-box-line ml-2" style="display: block; margin: 0 auto; width: fit-content;">Đăng Nhập</i></a>
 
-            echo "<script>window.location.href = 'admin-dashboard.php';</script>";
 
-        }
-    ?>
+
 </div>
 
 <script src="js/dangky.js"></script>

@@ -63,7 +63,7 @@
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.php
                      "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
-                     <li><a href="dangnhap.php
+                     <li><a href="admin-login.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
@@ -72,7 +72,6 @@
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
                            <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
                         </div>
                      </div>
                   </div>
@@ -181,7 +180,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -335,6 +334,7 @@
                                         <th style="width: 15%;">Quận</th>
                                         <th style="width: 12%;">Tổng tiền</th>
                                         <th style="width: 10%;">Ngày đặt</th>
+                                        <th style="width: 10%;">Ngày xác nhận</th>
                                         <th style="width: 10%;">Ngày giao</th>
                                         <th style="width: 5%;">Tình trạng</th>
                                         <th style="width: 8%;">Xem</th>
@@ -347,8 +347,19 @@
 require_once 'db/dbhelper.php'; // Include database helper functions
 
 // Xử lý dữ liệu ngày bắt đầu và kết thúc được gửi từ form
+// Xử lý dữ liệu ngày bắt đầu và kết thúc được gửi từ form
 $start_date = $_GET['start_date'] ?? '';
 $end_date = $_GET['end_date'] ?? '';
+
+// Chuyển đổi định dạng ngày tháng từ yyyy-mm-dd sang dd-mm-yyyy (nếu có dữ liệu)
+if (!empty($start_date)) {
+    $start_date = date('d-m-Y', strtotime($start_date));
+}
+
+if (!empty($end_date)) {
+    $end_date = date('d-m-Y', strtotime($end_date));
+}
+
 $status_filter = $_GET['status'] ?? ''; // Lấy giá trị filter theo Tinh_Trang
 $city_filter = $_GET['city'] ?? ''; // Lấy giá trị filter theo Tinh/Thanh pho
 $district_filter = $_GET['district'] ?? ''; // Lấy giá trị filter theo Quan/Huyen
@@ -404,6 +415,7 @@ foreach ($result as $row) {
     $ngayDH = $row['Ngay_DH'];
     $ngayGH = $row['Ngay_GH'];
     $tinhTrang = $row['Tinh_Trang'];
+    $xacnhan = $row['Ngay_XN'];
 
     echo '<tr>';
     echo '<td>' . htmlspecialchars($maHD) . '</td>'; // Mã hóa đơn
@@ -412,6 +424,7 @@ foreach ($result as $row) {
     echo '<td>' . htmlspecialchars($quan) . '</td>'; 
     echo '<td>' . htmlspecialchars($tongTien) . '</td>'; // Tổng tiền
     echo '<td>' . htmlspecialchars($ngayDH) . '</td>'; // Ngày đặt hàng
+    echo '<td>' . htmlspecialchars($xacnhan) . '</td>'; // Ngày đặt hàng
     echo '<td>' . htmlspecialchars($ngayGH) . '</td>'; // Ngày giao hàng
     echo '<td>' . htmlspecialchars($tinhTrang) . '</td>'; // Tình trạng
 
@@ -420,7 +433,7 @@ foreach ($result as $row) {
     echo '</td>';
 
     echo '<td>'; // Cột điều khiển
-    if ($tinhTrang === '0') {
+    if ($tinhTrang === 'Chưa xác nhận') {
         echo '<button class="confirm-btn" data-maHD="' . htmlspecialchars($maHD) . '">Xác nhận</button>';
     } else if ($tinhTrang === 'Đã xác nhận') {
         echo '<button class="success-btn" data-maHD="' . htmlspecialchars($maHD) . '">Đã giao</button>';
@@ -510,7 +523,7 @@ $(document).ready(function() {
         // Gửi yêu cầu AJAX để cập nhật trạng thái đã giao
         $.ajax({
             type: 'POST',
-            url: 'update_status.php',
+            url: 'update_status_GH.php',
             data: { maHD: maHD, tinhTrang: 'Đã giao' },
             success: function(response) {
                 // Xử lý phản hồi từ server nếu cần

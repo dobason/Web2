@@ -66,7 +66,7 @@
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.php
                      "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
-                     <li><a href="dangnhap.php
+                     <li><a href="admin-login.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
@@ -74,8 +74,7 @@
                   <div class="iq-card">
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
-                           <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
+                           <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                          
                         </div>
                      </div>
                   </div>
@@ -184,7 +183,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>

@@ -51,14 +51,13 @@
                      <li><a href="admin-user.php"><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php"><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.php"><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
-                     <li><a href="dangnhap.php"><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
+                     <li><a href="admin-login.php"><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
                <div id="sidebar-bottom" class="p-3 position-relative">
                   <div class="iq-card">
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
-                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
                         </div>
                      </div>
                   </div>
@@ -180,7 +179,7 @@
                            <div class="d-flex align-items-center">
                               <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-line"></i></div>
                               <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">7900</span></h2>
+                                 <h2 class="mb-0"><span class="counter">100</span></h2>
                                  <h5 class="">Người dùng</h5>
                               </div>
                            </div>
@@ -193,7 +192,7 @@
                            <div class="d-flex align-items-center">
                               <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-book-line"></i></div>
                               <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">4.8</span>K</h2>
+                                 <h2 class="mb-0"><span class="counter">10</span></h2>
                                  <h5 class="">Sách</h5>
                               </div>
                            </div>
@@ -206,7 +205,7 @@
                            <div class="d-flex align-items-center">
                               <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-shopping-cart-2-line"></i></div>
                               <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">1.2</span>K</h2>
+                                 <h2 class="mb-0"><span class="counter">100</span></h2>
                                  <h5 class="">Đơn Hàng</h5>
                               </div>
                            </div>
@@ -219,7 +218,7 @@
                            <div class="d-flex align-items-center">
                               <div class="rounded-circle iq-card-icon bg-info"><i class="ri-radar-line"></i></div>
                               <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">690</span></h2>
+                                 <h2 class="mb-0"><span class="counter">69</span></h2>
                                  <h5 class="">Chờ Duyệt</h5>
                               </div>
                            </div>
@@ -261,7 +260,7 @@
                               <li>
                                  <div class="iq-details mb-2">
                                     <span class="title">Lợi nhuận</span>
-                                    <div class="percentage float-right text-warning">72 <span>%</span></div>
+                                    <div class="percentage float-right text-warning">75 <span>%</span></div>
                                     <div class="iq-progress-bar-linear d-inline-block w-100">
                                        <div class="iq-progress-bar iq-bg-warning">
                                           <span class="bg-warning" data-percent="75"></span>
@@ -272,7 +271,7 @@
                               <li>
                                 <div class="iq-details mb-2">
                                     <span class="title">Chi phí</span>
-                                    <div class="percentage float-right text-info">75 <span>%</span></div>
+                                    <div class="percentage float-right text-info">72 <span>%</span></div>
                                     <div class="iq-progress-bar-linear d-inline-block w-100">
                                        <div class="iq-progress-bar iq-bg-info">
                                           <span class="bg-info" data-percent="65"></span>

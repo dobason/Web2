@@ -305,32 +305,53 @@ $('#editCustomerModal').modal('show');
 
     
 </script>
+
+
+
+
                            </div>
                         </div>
                         <div class="iq-card-body">
-                        <div class="filter">
                         <form method="get">
-                        <label for="start_date"></label>
+                        <style>
+                select {
+            width: 150px; /* Độ rộng */
+            height: 30px; /* Chiều cao */
+            padding: 5px; /* Khoảng cách nội dung trong select */
+            font-size: 14px; /* Cỡ chữ */
+                }
+                </style>
+        <label for="start_date"></label>
         <input type="date" id="start_date" name="start_date">
 
         <label for="end_date">Đến ngày:</label>
         <input type="date" id="end_date" name="end_date">
-
         <button type="submit">Lọc</button>
-    </form>
-</div>
+                                <!-- Thêm nút button để chuyển hướng -->
+<button id="goToAdminBillPage" class="btn btn-primary">Tải lại</button>
+
+<!-- Đoạn mã JavaScript để xử lý sự kiện khi nhấp vào nút button -->
+<script>
+    // Bắt sự kiện khi nút button được nhấp
+    document.getElementById('goToAdminBillPage').addEventListener('click', function() {
+        // Chuyển hướng người dùng đến trang admin-bill.php
+        window.location.href = 'admin-bill.php';
+    });
+</script>
+                        </form>
+
                            <div class="table-responsive">
                               <table class="data-tables table table-striped table-bordered" style="width:100%">
                                 <thead>
                                     <tr>
-                                    <th style="width: 1%;">Mã khách hàng</th>
-                                    <th style="width: 10%;">Họ và tên</th>
-                                    <th style="width: 15%;">Tài khoản</th>
-                                    <th style="width: 5%;">Số đơn mua</th>
-                                    <th style="width: 5%;">Tổng tiền</th>
-                                    <th style="width: 5%;">Thời gian</th>
-                                    <th style="width: 1%;">Tình trạng</th>
-                                    <th style="width: 26%;">Hoạt động</th>
+                                        <th style="width: 1%;">Mã khách hàng</th>
+                                        <th style="width: 16%;">Họ và tên</th>
+                                        <th style="width: 15%;">Tài khoản</th>
+                                        <th style="width: 5%;">Mật Khẩu</th>
+                                          <th style="width: 5%;">Số lượng</th>
+                                        <th style="width: 5%;">Tổng tiền</th>
+                                        <th style="width: 1%;">Tình trạng</th>
+                                        <th style="width: 20%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -338,66 +359,89 @@ $('#editCustomerModal').modal('show');
                                 <?php
 require_once 'db/dbhelper.php';
 
-// Xử lý dữ liệu ngày bắt đầu và kết thúc được gửi từ form
+// Kết nối đến CSDL
+$conn = openDatabaseConnection();
+
 $start_date = $_GET['start_date'] ?? '';
 $end_date = $_GET['end_date'] ?? '';
-
-// Đảm bảo thực hiện truy vấn an toàn bằng cách sử dụng prepared statements
-$query = "SELECT Ma_KH, Ten_KH, Tai_Khoan, So_Luong, Tong_Tien, Ngay_Hoat_Dong, Trang_Thai 
-          FROM khach_hang
-          WHERE 1";
-
-// Thêm điều kiện ngày nếu được cung cấp
 if (!empty($start_date) && !empty($end_date)) {
-   $query .= " AND Ngay_Hoat_Dong BETWEEN '$start_date' AND '$end_date'";
+// Thực hiện truy vấn UPDATE để cập nhật số lượng hóa đơn và tổng tiền cho từng khách hàng trong tháng được chọn
+$query_update = "
+    UPDATE khach_hang kh
+    JOIN (
+        SELECT kh.Ma_KH,
+               SUM(CASE WHEN hd.Tinh_Trang = 'Đã giao' THEN 1 ELSE 0 END ) AS So_Hoa_Don_Da_Giao,
+               SUM(CASE WHEN hd.Tinh_Trang = 'Đã giao' THEN hd.Tong_Tien ELSE 0 END) AS Tong_Tien_Tat_Ca
+        FROM khach_hang kh
+        LEFT JOIN hoa_don hd ON kh.Ma_KH = hd.Ma_KH AND hd.Tinh_Trang = 'Đã giao' AND hd.Ngay_XN BETWEEN '$start_date' AND '$end_date'
+        WHERE kh.Trang_Thai = 1
+        GROUP BY kh.Ma_KH
+    ) AS temp ON kh.Ma_KH = temp.Ma_KH
+    SET kh.So_Luong = temp.So_Hoa_Don_Da_Giao,
+        kh.Tong_Tien = temp.Tong_Tien_Tat_Ca;
+";
+
+// Thực hiện truy vấn UPDATE
+$update_result = mysqli_query($conn, $query_update);
+
+if (!$update_result) {
+    echo "Đã có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng.";
+    mysqli_close($conn);
+    exit; // Thoát khỏi mã nếu có lỗi cập nhật
 }
 
-// Thêm sắp xếp theo tổng tiền giảm dần và giới hạn kết quả cho 6 bản ghi
-$query .= " ORDER BY Tong_Tien DESC LIMIT 5";
+// Bây giờ thực hiện truy vấn SELECT để lấy thông tin khách hàng sau khi cập nhật
+$query_select = "
+    SELECT kh.Ma_KH,
+           kh.Ten_KH,
+           kh.Tai_Khoan,
+           kh.Mat_Khau,
+           kh.So_Luong,
+           kh.Tong_Tien,
+           kh.Trang_Thai
+    FROM khach_hang kh
+         WHERE kh.Trang_Thai ='1'
+    ORDER BY kh.Ma_KH
+";
 
-// Thực hiện truy vấn sử dụng prepared statements
-$conn = openDatabaseConnection();
-$stmt = mysqli_prepare($conn, $query);
+$result = mysqli_query($conn, $query_select);
 
-if ($stmt) {
-    // Nếu có thêm điều kiện ngày, bind các tham số và thực hiện truy vấn
-    if (!empty($start_date) && !empty($end_date)) {
-        mysqli_stmt_bind_param($stmt, "ss", $start_date, $end_date);
-    }
-    
-    mysqli_stmt_execute($stmt);
-    
-    // Lấy kết quả của truy vấn
-    $result = mysqli_stmt_get_result($stmt);
-    
-    // Hiển thị dữ liệu theo kết quả từ truy vấn
+if ($result) {
+    // Duyệt qua kết quả từ truy vấn SELECT để hiển thị thông tin
     while ($row = mysqli_fetch_assoc($result)) {
-        $customerId = $row['Ma_KH'];
-        $customerName = htmlspecialchars($row['Ten_KH']);
-        $account = htmlspecialchars($row['Tai_Khoan']);
-        $number = htmlspecialchars($row['So_Luong']);
-        $total = number_format($row['Tong_Tien'], 0, ',', '.');
-        $thanhPho = htmlspecialchars($row['Ngay_Hoat_Dong']);
-        $status = htmlspecialchars($row['Trang_Thai']);
+        $maKH = $row['Ma_KH'];
+        $customerName = $row['Ten_KH'];
+        $account = $row['Tai_Khoan'];
+        $password = $row['Mat_Khau'];
+        $number = $row['So_Luong'];
+        $total =number_format($row['Tong_Tien'], 0, ',', '.'); 
+        $status = $row['Trang_Thai'];
+
+        // Kiểm tra Trang_Thai để hiển thị cụ thể
+        if ($status == 0) {
+            $statusText = 'Inactive';
+        } else {
+            $statusText = 'Active';
+        }
 
         echo "
             <tr>
-                <td>{$customerId}</td>
+                <td>{$maKH}</td>
                 <td>{$customerName}</td>
                 <td>{$account}</td>
+                <td>{$password}</td>
                 <td>{$number}</td>
                 <td>{$total}</td>
-                <td>{$thanhPho}</td>
-                <td>{$status}</td>
+                <td>{$statusText}</td>
                 <td>
                     <div class='flex align-items-center list-user-action'>
-                        <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$customerId})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                        <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$maKH})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
                             <i class='ri-pencil-line'></i>
                         </a>
-                        <a href='#' class='bg-primary' onclick='confirmLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                        <a href='#' class='bg-primary' onclick='confirmLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
                             <i class='ri-delete-bin-line'></i>
                         </a>
-                        <a href='#' class='bg-primary' onclick='confirmunLockUser({$customerId}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                        <a href='#' class='bg-primary' onclick='confirmunLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
                             <i class='ri-lock-line'></i>
                         </a>
                     </div>
@@ -405,15 +449,119 @@ if ($stmt) {
             </tr>
         ";
     }
-
-    mysqli_stmt_close($stmt); // Đóng statement
 } else {
-    echo "Có lỗi xảy ra trong quá trình thực hiện truy vấn.";
+    echo "Đã có lỗi xảy ra trong quá trình truy vấn thông tin khách hàng.";
 }
+}
+else{
+   
+   
+   require_once 'db/dbhelper.php';
+   
+   // Kết nối đến CSDL
+   $conn = openDatabaseConnection();
+   
+   // Truy vấn UPDATE để cập nhật tổng tiền và số lượng đơn vào bảng khach_hang
+   $query_update = "
+       UPDATE khach_hang kh
+       JOIN (
+           SELECT 
+               kh.Ma_KH,
+               COUNT(hd.Ma_HD) AS Tong_SoLuong,
+               SUM(hd.Tong_Tien) AS Tong_HD
+           FROM 
+               khach_hang kh
+           LEFT JOIN 
+               hoa_don hd ON kh.Ma_KH = hd.Ma_KH
+           WHERE 
+               hd.Tinh_Trang = 'Đã giao'
+           GROUP BY 
+               kh.Ma_KH
+       ) AS temp ON kh.Ma_KH = temp.Ma_KH
+       SET kh.Tong_SoLuong = temp.Tong_SoLuong,
+           kh.Tong_HD = temp.Tong_HD;
+   ";
+   
+   // Thực hiện truy vấn UPDATE
+   $update_result = mysqli_query($conn, $query_update);
+   
+   if (!$update_result) {
+       echo "Đã có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng.";
+       mysqli_close($conn);
+       exit; // Thoát khỏi mã nếu có lỗi cập nhật
+   }
+   
+   // Bây giờ thực hiện truy vấn SELECT để lấy thông tin khách hàng sau khi cập nhật
+   $query_select = "
+       SELECT 
+           Ma_KH,
+           Ten_KH,
+           Tai_Khoan,
+           Mat_Khau,
+           Tong_SoLuong,
+           Tong_HD,
+           Trang_Thai
+       FROM 
+           khach_hang
+       ORDER BY 
+           Ma_KH;
+   ";
+   
+   $result = mysqli_query($conn, $query_select);
+   
+   if ($result) {
+       // Duyệt qua kết quả từ truy vấn SELECT để hiển thị thông tin
+       while ($row = mysqli_fetch_assoc($result)) {
+           $maKH = $row['Ma_KH'];
+           $customerName = $row['Ten_KH'];
+           $account = $row['Tai_Khoan'];
+           $password = $row['Mat_Khau'];
+           $number = $row['Tong_SoLuong'];
+           $total =      number_format($row['Tong_HD'], 0, ',', '.'); 
+     
+           $status = $row['Trang_Thai'];
+   
+           // Hiển thị thông tin khách hàng
+           echo "
+               <tr>
+                   <td>{$maKH}</td>
+                   <td>{$customerName}</td>
+                   <td>{$account}</td>
+                   <td>{$password}</td>
+                   <td>{$number}</td>
+                   <td>{$total}</td>
+                   <td>{$status}</td>
+                   <td>
+                       <div class='flex align-items-center list-user-action'>
+                           <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$maKH})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                               <i class='ri-pencil-line'></i>
+                           </a>
+                           <a href='#' class='bg-primary' onclick='confirmLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                               <i class='ri-delete-bin-line'></i>
+                           </a>
+                           <a href='#' class='bg-primary' onclick='confirmunLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                               <i class='ri-lock-line'></i>
+                           </a>
+                       </div>
+                   </td>
+               </tr>
+           ";
+       }
+   } else {
+       echo "Đã có lỗi xảy ra trong quá trình truy vấn thông tin khách hàng.";
+   }
+   
 
-mysqli_close($conn); // Đóng kết nối
 
+}
+// Đóng kết nối
+mysqli_close($conn);
 ?>
+
+
+
+
+
 
 
 

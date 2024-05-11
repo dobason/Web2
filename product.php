@@ -22,7 +22,7 @@
 
             <div class="in-big-menu">
                 <div class="logo">
-                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
                 </div>
                 <?php
 // Include file header.php để sử dụng giao diện phía trên
@@ -217,7 +217,7 @@ function displayProductDetail($product) {
     echo '</div>';
     echo '<div class="product-right">';
     echo '<div class="product-right-top">';
-    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>';
+    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>'; 
     echo '<p><span style="color:red;">Tác giả: </span>'. htmlentities($product['Ten_Tac_Gia']).'</p>';
     echo '<p><span style="color:red;">Đơn giá:</span>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
     echo '<div class="product-shopping">';
