@@ -17,6 +17,11 @@
       <link rel="stylesheet" href="css/responsive.css">
    </head>
    <body>
+      <?php
+         require('./php/classes/database.php');
+         $result = Database::getAllRows('khach_hang');
+         Database::closeConnection();
+      ?>
       <!-- loader Start -->
       <div id="loading">
          <div id="loading-center">
@@ -225,86 +230,11 @@
                         </div>
                      </div>
                   </div>
-                  <div class="col-md-4">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-header d-flex justify-content-between align-items-center">
-                           <div class="iq-header-title">
-                              <h4 class="card-title mb-0">Doanh số hàng ngày</h4>
-                           </div>
-                        </div>
-                        <div class="iq-card-body">
-                           <div id="iq-sale-chart"></div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-4">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-header d-flex justify-content-between align-items-center">
-                           <div class="iq-header-title">
-                              <h4 class="card-title mb-0">Tóm lược</h4>
-                           </div>
-                        </div>
-                        <div class="iq-card-body">
-                           <ul class="list-inline p-0 mb-0">
-                              <li>
-                                 <div class="iq-details mb-2">
-                                    <span class="title">Thu nhập</span>
-                                    <div class="percentage float-right text-primary">95 <span>%</span></div>
-                                    <div class="iq-progress-bar-linear d-inline-block w-100">
-                                       <div class="iq-progress-bar iq-bg-primary">
-                                          <span class="bg-primary" data-percent="90"></span>
-                                       </div>
-                                    </div>
-                                 </div>                                       
-                              </li>
-                              <li>
-                                 <div class="iq-details mb-2">
-                                    <span class="title">Lợi nhuận</span>
-                                    <div class="percentage float-right text-warning">75 <span>%</span></div>
-                                    <div class="iq-progress-bar-linear d-inline-block w-100">
-                                       <div class="iq-progress-bar iq-bg-warning">
-                                          <span class="bg-warning" data-percent="75"></span>
-                                       </div>
-                                    </div>
-                                 </div>
-                              </li>
-                              <li>
-                                <div class="iq-details mb-2">
-                                    <span class="title">Chi phí</span>
-                                    <div class="percentage float-right text-info">72 <span>%</span></div>
-                                    <div class="iq-progress-bar-linear d-inline-block w-100">
-                                       <div class="iq-progress-bar iq-bg-info">
-                                          <span class="bg-info" data-percent="65"></span>
-                                       </div>
-                                    </div>
-                                 </div> 
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-
-                  <div class="col-md-4">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-header d-flex justify-content-between align-items-center">
-                           <div class="iq-header-title">
-                              <h4 class="card-title mb-0">Thống kê sách</h4>
-                           </div>
-                        </div>
-                        <div class="iq-card-body">
-                           <div id="iq-sale-chart" class="chart-container">
-                               <canvas id="myPieChart"></canvas>
-                           </div>
-                       </div>
-                       
-                     </div>
-                  </div>
-                  
                   <div class="col-sm-12">
                      <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                         <div class="iq-card-header d-flex justify-content-between">
                            <div class="iq-header-title">
-                              <h4 class="card-title">Mở hóa đơn</h4>
+                              <h4 class="card-title">5 khách hàng có tổng tiền hàng mua cao nhất</h4>
                            </div>
                            <div class="iq-card-header-toolbar d-flex align-items-center">
                               <div class="dropdown">
@@ -321,62 +251,117 @@
                               </div>
                            </div>
                         </div>
+
+                       
                         <div class="iq-card-body">
                            <div class="table-responsive">
                               <table class="table mb-0 table-borderless">
                                  <thead>
                                     <tr>
-                                       <th scope="col">Khách hàng</th>
-                                       <th scope="col">Ngày</th>
-                                       <th scope="col">Hóa đơn</th>
-                                       <th scope="col">Số tiền</th>
+                                       <th scope="col">Mã khách hàng</th>
+                                       <th scope="col">Họ và tên</th>
+                                       <th scope="col">Tổng tiền</th>
                                        <th scope="col">Tình trạng</th>
                                        <th scope="col">Hoạt động</th>
-
                                     </tr>
                                  </thead>
                                  <tbody>
-                                    <tr>
-                                       <td>Đỗ Bá Sơn</td>
-                                       <td>18/10/2024</td>
-                                       <td>20156</td>
-                                       <td>150.000đ</td>
-                                       <td><div class="badge badge-pill badge-success">Đã thanh toán</div></td>
-                                       <td class="status-onl">online</td>
-                                    </tr>
-                                    <tr>
-                                       <td>Phạm Nhật Phương</td>
-                                       <td>26/10/2024</td>
-                                       <td>7859</td>
-                                       <td>200.000đ</td>
-                                       <td><div class="badge badge-pill badge-success">Đã thanh toán</div></td>
-                                       <td class="status-onl">online</td>
-                                    </tr>
-                                    <tr>
-                                       <td>Nguyễn Minh Kiên</td>
-                                       <td>18/11/2024</td>
-                                       <td>6396</td>
-                                       <td>250.000đ</td>
-                                       <td><div class="badge badge-pill badge-danger">Chưa thanh toán</div></td>
-                                       <td class="status-off">offline</td>
-                                    </tr>
-                                    <tr>
-                                       <td>Phạm Nguyễn Thế Hào</td>
-                                       <td>14/12/2024</td>
-                                       <td>7854</td>
-                                       <td>500.000đ</td>
-                                       <td><div class="badge badge-pill badge-success">Đã thanh toán</div></td>
-                                       <td class="status-onl">online</td>
-                                    
-                                    </tr>
-                                    <tr>
-                                       <td>Trần Minh Trí</td>
-                                       <td>24/12/2024</td>
-                                       <td>568569</td>
-                                       <td>10000đ</td>
-                                       <td><div class="badge badge-pill badge-success">Đã thanh toán</div></td>
-                                       <td class="status-off">offline</td>
-                                    </tr>
+                                 <?php
+
+require_once 'db/dbhelper.php';
+// Thực hiện kết nối đến cơ sở dữ liệu và các biến khác
+$conn = openDatabaseConnection();
+
+// Thực hiện truy vấn SQL để cập nhật thông tin khách hàng
+$start_date = $_GET['start_date'] ?? '';
+$end_date = $_GET['end_date'] ?? '';
+if (!empty($start_date) && !empty($end_date)) {
+    // Truy vấn SQL UPDATE
+    $query_update = "UPDATE khach_hang kh
+                        JOIN (
+                            SELECT kh.Ma_KH,
+                                   SUM(CASE WHEN hd.Tinh_Trang = 'Đã giao' THEN 1 ELSE 0 END) AS So_Hoa_Don_Da_Giao,
+                                   SUM(CASE WHEN hd.Tinh_Trang = 'Đã giao' THEN hd.Tong_HD ELSE 0 END) AS Tong_Tien_Tat_Ca
+                            FROM khach_hang kh
+                            LEFT JOIN hoa_don hd ON kh.Ma_KH = hd.Ma_KH AND hd.Tinh_Trang = 'Đã giao' AND hd.Ngay_XN BETWEEN '$start_date' AND '$end_date'
+                            WHERE kh.Trang_Thai = 1
+                            GROUP BY kh.Ma_KH
+                        ) AS temp ON kh.Ma_KH = temp.Ma_KH
+                    SET kh.So_Luong = temp.So_Hoa_Don_Da_Giao,
+                        kh.Tong_HD = temp.Tong_Tien_Tat_Ca;";
+    
+    // Thực hiện truy vấn UPDATE
+    $update_result = mysqli_query($conn, $query_update);
+
+    if (!$update_result) {
+        echo "Đã có lỗi xảy ra trong quá trình cập nhật thông tin khách hàng.";
+        mysqli_close($conn);
+        exit; // Thoát khỏi mã nếu có lỗi cập nhật
+    }
+}
+
+// Truy vấn SQL để lấy ra 5 khách hàng có tổng tiền mua hàng cao nhất
+$query_top_customers = "SELECT kh.Ma_KH,
+                               kh.Ten_KH,
+                               kh.Tong_HD,
+                               kh.Trang_Thai
+                        FROM khach_hang kh
+                        WHERE kh.Trang_Thai = '1'
+                        ORDER BY kh.Tong_HD DESC
+                        LIMIT 5;";
+
+$result_top_customers = mysqli_query($conn, $query_top_customers);
+
+if ($result_top_customers) {
+   // Hiển thị dữ liệu trong bảng
+   while ($row = mysqli_fetch_assoc($result_top_customers)) {
+       // Lấy thông tin khách hàng
+       $maKH = $row['Ma_KH'];
+       $customerName = $row['Ten_KH'];
+       $total = number_format(floatval($row['Tong_HD']), 0, ',', '.'); // Ép kiểu thành số thực trước khi format
+       $status = $row['Trang_Thai'];
+
+       // Kiểm tra Trang_Thai để hiển thị cụ thể
+       $statusText = ($status == 0) ? 'Không hoạt động' : 'Hoạt động';
+
+       // Tạo liên kết cho cột "Lịch sử mua hàng"
+       $historyLink = "bill-customer.php?Ma_KH={$maKH}";
+
+       // Hiển thị thông tin khách hàng trong bảng
+       echo "
+           <tr>
+               <td>{$maKH}</td>
+               <td>{$customerName}</td>
+               <td>{$total}</td>
+               <td>{$statusText}</td>
+               <td>
+                   <div class='flex align-items-center list-user-action'>
+                       <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$maKH})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
+                           <i class='ri-pencil-line'></i>
+                       </a>
+                       <a href='#' class='bg-primary' onclick='confirmLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
+                           <i class='ri-delete-bin-line'></i>
+                       </a>
+                       <a href='#' class='bg-primary' onclick='confirmunLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
+                           <i class='ri-lock-line'></i>
+                       </a>
+                       <a href='{$historyLink}' class='bg-primary' data-toggle='tooltip' data-placement='top' title='Lịch sử mua hàng'>
+                           <i class='ri-file-text-line'></i>
+                       </a>
+                   </div>
+               </td>
+           </tr>
+       ";
+   }
+} else {
+   echo "Đã có lỗi xảy ra trong quá trình truy vấn thông tin khách hàng.";
+}
+
+
+// Đóng kết nối cơ sở dữ liệu
+mysqli_close($conn);
+?>
+
                                  </tbody>
                               </table>
                            </div>

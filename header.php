@@ -18,9 +18,9 @@ if (isset($_SESSION['Ma_KH'])) {
         $tai_khoan = $user['Tai_Khoan']; // Lấy tên tài khoản từ kết quả truy vấn
 ?>
     <div class="top-right-item">
-        <i class="fa fa-user"></i>
+        <i class="fa fa-user" style="margin-top:10px;"></i>
         <span class="text-tk">
-            <p id="namelogin"><?php echo $tai_khoan; ?><i class="fa fa-caret-down"></i></p>
+        <p id="namelogin" style="font-size: 14px;"><?php echo $tai_khoan; ?><i class="fa fa-caret-down"></i></p>
             <div class="dropdown-content">
                 <!-- Hiển thị các liên kết cho người dùng đã đăng nhập -->
                 <a href="logout.php" class="dropdown-item"><i class="np fa fa-sign-out-alt"></i>Đăng xuất</a>

@@ -56,8 +56,6 @@
                   "><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php
                      "><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
-                     <li><a href="admin-invoice-details.php
-                     "><i class="ri-record-circle-line"></i>Chi Tiết Hóa Đơn</a></li>
                      <li><a href="admin-user.php
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
@@ -419,9 +417,9 @@ if ($result) {
 
         // Kiểm tra Trang_Thai để hiển thị cụ thể
         if ($status == 0) {
-            $statusText = 'Inactive';
+            $statusText = 'Không hoạt động';
         } else {
-            $statusText = 'Active';
+            $statusText = 'Hoạt động';
         }
 
         echo "
@@ -517,7 +515,8 @@ else{
            $account = $row['Tai_Khoan'];
            $password = $row['Mat_Khau'];
            $number = $row['Tong_SoLuong'];
-           $total =      number_format($row['Tong_HD'], 0, ',', '.'); 
+           $total = number_format(floatval($row['Tong_HD']), 0, ',', '.');
+ 
      
            $status = $row['Trang_Thai'];
    

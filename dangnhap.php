@@ -29,7 +29,7 @@
         <input type="submit" value="Đăng Nhập" class="log" href="index2.php">
         <div class="register">
             <p>Không có tài khoản? <a href="dangki.php">Đăng ký</a></p><br>
-            <p><a href="index2.php"><i class="fa-solid fa-house"></i></a></p>
+            <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
         </div>
     </form>
 </div>

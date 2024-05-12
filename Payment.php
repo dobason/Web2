@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </form>
 
         <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
-        <div class="icons" style="display:flex;">
+        <div class="icons" style="display:flex;align-items:center">
             <a href="cart.php" class="fas fa-shopping-cart"></a>
             <?php require_once 'header.php'; ?>
         </div>
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <div class="header-2">
         <nav class="navbar">
-            <a href="#home">Trang chủ</a>
+            <a href="index.php">Trang chủ</a>
             <a href="#featured">Danh mục</a>
             <a href="#arrivals">Sách mới</a>
             <a href="#reviews">Khách hàng</a>
