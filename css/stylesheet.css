@@ -95,9 +95,16 @@ img {
 }
 .top-right-item{
    color: black;
-    margin-top: 5px;
-   width: 20%;
 text-align: center;
+}
+#namelogin {
+   margin-left: 8px;
+}
+.top-right-item #namelogin .fa-caret-down {
+   margin-left: 8px;
+}
+.dropdown-content {
+   width: 210px;
 }
 
 .logo img{

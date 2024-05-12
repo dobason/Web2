@@ -44,7 +44,7 @@ select {
         </form>
 
         <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
-        <div class="icons" style="display:flex;">
+        <div class="icons" style="display:flex;align-items:center">
             <a href="cart.php" class="fas fa-shopping-cart"></a>
             <?php require_once 'header.php'; ?>
         </div>

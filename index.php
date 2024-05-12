@@ -28,7 +28,7 @@
     </form>
 
     <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
-    <div class="icons" style="display:flex;">
+    <div class="icons" style="display:flex;align-items:center">
         <a href="cart.php" class="fas fa-shopping-cart"></a>
         <?php require_once 'header.php'; ?>
     </div>
@@ -196,8 +196,10 @@
 
                         // Thực hiện truy vấn sử dụng executeResult
                         $sql = "SELECT * FROM `sach`" . $where . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
+                        $sql_loai_sach = "SELECT * from loai_sach";
 
                         $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
+                        $loai_sach = executeResult($sql_loai_sach); // Thực hiện truy vấn và lấy dữ liệu loại sách
 
                         // Đếm tổng số bản ghi
                         $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
@@ -246,30 +248,28 @@
                         
                         <!-- Category selection -->
                         <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="">Chọn chủ đề</option>
-                            <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
-                            <option <?php if ($theme == "2") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Lịch sử</option>
-                            <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Truyện tranh & Mangas</option>
-                            <option <?php if ($theme == "4") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Phim & Nhiếp ảnh</option>
-                            <option <?php if ($theme == "5") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh dị</option>
-                            <option <?php if ($theme == "6") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Máy tính & Internet</option>
-                            <option <?php if ($theme == "7") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Thể Thao</option>
-                            <option <?php if ($theme == "8") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Du lịch lữ hành</option>
-                            <option <?php if ($theme == "9") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh doanh & Kinh tế</option>
-                            <option <?php if ($theme == "10") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Nghệ thuật</option>
+                            <option value="./index.php">Chọn thể loại</option>
+                            <?php
+                                foreach ($loai_sach as $index => $category) {
+                                    $selected = $theme == $category['Ma_Loai'] ? 'selected' : '';
+                                    $current_params = array_merge( $_GET, array( 'theme' => $category['Ma_Loai'] ) );
+                                    $new_query_string = http_build_query($current_params);
+                                    echo '<option '.$selected.' value="?'.$new_query_string.'">'.$category['Ten_Loai'].'</option>';
+                                }
+                            ?>
                             <!-- Thêm các option cho chủ đề khác tương tự -->
                         </select>
 
                         <!-- Sorting options -->
                         <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="">Sắp xếp giá</option>
+                            <option value="./index.php">Sắp xếp giá</option>
                             <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
                             <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
                         </select>
 
                         <!-- Price range selection -->
                         <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="">Chọn khoảng giá</option>
+                            <option value="./index.php">Chọn khoảng giá</option>
                             <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
                             <option <?php if ($priceRange == "5-50000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=5-50000">5 - 50.000 đồng</option>
                             <option <?php if ($priceRange == "50000-89000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=50000-89000">50.000 - 89.000 đồng</option>
