@@ -57,21 +57,41 @@
             margin-top: 10px;
             justify-content: center;
         }
-        .select-container {
-            display: flex;
-            justify-content: space-around; /* Căn các phần tử theo chiều ngang, giữa container */
-            align-items: center; /* Căn các phần tử theo chiều dọc, giữa container */
-        }
+/*----------------------------------------------*/
+.box-select {
+    display: flex;
+    justify-content: space-between; /* Căn các thành phần theo hai bên của container */
+    align-items: center; /* Căn các thành phần theo chiều dọc */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+    margin-left: 10px;
+}
 
-        .select-container select {
-            margin: 25px 130px; /* Khoảng cách giữa các dropdown */
-        }
+.select-container {
+    display: flex;
+    align-items: center; /* Căn các thành phần con theo chiều dọc */
+}
 
-        /* Căn giữa các option trong dropdown */
-        .select-container select option {
-            text-align: center;
-        }
+/* Style cho label */
+label {
+    margin-right: 10px; /* Khoảng cách phía bên phải của label */
+}
 
+/* Style cho input và button */
+input[type="number"],
+button {
+    margin-right: 10px; /* Khoảng cách phía bên phải của input và button */
+}
+
+/* Định dạng cho select */
+select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+    .right-select{
+        margin-left: 30px;
+    }
     </style>
 
 
@@ -103,7 +123,7 @@
                 </button>
             </div>
         </nav>
-       
+
         <!---Kết nối database-->
         <?php require('./php/classes/database.php'); ?>
 
@@ -112,7 +132,7 @@
 
     <main>
         <!------------------------------------------------------------------>
-     
+
         <div class="slider5">
             <div class="in-slider5">
                 <section class="slider-product-one">
@@ -155,30 +175,26 @@
                         }
 
                         // Khoảng giá
-                        $priceRange = isset($_GET['price_range']) ? $_GET['price_range'] : "";
-                        if (!empty($priceRange)) {
-                            if ($priceRange === '89000-') {
-                                // Lọc sách có giá từ 89000 đồng trở lên
-                                $minPrice = 89000;
-                                $where .= empty($where) ? " WHERE `Don_Gia` >= $minPrice" : " AND `Don_Gia` >= $minPrice";
-                            } else {
-                                // Xử lý các khoảng giá khác nếu cần
-                                $priceLimits = explode('-', $priceRange);
-                                $minPrice = isset($priceLimits[0]) ? $priceLimits[0] : 0;
-                                $maxPrice = isset($priceLimits[1]) ? $priceLimits[1] : PHP_INT_MAX;
+                        $minPrice = isset($_GET['min_price']) ? $_GET['min_price'] : "";
+                        $maxPrice = isset($_GET['max_price']) ? $_GET['max_price'] : "";
 
-                                if (empty($where)) {
-                                    $where = " WHERE `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
-                                } else {
-                                    $where .= " AND `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
-                                }
+                        if (!empty($minPrice) && !empty($maxPrice)) {
+                            $minPrice = intval($minPrice);
+                            $maxPrice = intval($maxPrice);
+
+                            if (empty($where)) {
+                                $where = " WHERE `Don_Gia` >= $minPrice AND `Don_Gia` <= $maxPrice";
+                            } else {
+                                $where .= " AND `Don_Gia` >= $minPrice AND `Don_Gia` <= $maxPrice";
                             }
-                            $param['price_range'] = $priceRange;
+
+                            $param['min_price'] = $minPrice;
+                            $param['max_price'] = $maxPrice;
                         }
 
                         include 'connect_db.php';
 
-                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
+                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
                         $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
                         $offset = ($current_page - 1) * $item_per_page;
 
@@ -197,42 +213,86 @@
                         $totalRecords = $totalRecords[0]['total'];
                         $totalPages = ceil($totalRecords / $item_per_page);
                         ?>
-                     
+
                         <hr>
-                        <div class="box">
-                        <div class="select-container">
+                        <div class="box-select">
+                            <div class="select-container">
+
+                                <!-- Category selection -->
+                                <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                    <option value="">Chọn chủ đề</option>
+                                    <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
+                                    <option <?php if ($theme == "2") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Lịch sử</option>
+                                    <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=3">Truyện tranh & Mangas</option>
+                                    <option <?php if ($theme == "4") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=4">Phim & Nhiếp ảnh</option>
+                                    <option <?php if ($theme == "5") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=5">Kinh dị</option>
+                                    <option <?php if ($theme == "6") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=6">Máy tính & Internet</option>
+                                    <option <?php if ($theme == "7") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=7">Thể Thao</option>
+                                    <option <?php if ($theme == "8") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=8">Du lịch lữ hành</option>
+                                    <option <?php if ($theme == "9") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=9">Kinh doanh & Kinh tế</option>
+                                    <option <?php if ($theme == "10") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=10">Nghệ thuật</option>
+                                    <!-- Thêm các option cho chủ đề khác tương tự -->
+                                </select>
+
+                                <!-- Price range selection -->
+                                <div>
+                                    <label for="min-price">Giá từ:</label>
+                                    <input type="number" id="min-price" name="min_price" value="<?= isset($_GET['min_price']) ? $_GET['min_price'] : '' ?>" placeholder="Nhập giá tối thiểu">
+
+                                    <label for="max-price">đến:</label>
+                                    <input type="number" id="max-price" name="max_price" value="<?= isset($_GET['max_price']) ? $_GET['max_price'] : '' ?>" placeholder="Nhập giá tối đa">
+        <button id="apply-filter-btn">Áp dụng</button>
+                                   
+
+                                    <!-- Sorting options -->
+                                  <span name="right-select">
+                                    <select  id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                        <option value="">Sắp xếp giá</option>
+                                        <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
+                                        <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
+                                    </select>
+                                    </span>
+                                </div>
                         
-                            <!-- Category selection -->
-                            <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                <option value="">Chọn chủ đề</option>
-                                <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
-                                <option <?php if ($theme == "2") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Lịch sử</option>
-                                <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Truyện tranh & Mangas</option>
-                                <option <?php if ($theme == "4") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Phim & Nhiếp ảnh</option>
-                                <option <?php if ($theme == "5") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh dị</option>
-                                <option <?php if ($theme == "6") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Máy tính & Internet</option>
-                                <option <?php if ($theme == "7") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Thể Thao</option>
-                                <option <?php if ($theme == "8") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Du lịch lữ hành</option>
-                                <option <?php if ($theme == "9") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh doanh & Kinh tế</option>
-                                <option <?php if ($theme == "10") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Nghệ thuật</option>
-                                <!-- Thêm các option cho chủ đề khác tương tự -->
-                            </select>
-                            <!-- Sorting options -->
-                            <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                <option value="">Sắp xếp giá</option>
-                                <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
-                                <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
-                            </select>
-                            <!-- Price range selection -->
-                            <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                <option value="">Chọn khoảng giá</option>
-                                <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
-                                <option <?php if ($priceRange == "5-50000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=5-50000">5 - 50.000 đồng</option>
-                                <option <?php if ($priceRange == "50000-89000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=50000-89000">50.000 - 89.000 đồng</option>
-                                <option <?php if ($priceRange == "89000-") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=89000-">Trên 89.000 đồng</option>
-                            </select>
+                            </div>
                         </div>
-                    </div>
+                        <script>
+    // Chờ tài liệu HTML được tải hoàn toàn
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lắng nghe sự kiện click trên nút "Áp dụng"
+        var applyButton = document.getElementById("apply-filter-btn");
+        if (applyButton) {
+            applyButton.addEventListener("click", function() {
+                // Lấy giá trị của các phần tử HTML
+                var theme = document.getElementById("theme-box").value;
+                var minPrice = document.getElementById("min-price").value;
+                var maxPrice = document.getElementById("max-price").value;
+
+                // Xây dựng URL mới dựa trên các giá trị đã chọn
+                var url = "?";
+
+                if (theme !== "") {
+                    url += "theme=" + theme + "&";
+                }
+                if (minPrice !== "") {
+                    url += "min_price=" + minPrice + "&";
+                }
+                if (maxPrice !== "") {
+                    url += "max_price=" + maxPrice + "&";
+                }
+
+                // Kiểm tra xem có dấu "&" ở cuối URL không và loại bỏ nếu có
+                if (url.endsWith("&")) {
+                    url = url.slice(0, -1);
+                }
+
+                // Chuyển hướng trình duyệt đến URL mới chỉ khi tất cả các bộ lọc đã được áp dụng
+                window.location.href = "indexcopy.php";
+            });
+        }
+    });
+</script>
+
 
                         <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:left">
                             <?php
@@ -277,8 +337,8 @@
         </div>
 
         <!------------------------------------------------------------------>
-      
-       
+
+
     </main>
     <!---Footer----->
     <footer>
@@ -323,7 +383,27 @@
 
     </footer>
 
+    <script>
+        function applyPriceRange() {
+            var minPrice = document.getElementById('min-price').value;
+            var maxPrice = document.getElementById('max-price').value;
 
+            // Tạo một URL mới với các tham số khoảng giá
+            var url = window.location.href.split('?')[0]; // Lấy URL trước khi có tham số
+            var params = new URLSearchParams(window.location.search);
+
+            // Xóa các tham số cũ về khoảng giá
+            params.delete('price_range');
+            params.set('min_price', minPrice);
+            params.set('max_price', maxPrice);
+
+            // Tạo URL mới với các tham số đã cập nhật
+            var newUrl = url + '?' + params.toString();
+
+            // Chuyển hướng trang tới URL mới
+            window.location.href = newUrl;
+        }
+    </script>
 </body>
 
 </html>

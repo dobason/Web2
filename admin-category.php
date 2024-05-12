@@ -61,8 +61,7 @@
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
-                     <li><a href="admin-category.php
-                     "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
+            
                      <li><a href="admin-login.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>

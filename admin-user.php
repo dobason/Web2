@@ -60,8 +60,7 @@
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
-                     <li><a href="admin-category.php
-                     "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
+          
                      <li><a href="dangnhap.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
@@ -216,21 +215,111 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addCustomerForm" action="process_add_customer.php" method="post">
-                    <div class="form-group">
-                        <label for="name">Họ Tên:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="account">Tài Khoản:</label>
-                        <input type="text" class="form-control" id="account" name="account" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pass">Mật Khẩu:</label>
-                        <input type="password" class="form-control" id="pass" name="pass" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Thêm</button>
-                </form>
+            <form id="addCustomerForm" action="process_add_customer.php" method="post">
+      
+      <div class="input-box">
+        <input type="text" id="name" name="name" placeholder="Họ và tên" required />
+      </div>
+      <div class="input-box">
+        <input type="text" id="account" name="account" placeholder="Tên đăng nhập" required />
+      </div>
+      <div class="input-box">
+        <select class="form-select form-select-sm mb-3" id="city" name="city" aria-label=".form-select-sm">
+          <option value="" selected>Tỉnh thành</option>
+        </select>
+        <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm">
+          <option value="" selected>Quận huyện</option>
+        </select>
+        <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm">
+          <option value="" selected>Phường xã</option>
+        </select>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <!-- Đoạn mã JavaScript để lấy dữ liệu địa điểm và hiển thị lên các select -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
+            var locationFileUrl = "js/location.js";
+            var Parameter = {
+              url: locationFileUrl,
+              method: "GET",
+              responseType: "json" // Sử dụng responseType là "json" để Axios tự động parse JSON
+            };
+
+            axios(Parameter)
+              .then(function(response) {
+                renderCity(response.data);
+              })
+              .catch(function(error) {
+                console.error('Error fetching location data:', error);
+              });
+
+            function renderCity(data) {
+              // Đổ dữ liệu các thành phố vào dropdown thành phố (city)
+              data.forEach(function(city) {
+                citis.options[citis.options.length] = new Option(city.Name, city.Id);
+              });
+
+              // Xử lý sự kiện khi chọn thành phố
+              citis.onchange = function() {
+                districts.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+                wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+
+                if (this.value !== "") {
+                  var selectedCity = data.find(function(item) {
+                    return item.Id === this.value;
+                  }, this);
+
+                  // Đổ dữ liệu các quận/huyện vào dropdown quận/huyện (district)
+                  if (selectedCity) {
+                    selectedCity.Districts.forEach(function(district) {
+                      districts.options[districts.options.length] = new Option(district.Name, district.Id);
+                    });
+                  }
+                }
+              };
+
+              // Xử lý sự kiện khi chọn quận/huyện
+              districts.onchange = function() {
+                wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+
+                if (this.value !== "") {
+                  var selectedCity = data.find(function(item) {
+                    return item.Id === citis.value;
+                  });
+
+                  if (selectedCity) {
+                    var selectedDistrict = selectedCity.Districts.find(function(district) {
+                      return district.Id === this.value;
+                    }, this);
+
+                    // Đổ dữ liệu các phường/xã vào dropdown phường/xã (ward)
+                    if (selectedDistrict) {
+                      selectedDistrict.Wards.forEach(function(ward) {
+                        wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+                      });
+                    }
+                  }
+                }
+              };
+            }
+          });
+        </script>
+
+
+      </div>
+      <div class="input-box">
+        <input type="number" id="phone" name="phone" placeholder="Số Điện Thoại" required />
+      </div>
+      <div class="input-box">
+        <input type="password" id="pass" name="pass" placeholder="Mật khẩu" required />
+      
+      </div>
+   
+
+      <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
             </div>
         </div>
     </div>

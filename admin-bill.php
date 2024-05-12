@@ -61,8 +61,7 @@
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
-                     <li><a href="admin-category.php
-                     "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
+                 
                      <li><a href="admin-login.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
@@ -334,7 +333,7 @@
                                         <th style="width: 15%;">Quận</th>
                                         <th style="width: 12%;">Tổng tiền</th>
                                         <th style="width: 10%;">Ngày đặt</th>
-                                        <th style="width: 10%;">Ngày xác nhận</th>
+                          
                                         <th style="width: 10%;">Ngày giao</th>
                                         <th style="width: 5%;">Tình trạng</th>
                                         <th style="width: 8%;">Xem</th>
@@ -424,7 +423,7 @@ foreach ($result as $row) {
     echo '<td>' . htmlspecialchars($quan) . '</td>'; 
     echo '<td>' . htmlspecialchars($tongTien) . '</td>'; // Tổng tiền
     echo '<td>' . htmlspecialchars($ngayDH) . '</td>'; // Ngày đặt hàng
-    echo '<td>' . htmlspecialchars($xacnhan) . '</td>'; // Ngày đặt hàng
+ 
     echo '<td>' . htmlspecialchars($ngayGH) . '</td>'; // Ngày giao hàng
     echo '<td>' . htmlspecialchars($tinhTrang) . '</td>'; // Tình trạng
 

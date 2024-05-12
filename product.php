@@ -10,46 +10,39 @@
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="js/main.js"></script>
     <title>Document</title>
-    <link rel="stylesheet" href="./css/Style2.css">
-    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-
 </head>
 
 <body>
 
-<header class="header">
+    <header>
 
-<div class="header-1">
-    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
 
-    <!-- Tìm Kiếm -->
-    <form class="search-form" method="GET">
-        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-        <div id="bookListContainer"></div>
-    </form>
+        <div class="big-menu">
 
-    <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
-    <div class="icons" style="display:flex;align-items:center">
-        <a href="cart.php" class="fas fa-shopping-cart"></a>
-        <?php require_once 'header.php'; ?>
-    </div>
-</div>
 
-<div class="header-2">
-    <nav class="navbar">
-        <a href="#home">Trang chủ</a>
-        <a href="#featured">Danh mục</a>
-        <a href="#arrivals">Sách mới</a>
-        <a href="#reviews">Khách hàng</a>
-        <a href="#blogs">Bài viết</a>
-    </nav>
-</div>
+            <div class="in-big-menu">
+                <div class="logo">
+                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
-<!---Kết nối database-->
-<?php require('./php/classes/database.php'); ?>
+                <div class="top-right-item">
+                    <a href="cart.html"  id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
+                    <p id="cartItemCount">0</p>
+                </div>
 
-</header>
+            </div>
+        </div>
+
+
+        <div id="backtop">
+            <i class="fa-solid fa-arrow-up"></i>
+
+        </div>
+    </header>
 
 <main>
 
@@ -87,9 +80,8 @@ function displayProductDetail($product) {
     echo '</div>';
     echo '<div class="product-right">';
     echo '<div class="product-right-top">';
-    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>'; 
-    echo '<p><span style="color:red;">Tác giả: </span>'. htmlentities($product['Ten_Tac_Gia']).'</p>';
-    echo '<p><span style="color:red;">Đơn giá:</span>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
+    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>';
+    echo '<p>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
     echo '<div class="product-shopping">';
     echo '<form action="add_to_cart.php" method="post">';
     echo '<input type="hidden" name="product_id" value="' . $product['Ma_Sach'] . '">';
@@ -128,93 +120,131 @@ function displayProductDetail($product) {
 }
 
 ?>
-    <section class="featured" id="featured">
+        <div class="slider5">
 
-<h1 class="heading"><span>Sách Khác </span></h1>
-    <div class="swiper featured-slider">
-                <?php
-                        require_once 'db/dbhelper.php';
+            <section class="slider-product-one">
+                <div class="container">
 
-                        $param = [];
-                        $sortParam = [];
-                        $where = "";
-                        $orderCondition = "";
+                    <div class="slider-product-one-content">
+                        <h2>Sản phẩm có liên quan</h2>
+                        <div class="slider-product-one-content-items">
 
-                        // Tìm kiếm tên sách
-                        $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
-                        if ($search) {
-                            $where = " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                            $param['Ten_Sach'] = $search;
-                            $sortParam['Ten_Sach'] = $search;
-                        }
+                            <div class="slider-product-one-content-item">
 
-                        include 'connect_db.php';
+                                <a href="product.html"><img src="IMG/product2.jpg" alt=""></a>
+                                <div class="slider-product-one-content-item-text">
+                                    <div class="slider-product-one-content-item-picture">
+                                        <li><img src="IMG/freeship.png" alt="">
+                                            <p> Miễn phí giao hàng</p>
+                                        </li>
+                                    </div>
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Tôi là Bêtô</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
+                                    </div>
+                                  
+                                    <li>72,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
 
-                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
-                        $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
-                        $offset = ($current_page - 1) * $item_per_page;
+                            <div class="slider-product-one-content-item">
 
-                        // Tạo URL từ mảng tham số
-                        $queryString = http_build_query($param);
+                                <a href="product.html"><img src="IMG/product3.jpg" alt=""></a>
+                                <div class="slider-product-one-content-item-text">
+                                    <div class="slider-product-one-content-item-picture">
+                                        <li><img src="IMG/freeship.png" alt="">
+                                            <p> Miễn phí giao hàng</p>
+                                        </li>
+                                    </div>
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Tôi thấy hoa vàng trên cỏ xanh</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
+                                    </div>
+                                    
+                                    <li>56.500<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
 
-                        // Thực hiện truy vấn sử dụng executeResult
-                        $sql = "SELECT * FROM `sach`" . $where . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
 
-                        $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
+                            <div class="slider-product-one-content-item">
 
-                        // Đếm tổng số bản ghi
-                        $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
+                                <a href="product.html"><img src="IMG/product4.jpg" alt=""></a>
+                                <div class="slider-product-one-content-item-text">
+                                    <div class="slider-product-one-content-item-picture">
+                                        <li><img src="IMG/freeship.png" alt="">
+                                            <p> Miễn phí giao hàng</p>
+                                        </li>
+                                    </div>
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Mùa hè không tên</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
+                                    </div>
+                                   
+                                    <li>110,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
 
-                        $totalRecords = executeResult($countSql);
-                        $totalRecords = $totalRecords[0]['total'];
-                        $totalPages = ceil($totalRecords / $item_per_page);
-                    ?>
 
-                        <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:center">
-                            <?php
-                            // Kiểm tra nếu có sản phẩm trong danh sách
-                            if ($sach) {
-                                foreach ($sach as $index => $book) {
-                                    $bookName = $book['Ten_Sach'];
-                                    $Tac_Gia = $book['Ten_Tac_Gia'];
-                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
-                                    $imagePath = $book['Hinh_Anh'];
+                            <div class="slider-product-one-content-item">
 
-                                    // Hiển thị sản phẩm
-                                    echo '<div class="slider-product-one-content-item">';
-                                    echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
-                                    echo '<div class="slider-product-one-content-item-text">';
-                                    echo '<div class="slider-text1">';
-                                    echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
-                                    echo '</div>';
-                                    echo '<div class="slider-text2">';
-                                    echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
-                                    echo '</div>';
-                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
-                                    echo '</div>';
-                                    echo '</div>';
+                                <a href="product.html"><img src="IMG/product5.jpg" alt=""></a>
+                                <div class="slider-product-one-content-item-text">
+                                    <div class="slider-product-one-content-item-picture">
+                                        <li><img src="IMG/freeship.png" alt="">
+                                            <p> Miễn phí giao hàng</p>
+                                        </li>
+                                    </div>
+                                    <div class="slider-text1">
+                                        <li><a href="#">
+                                                <p>Cho tôi xin một vé đi Tuổi Thơ</p>
+                                            </a></li>
+                                    </div>
+                                    <div class="slider-text2">
+                                        <li><a href=#>Nguyễn Nhật Ánh</a></li>
+                                    </div>
+                                    <li>80,000<sup><u>đ</u></sup></li>
+                                </div>
+                            </div>
 
-                                    // Chỉnh sửa CSS trực tiếp tại đây
-                                    echo '<style>';
-                                    echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; }';
-                                    echo '</style>';
-                                }
-                            } else {
-                                echo '<p>Không tìm thấy sách nào.</p>';
-                            }
-                            ?>
+
+
+
+
+                        </div>
+                    </div>
+
                 </div>
-            </div>
-          
-            <?php include './pagination.php'; ?>
-        </section>
+            </section>
+        </div>
 
+    </div>
 </main>
-<footer>
-        <div class="footer" style="background:var(--green);">
-            <div class="in-footer-body" >
-
+    <footer>
+        <div class="footer">
+           
+        
+            <div class="in-footer-body">
+                <div class="in-footer-body-left">
+                    <p>Phương thức thanh toán</p>
+                    <li><img src="IMG/pay1.png"></li>
+                    <li><img src="IMG/pay2.png"></li>
+                    <li><img src="IMG/pay3.png"></li>
+                    <li><img src="IMG/pay4.png"></li>
+                    <li><img src="IMG/pay5.webp"></li>
+                </div>
+        
                 <div class="in-footer-body-mid">
                     <p>Tài khoản của bạn</p>
                     <li><a href="">Cập nhật tài khoản</a></li>
@@ -223,28 +253,39 @@ function displayProductDetail($product) {
                     <li><a href="">Sản phẩm yêu thích</a></li>
                     <li><a href="">Kiểm tra đơn hàng</a></li>
                 </div>
-
+        
                 <div class="in-footer-body-mid">
                     <p>GOODREADS</a>
-                        <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
-                        <li><a href="">GOODREADS trên Facebook</a></li>
-                        <li><a href="">Liên hệ GOODREADS</a></li>
-                        <li><a href="">Đặt hàng theo yêu cầu</a< /li>
+                    <li><a href="/gioi_thieu.html">Giới thiệu GOODREADS</a></li>
+                    <li><a href="">GOODREADS trên Facebook</a></li>
+                    <li><a href="">Liên hệ GOODREADS</a></li>
+                    <li><a href="">Đặt hàng theo yêu cầu</a</li>
                 </div>
-                <div class="in-footer-body-right">
+                 <div class="in-footer-body-right">
                     <p>Kết nối với chúng tôi</p>
+                    <li><a href="#"><img src="IMG/contact1.webp"></a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
+                    <li><a href="#"><img src="IMG/contact3.webp"></a></li>
+                    <li><a href="#"><img src="IMG/contact4.webp"></a></li>
                     <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
                     <li><a href="#">Tuyển dụng</a></li><br>
                     <li><a href="#">Chính sách đổi - trả</a></li>
                     <li><a href="#">Chính sách bồi hoàn</a></li>
                     <li><a href="#">Câu hỏi thường gặp (FAQs)</a></li>
+        
+        
+        
                 </div>
-            </div>
+                </div>
+        
+               
         </div>
-        <div class="footer-bottom" style="background:var(--dark-color);">
-            <p>&copy; 2023 sachtore</p>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Bookstore</p>
         </div>
-    </footer>
+       
+         
+        </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
      

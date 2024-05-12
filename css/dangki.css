@@ -9,7 +9,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 900px;
+ 
+    background: linear-gradient(to right, #be906a, #cfb584);
 }
 
 .wrapper {

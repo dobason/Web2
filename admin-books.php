@@ -64,9 +64,8 @@
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
-                     <li><a href="admin-category.php
-                     "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
-                     <li><a href="admin-login.php
+             
+                     <li><a href="dangnhap.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
                </nav>
@@ -74,7 +73,8 @@
                   <div class="iq-card">
                      <div class="iq-card-body">
                         <div class="sidebarbottom-content">
-                           <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                          
+                           <div class="image"><img src="images/page-img/side-bkg.png" alt=""></div>                           
+                           <button type="submit" class="btn w-100 btn-primary mt-4 view-more">goodreads</button>
                         </div>
                      </div>
                   </div>
@@ -183,7 +183,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
                                     </div>
                                  </div>
                               </div>
@@ -197,16 +197,7 @@
          <!-- TOP Nav Bar END -->
          <!-- Page Content  -->
          <div id="content-page" class="content-page">
-<?php
-   require_once('db/dbhelper.php');
 
-   // Truy vấn dữ liệu sách từ cơ sở dữ liệu
-   $sql = "SELECT *, sach.Mo_Ta as Mo_Ta_Sach FROM sach JOIN loai_sach on sach.Ma_Loai = loai_sach.Ma_Loai";
-   $sql_loai_sach = "SELECT * from loai_sach";
-   
-   $books = executeResult($sql);
-   $categories = executeResult($sql_loai_sach);
-?>
 
 
 <!-- Modal for adding a new book -->
@@ -222,18 +213,16 @@
        <div class="modal-body">
          <form id="addBookForm" action="process_add_book.php" method="post" enctype="multipart/form-data">
            <div class="form-group">
+             <label for="bookImage">Hình ảnh</label>
+             <input type="file" class="form-control-file" id="bookImage" name="bookImage">
+           </div>
+           <div class="form-group">
              <label for="bookTitle">Tên sách</label>
              <input type="text" class="form-control" id="bookTitle" name="bookTitle" required>
            </div>
            <div class="form-group">
              <label for="bookCategory">Thể loại sách</label>
-             <select class="form-select form-control" aria-label="bookCategory" id="bookCategory" name="bookCategory" required>
-               <?php
-                  foreach ($categories as $index => $category) {
-                     echo '<option value="'.$category['Ma_Loai'].'">'.$category['Ten_Loai'].'</option>';
-                  }
-               ?>
-            </select>
+             <input type="number" class="form-control" id="bookCategory" name="bookCategory" required>
            </div>
            <div class="form-group">
              <label for="bookAuthor">Tác giả sách</label>
@@ -246,13 +235,6 @@
            <div class="form-group">
              <label for="bookPrice">Giá tiền</label>
              <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
-           </div>
-           <div class="form-group">
-            <div class="d-flex justify-content-center">
-               <img id="previewImage" src="" style="display: none" />
-             </div>
-             <label for="bookImage">Hình ảnh</label>
-             <input type="file" class="form-control-file" id="bookImage" name="bookImage">
            </div>
            <button type="submit" class="btn btn-primary">Thêm</button>
          </form>
@@ -294,23 +276,26 @@
                                         <th style="width: 15%;">Tác giả sách</th>
                                         <th style="width: 18%;">Mô tả sách</th>
                                         <th style="width: 7%;">Giá</th>
-                                        <th style="width: 7%;">Trạng thái</th>
                                         <th style="width: 15%;">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 <?php
+require_once('db/dbhelper.php');
+
+// Truy vấn dữ liệu sách từ cơ sở dữ liệu
+$sql = "SELECT * FROM sach";
+$books = executeResult($sql);
+
 foreach ($books as $index => $book) {
     $stt = $index + 1; // Số thứ tự
     $bookName = $book['Ten_Sach'];
-    $category = $book['Ten_Loai'];
+    $category = $book['Ma_Loai'];
     $author = $book['Ten_Tac_Gia'];
-    $description = $book['Mo_Ta_Sach'];
+    $description = $book['Mo_Ta'];
     $price = number_format($book['Don_Gia'], 0, ',', '.'); // Định dạng giá tiền thành 15.000
     $image = $book['Hinh_Anh'];
     $bookId = $book['Ma_Sach']; // ID của sách
-    $status = $book['Trang_Thai'] && $book['Trang_Thai'] === 1 ? 'Đang bán' : 'Ẩn';
-    
 
     echo '<tr>';
     echo '<td>' . $stt . '</td>'; // STT
@@ -320,26 +305,17 @@ foreach ($books as $index => $book) {
     echo '<td>' . $author . '</td>'; // Tác giả sách
     echo '<td>' . $description . '</td>'; // Mô tả sách
     echo '<td>' . $price . '</td>'; // Giá đã định dạng
-    echo '<td>' . $status . '</td>'; // Trạng thái
     echo '<td>';
 
-    echo '<a href="#" class="edit-book" data-book-id="' . $bookId . '">Sửa</a>';
-    echo ' | ';
+    echo '<a href="#" class="edit-book" data-book-id="' . $bookId . '">Sửa</a>|';
 
     // Liên kết xóa với xác nhận trước khi thực hiện
-    if ($book['Trang_Thai'] === 1) {
-      // Hiển thị nút ẩn sách khi sách đang active
-      echo '<a href="hide-book.php?book_id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn ẩn sách?\')">Ẩn</a>';
-    } else {
-      // Hiển thị nút xoá sách khi sách đã bị ẩn
-      echo '<a href="delete-book.php?book_id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xoá sách?\')">Xoá</a>';
-    }
+    echo '<a href="delete-book.php?book_id=' . $bookId . '" onclick="return confirm(\'Bạn có chắc chắn muốn xóa?\')">Xóa</a>';
 
     echo '</td>';
     echo '</tr>';
 }
-?>
-<!-- Modal để sửa thông tin sách -->
+?><!-- Modal để sửa thông tin sách -->
 <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -354,56 +330,45 @@ foreach ($books as $index => $book) {
            <input type="hidden" id="bookId" name="bookId">
            
            <div class="form-group">
-             <label for="bookTitleEdit">Tên sách</label>
+             <label for="bookTitle">Tên sách</label>
              <input type="text" class="form-control" id="bookTitleEdit" name="bookTitleEdit" required>
            </div>
            <div class="form-group">
-             <label for="bookCategoryEdit">Thể loại sách</label>
-             <select class="form-select form-control" aria-label="bookCategoryEdit" id="bookCategoryEdit" name="bookCategoryEdit" required>
-               <?php
-                  foreach ($categories as $index => $category) {
-                     echo '<option value="'.$category['Ma_Loai'].'">'.$category['Ten_Loai'].'</option>';
-                  }
-               ?>
-            </select>
+             <label for="bookCategory">Thể loại sách</label>
+             <input type="number" class="form-control" id="bookCategoryEdit" name="bookCategoryEdit" required>
            </div>
            <div class="form-group">
-             <label for="bookAuthorEdit">Tác giả sách</label>
+             <label for="bookAuthor">Tác giả sách</label>
              <input type="text" class="form-control" id="bookAuthorEdit" name="bookAuthorEdit" required>
            </div>
            <div class="form-group">
-             <label for="bookDescriptionEdit">Mô tả sách</label>
+             <label for="bookDescription">Mô tả sách</label>
              <textarea class="form-control" id="bookDescriptionEdit" name="bookDescriptionEdit" rows="3" required></textarea>
            </div>
-           <div class="form-group">
-             <label for="bookPriceEdit">Giá tiền</label>
-             <input type="number" class="form-control" id="bookPriceEdit" name="bookPriceEdit" required>
-           </div>
-           <div class="form-group">
-            <label for="bookStatusEdit">Trạng thái</label>
-            <select class="form-select form-control" aria-label="bookStatusEdit" id="bookStatusEdit" name="bookStatusEdit" required>
-               <option value="1">Đang bán</option>
-               <option value="0">Ẩn</option>
-            </select>
-           </div>
-           <div class="form-group">
-             <label for="bookImage">Hình ảnh</label>
-             <div class="d-flex justify-content-center">
-               <img id="previewImageEdit" src="" style="display: none" />
+           <div class="form-row">
+             <div class="form-group col-md-6">
+               <label for="bookPrice">Giá tiền</label>
+               <input type="number" class="form-control" id="bookPriceEdit" name="bookPriceEdit" required>
              </div>
-             <div class="custom-file">
-               <input type="file" class="custom-file-input" id="bookImageEdit" name="bookImageEdit">
-               <label class="custom-file-label" for="bookImageEdit">Chọn hình ảnh mới</label>
+             <div class="form-group col-md-6">
+               <label for="bookImage">Hình ảnh</label>
+               <div class="custom-file">
+                 <input type="file" class="custom-file-input" id="bookImageEdit" name="bookImageEdit">
+                 <label class="custom-file-label" for="bookImageEdit">Chọn hình ảnh</label>
+               </div>
+             
              </div>
-             <small class="form-text text-muted">Vui lòng chọn hình ảnh từ thư mục img/</small>
            </div>
            <button type="submit" class="btn btn-primary">Lưu</button>
          </form>
        </div>
      </div>
    </div>
-</div>
+ </div>
 
+
+
+<!-- Đoạn mã JavaScript để xử lý sự kiện khi nhấn vào nút "Sửa" -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const editButtons = document.querySelectorAll('.edit-book');
@@ -415,68 +380,52 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hiển thị modal "Sửa thông tin sách"
             $('#editBookModal').modal('show');
 
+            // Gán giá trị bookId vào input hidden
+            document.getElementById('bookId').value = bookId;
+
             // Gửi yêu cầu Ajax để lấy thông tin sách từ cơ sở dữ liệu
             $.ajax({
                 url: 'get_book.php',
                 type: 'GET',
-                header: { 'Content-Type': 'application/json' },
                 data: {
                     book_id: bookId
                 },
-               success: function(response) {
-                  const formatResponse = $.parseJSON(response);
-                  $('input#bookTitleEdit').val(formatResponse.Ten_Sach);
-                  $('select#bookCategoryEdit').val(formatResponse.Ma_Loai);
-                  $('input#bookAuthorEdit').val(formatResponse.Ten_Tac_Gia);
-                  $('textarea#bookDescriptionEdit').val(formatResponse.Mo_Ta);
-                  $('input#bookPriceEdit').val(formatResponse.Don_Gia);
-                  $('select#bookStatusEdit').val(formatResponse.Trang_Thai);
-                  document.getElementById('previewImageEdit').src = formatResponse.Hinh_Anh;
-                  document.getElementById('previewImageEdit').style.display = 'block';
-               },
+                success: function(response) {
+                    // Điền thông tin sách vào các trường của modal
+                    document.getElementById('bookTitle').value = response.Ten_Sach;
+                    document.getElementById('bookCategory').value = response.Ma_Loai;
+                    document.getElementById('bookAuthor').value = response.Ten_Tac_Gia;
+                    document.getElementById('bookDescription').value = response.Mo_Ta;
+                    document.getElementById('bookPrice').value = response.Don_Gia;
+                    document.getElementById('previewImage').src = response.Hinh_Anh;
+                    document.getElementById('previewImage').style.display = 'block';
+                },
                 error: function(xhr, status, error) {
-                  console.error('Lỗi khi truy vấn dữ liệu sách:', error);
-               }
+                    console.error('Lỗi khi truy vấn dữ liệu sách:', error);
+                }
             });
         });
     });
-   
-   // Preview image cho trường hợp sửa
-   $('input#bookImageEdit').change(function(){
-      var input = this;
-      var url = $(this).val();
-      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-      if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-      {
-         var reader = new FileReader();
-
-         reader.onload = function (e) {
-            $('#previewImageEdit').attr('src', e.target.result);
-         }
-         reader.readAsDataURL(input.files[0]);
-      }
-   });
-   
-   // Preview image cho trường hợp thêm mới
-   $('input#bookImage').change(function(){
-      var input = this;
-      var url = $(this).val();
-      var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
-      if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
-      {
-         var reader = new FileReader();
-
-         reader.onload = function (e) {
-            $('#previewImage').attr('style', 'display:block');
-            $('#previewImage').attr('src', e.target.result);
-         }
-         reader.readAsDataURL(input.files[0]);
-      }
-   });
 });
+
+
+
+    // Hàm xem trước hình ảnh trước khi tải lên
+    function previewImage(event) {
+        const preview = document.getElementById('previewImage');
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = function() {
+            preview.src = reader.result;
+            preview.style.display = 'block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
 </script>
-
-
 
 
 
