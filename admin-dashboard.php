@@ -52,7 +52,6 @@
                   <ul id="iq-sidebar-toggle" class="iq-menu">
                      <li><a href="admin-dashboard.php"><i class="las la-home iq-arrow-left"></i>Bảng Điều Khiển</a></li>
                      <li><a href="admin-bill.php"><i class="ri-record-circle-line"></i>Đơn Hàng</a></li>
-                     
                      <li><a href="admin-user.php"><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php"><i class="ri-record-circle-line"></i>Sách</a></li>
                      <li><a href="admin-category.php"><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
@@ -161,7 +160,7 @@
                                        </div>
                                     </a>
                                     <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
+                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Đăng xuất<i class="ri-login-box-line ml-2"></i></a>
    
                                     </div>
                                  </div>

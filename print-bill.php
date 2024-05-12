@@ -1,5 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <!--Font awesome cdn link -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- Custom css file link -->
+    <link rel="stylesheet" href="./css/Style2.css">
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
+</head>
+<body>
+    <!-- Header section star -->
+
+<header class="header">
+
+<div class="header-1">
+    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
+
+    <!-- Tìm Kiếm -->
+    <form class="search-form" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+        <div id="bookListContainer"></div>
+    </form>
+
+    <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
+    <div class="icons" style="display:flex;align-items:center">
+        <a href="cart.php" class="fas fa-shopping-cart"></a>
+        <?php require_once 'header.php'; ?>
+    </div>
+</div>
+
+<div class="header-2">
+    <nav class="navbar">
+        <a href="#home">Trang chủ</a>
+        <a href="#featured">Danh mục</a>
+        <a href="#arrivals">Sách mới</a>
+        <a href="#reviews">Khách hàng</a>
+        <a href="#blogs">Bài viết</a>
+    </nav>
+</div>
+
+<!---Kết nối database-->
+<?php require('php/classes/database.php'); ?>
+
+</header>
+
 <?php
-session_start();
+// Đoạn mã PHP hiện tại
 require_once 'db/dbhelper.php';
 
 // Kiểm tra xem Ma_KH đã được lưu trong session hay chưa
@@ -32,8 +83,8 @@ if (isset($_SESSION['Ma_KH'])) {
                 <div style="display: flex; justify-content: center;  ">
                 
                     <div class=bill-info>
-                        <h2>Hóa đơn thanh toán</h2>
-                        <p>Mã HĐ: <?php echo $row['Ma_HD']; ?></p>
+                    <h2 style="text-align: center;">Hóa đơn thanh toán</h2>
+                        <p>Mã hóa đơn: <?php echo $row['Ma_HD']; ?></p>
                         <p>Tên Người Nhận: <?php echo $row['Ten_Nguoi_Nhan_Hang']; ?></p>
                         <p>Số Điện Thoại: <?php echo $row['SDT']; ?></p>
                         <p>Địa Chỉ: <?php echo $row['Dia_Chi_Nhan_Hang'],", ",$row['Phuong'] ,", ",$row['Quan'],", ",$row['Thanh_Pho']; ?></p>
@@ -51,7 +102,9 @@ if (isset($_SESSION['Ma_KH'])) {
                                 echo "<tr>";
                                 echo "<td>{$rowChiTiet['Ten_Sach']}</td>";
                                 echo "<td>{$rowChiTiet['So_Luong']}</td>";
-                                echo "<td>{$rowChiTiet['Don_Gia']}</td>";
+                                $donGia = number_format($rowChiTiet['Don_Gia'], 0, ',', '.');
+                                echo "<td>{$donGia}đ</td>";
+
                                 echo "</tr>";
                             }
                             
@@ -59,11 +112,14 @@ if (isset($_SESSION['Ma_KH'])) {
                             
                             ?>
                       
-                        <p>Tổng Tiền: <?php echo $row['Tong_Tien']; ?></p>
+                        <p>Tổng Tiền: <?php echo $row['Tong_Tien'] . 'đ'; ?></p>
                         <p>Phương thức thanh toán: <?php echo $row['Thanh_Toan']; ?></p>
                         <p>Ngày Đặt Hàng: <?php echo $row['Ngay_DH']; ?></p>
                         <p>Ngày Giao Hàng: <?php echo $row['Ngay_GH']; ?></p>
-                           <a href="index.php"><button type="button">Quay lại trang chủ</button></a>
+                        <div style="display: flex; justify-content: center;">
+                            <a href="index.php"><button type="button" style="height: 50px;border-radius: 4px;background-color: var(--swiper-theme-color);">Quay lại trang chủ</button></a>
+                        </div>
+
                     </div>
                     <div>
                         <!-- Nút quay lại trang index.php -->
@@ -87,6 +143,10 @@ if (isset($_SESSION['Ma_KH'])) {
     echo "Không tìm thấy mã khách hàng trong session.";
 }
 ?>
+</body>
+</html>
+
+
 <style>
    .h2{
     text-align: center;
@@ -121,19 +181,23 @@ tr:hover {
         height: 80vh; /* chiều cao tương đối cho div */
     }
     .bill-info {
-    text-align: left;
+    text-align: left; /* căn lề văn bản sang trái */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #e3f2fd; /* Màu xanh dương nhạt */
-    max-width: 600px;
+    background-color: #e3f2fd; /* Màu nền */
+    max-width: 800px;
     width: 90%;
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1); /* Hiệu ứng bóng mờ */
-}
-
+    position: absolute; /* Vị trí tuyệt đối */
+    top: 50%; /* Đặt phần tử ở giữa theo chiều dọc */
+    left: 50%; /* Đặt phần tử ở giữa theo chiều ngang */
+    transform: translate(-50%, -50%); /* Dịch chuyển phần tử 50% theo chiều ngang và dọc */
+    }
 
     .back-btn {
         margin-top: 20px;
         text-align: center;
     }
 </style>
+

@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
         wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
 
         if (this.value !== "") {
-          var selectedCity = danta.fid(function(item) {
+          var selectedCity = data.find(function(item) {
             return item.Id === citis.value;
           });
 
@@ -192,6 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, this);
 
             // Đổ dữ liệu các phường/xã vào dropdown phường/xã (ward)
+            console.log(selectedDistrict);
             if (selectedDistrict) {
               selectedDistrict.Wards.forEach(function(ward) {
                 wards.options[wards.options.length] = new Option(ward.Name, ward.Id);

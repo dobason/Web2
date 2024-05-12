@@ -1,8 +1,21 @@
 <?php 
     session_start();
 
-    // Xóa session 'use' hoặc session 'admin', tùy thuộc vào cách bạn lưu trữ thông tin đăng nhập
-    unset($_SESSION['use']);
+    // Kiểm tra nếu người dùng đã đăng nhập
+    if(isset($_SESSION['admin'])) {
+        // Nếu đã đăng nhập, chuyển hướng người dùng đến trang admin-dashboard.php
+        header('Location: admin-dashboard.php');
+        exit;
+    }
+
+    // Xử lý đăng xuất
+    if(isset($_POST['logout'])) {
+        // Hủy bỏ session của quản trị viên
+        unset($_SESSION['admin']);
+        // Chuyển hướng người dùng đến trang index.php sau khi đăng xuất
+        header('Location: index.php');
+        exit;
+    }
 ?>
 
 <!DOCTYPE html>
@@ -19,8 +32,6 @@
 </head>
 
 <body>
- 
- 
 <div class="wrapper">
     <form id="formDangNhap" method="post" action="">
         <h1>Xin chào quản lý</h1>

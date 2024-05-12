@@ -24,9 +24,9 @@
             <span class="show-password" onclick="togglePassword('password')"><i class="bx bx-show"></i></span>
         </div>
         <div class="forgot">
-            <label><input type="checkbox" id="remember" name="remember" /> Lưu đăng nhập</label>
+            <label><input type="checkbox" id="remember" name="remember" />Lưu đăng nhập</label>
         </div>
-        <input type="submit" value="Đăng Nhập" class="log" href="index2.php">
+        <input type="submit" value="Đăng Nhập" class="log" href="index.php">
         <div class="register">
             <p>Không có tài khoản? <a href="dangki.php">Đăng ký</a></p><br>
             <p><a href="index.php"><i class="fa-solid fa-house"></i></a></p>
