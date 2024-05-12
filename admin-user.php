@@ -434,9 +434,8 @@ $('#editCustomerModal').modal('show');
                                         <th style="width: 1%;">Mã khách hàng</th>
                                         <th style="width: 16%;">Họ và tên</th>
                                         <th style="width: 15%;">Tài khoản</th>
-                                        <th style="width: 5%;">Mật Khẩu</th>
                                           <th style="width: 5%;">Số lượng</th>
-                                        <th style="width: 5%;">Tổng tiền</th>
+                                        <th>Tổng tiền</th>
                                         <th style="width: 1%;">Tình trạng</th>
                                         <th style="width: 20%;">Hoạt động</th>
                                     </tr>
@@ -482,7 +481,6 @@ $query_select = "
     SELECT kh.Ma_KH,
            kh.Ten_KH,
            kh.Tai_Khoan,
-           kh.Mat_Khau,
            kh.So_Luong,
            kh.Tong_Tien,
            kh.Trang_Thai
@@ -499,7 +497,6 @@ if ($result) {
         $maKH = $row['Ma_KH'];
         $customerName = $row['Ten_KH'];
         $account = $row['Tai_Khoan'];
-        $password = $row['Mat_Khau'];
         $number = $row['So_Luong'];
         $total =number_format($row['Tong_Tien'], 0, ',', '.'); 
         $status = $row['Trang_Thai'];
@@ -516,7 +513,6 @@ if ($result) {
                 <td>{$maKH}</td>
                 <td>{$customerName}</td>
                 <td>{$account}</td>
-                <td>{$password}</td>
                 <td>{$number}</td>
                 <td>{$total}</td>
                 <td>{$statusText}</td>
@@ -602,7 +598,6 @@ else{
            $maKH = $row['Ma_KH'];
            $customerName = $row['Ten_KH'];
            $account = $row['Tai_Khoan'];
-           $password = $row['Mat_Khau'];
            $number = $row['Tong_SoLuong'];
            $total = number_format(floatval($row['Tong_HD']), 0, ',', '.');
  
@@ -615,7 +610,6 @@ else{
                    <td>{$maKH}</td>
                    <td>{$customerName}</td>
                    <td>{$account}</td>
-                   <td>{$password}</td>
                    <td>{$number}</td>
                    <td>{$total}</td>
                    <td>{$status}</td>

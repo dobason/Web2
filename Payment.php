@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, this);
 
             // Đổ dữ liệu các phường/xã vào dropdown phường/xã (ward)
+            console.log(selectedDistrict);
             if (selectedDistrict) {
               selectedDistrict.Wards.forEach(function(ward) {
                 wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
