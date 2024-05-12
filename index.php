@@ -45,7 +45,7 @@
 </div>
 
 <!---Kết nối database-->
-<?php require('./php/classes/database.php'); ?>
+<?php require('php/classes/database.php'); ?>
 
 </header>
     <!-- bottom navbar -->

@@ -236,6 +236,11 @@
              <label for="bookPrice">Giá tiền</label>
              <input type="number" class="form-control" id="bookPrice" name="bookPrice" required>
            </div>
+           <div class="form-group">
+  <label for="bookPublisher">Nhà xuất bản</label>
+  <input type="text" class="form-control" id="bookPublisher" name="bookPublisher" required>
+</div>
+
            <button type="submit" class="btn btn-primary">Thêm</button>
          </form>
        </div>
@@ -276,6 +281,7 @@
                                         <th style="width: 15%;">Tác giả sách</th>
                                         <th style="width: 18%;">Mô tả sách</th>
                                         <th style="width: 7%;">Giá</th>
+                                        <th style="width: 7%;">Trạng thái</th>
                                         <th style="width: 15%;">Hoạt động</th>
                                     </tr>
                                 </thead>
@@ -290,13 +296,13 @@ $books = executeResult($sql);
 foreach ($books as $index => $book) {
     $stt = $index + 1; // Số thứ tự
     $bookName = $book['Ten_Sach'];
-    $category = $book['Ma_Loai'];
+    $category = $book['The_Loai'];
     $author = $book['Ten_Tac_Gia'];
     $description = $book['Mo_Ta'];
     $price = number_format($book['Don_Gia'], 0, ',', '.'); // Định dạng giá tiền thành 15.000
     $image = $book['Hinh_Anh'];
     $bookId = $book['Ma_Sach']; // ID của sách
-
+    $status = $book['Trang_Thai']; // ID của sách
     echo '<tr>';
     echo '<td>' . $stt . '</td>'; // STT
     echo '<td><img src="' . $image . '" alt="Book Image" style="width: 100px;"></td>'; // Hình ảnh
@@ -305,6 +311,7 @@ foreach ($books as $index => $book) {
     echo '<td>' . $author . '</td>'; // Tác giả sách
     echo '<td>' . $description . '</td>'; // Mô tả sách
     echo '<td>' . $price . '</td>'; // Giá đã định dạng
+    echo '<td>' . $status . '</td>'; // trạng thái
     echo '<td>';
 
     echo '<a href="#" class="edit-book" data-book-id="' . $bookId . '">Sửa</a>|';
@@ -315,7 +322,8 @@ foreach ($books as $index => $book) {
     echo '</td>';
     echo '</tr>';
 }
-?><!-- Modal để sửa thông tin sách -->
+?>
+<!-- Modal để sửa thông tin sách -->
 <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -351,21 +359,15 @@ foreach ($books as $index => $book) {
            </div>
            <div class="form-group">
              <label for="bookImage">Hình ảnh</label>
-             <div class="custom-file">
-               <input type="file" class="custom-file-input" id="bookImage" name="bookImage">
-               <label class="custom-file-label" for="bookImage">Chọn hình ảnh</label>
-             </div>
-             <small class="form-text text-muted">Vui lòng chọn hình ảnh từ thư mục img/</small>
+             <input type="file" class="form-control-file" id="bookImage" name="bookImage">
            </div>
            <button type="submit" class="btn btn-primary">Lưu</button>
          </form>
        </div>
      </div>
    </div>
- </div>
+</div>
 
-
-<!-- Đoạn mã JavaScript để xử lý sự kiện khi nhấn vào nút "Sửa" -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const editButtons = document.querySelectorAll('.edit-book');
@@ -377,9 +379,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Hiển thị modal "Sửa thông tin sách"
             $('#editBookModal').modal('show');
 
-            // Gán giá trị bookId vào input hidden
-            document.getElementById('bookId').value = bookId;
-
             // Gửi yêu cầu Ajax để lấy thông tin sách từ cơ sở dữ liệu
             $.ajax({
                 url: 'get_book.php',
@@ -388,14 +387,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     book_id: bookId
                 },
                 success: function(response) {
-                    // Điền thông tin sách vào các trường của modal
+                    // Điền thông tin sách vào các trường của form
+                    document.getElementById('bookId').value = bookId;
                     document.getElementById('bookTitle').value = response.Ten_Sach;
                     document.getElementById('bookCategory').value = response.Ma_Loai;
                     document.getElementById('bookAuthor').value = response.Ten_Tac_Gia;
                     document.getElementById('bookDescription').value = response.Mo_Ta;
                     document.getElementById('bookPrice').value = response.Don_Gia;
-                    document.getElementById('previewImage').src = response.Hinh_Anh;
-                    document.getElementById('previewImage').style.display = 'block';
                 },
                 error: function(xhr, status, error) {
                     console.error('Lỗi khi truy vấn dữ liệu sách:', error);
@@ -405,24 +403,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Hàm xem trước hình ảnh trước khi tải lên
+function previewImage(event) {
+    const preview = document.getElementById('previewImage');
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
+    reader.onloadend = function() {
+        preview.src = reader.result;
+        preview.style.display = 'block';
+    };
 
-    // Hàm xem trước hình ảnh trước khi tải lên
-    function previewImage(event) {
-        const preview = document.getElementById('previewImage');
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = function() {
-            preview.src = reader.result;
-            preview.style.display = 'block';
-        };
-
-        if (file) {
-            reader.readAsDataURL(file);
-        }
+    if (file) {
+        reader.readAsDataURL(file);
     }
+}
 </script>
+
+
 
 
 
