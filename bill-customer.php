@@ -3,7 +3,6 @@ session_start();
 require_once 'db/dbhelper.php';
 
 // Kiểm tra xem Ma_KH đã được lưu trong session hay không
-if (isset($_SESSION['Ma_KH'])) {
     // Mở kết nối đến CSDL
     $conn = openDatabaseConnection();
 
@@ -92,9 +91,6 @@ if (isset($_SESSION['Ma_KH'])) {
     } else {
         echo "Không thể kết nối đến CSDL.";
     }
-} else {
-    echo "Không tìm thấy mã khách hàng trong session.";
-}
 ?>
 <style>
     /* CSS cho phần tử container chứa tất cả hóa đơn */
