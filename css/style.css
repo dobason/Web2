@@ -1186,3 +1186,7 @@ Add User Page
     font-weight: bold;
       color: red;;
   }
+
+#previewImage, #previewImageEdit {
+  height: 200px;
+}
