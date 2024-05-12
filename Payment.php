@@ -31,6 +31,28 @@ select {
 </head>
 
 <body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var addressSelect = document.getElementById('addressSelect');
+    var checkOutBottom = document.getElementById('checkOutBottom');
+
+    // Ẩn ban đầu phần in-check-out-bottom
+    checkOutBottom.style.display = 'block'; // Mặc định hiển thị
+
+    // Xử lý sự kiện khi lựa chọn thay đổi
+    addressSelect.onchange = function() {
+        var selectedValue = addressSelect.value;
+
+        if (selectedValue === 'existingAddress') {
+            // Nếu chọn địa chỉ đăng nhập, ẩn phần in-check-out-bottom
+            checkOutBottom.style.display = 'none';
+        } else {
+            // Nếu chọn địa chỉ mới, hiển thị lại phần in-check-out-bottom
+            checkOutBottom.style.display = 'block';
+        }
+    };
+});
+</script>
 <header class="header">
 
     <div class="header-1">
@@ -66,30 +88,6 @@ select {
 </header>
 
     <main>
-
-    <script>
-document.addEventListener('DOMContentLoaded', function() {
-    var addressSelect = document.getElementById('addressSelect');
-    var checkOutBottom = document.getElementById('checkOutBottom');
-
-    // Ẩn ban đầu phần in-check-out-bottom
-    checkOutBottom.style.display = 'block'; // Mặc định hiển thị
-
-    // Xử lý sự kiện khi lựa chọn thay đổi
-    addressSelect.onchange = function() {
-        var selectedValue = addressSelect.value;
-
-        if (selectedValue === 'existingAddress') {
-            // Nếu chọn địa chỉ đăng nhập, ẩn phần in-check-out-bottom
-            checkOutBottom.style.display = 'none';
-        } else {
-            // Nếu chọn địa chỉ mới, hiển thị lại phần in-check-out-bottom
-            checkOutBottom.style.display = 'block';
-        }
-    };
-});
-</script>
-
         <form id="checkoutForm" action="bill.php" method="post">
         <div class="slider5">
 
@@ -97,17 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3>ĐỊA CHỈ GIAO HÀNG</h3>
             </div>
             <div class="checkout">
-                
             <div class="in-checkout">
             <div class="in-check-out-address">
                 
-                    <select id="addressSelect" name="addressSelect" required>
-                        <option value="newAddress">Địa chỉ mới</option>
-                        <option value="existingAddress">Địa chỉ đăng nhập</option>
-                    </select>
-                </div>
-
-                <div id="checkOutBottom" class="in-check-out-bottom">
+                <select id="addressSelect" name="addressSelect" required>
+                    <option value="newAddress">Địa chỉ mới</option>
+                    <option value="existingAddress">Địa chỉ đăng nhập</option>
+                </select>
+            </div>
+            <div id="checkOutBottom" class="in-check-out-bottom">
             <div class="in-check-out-name">
                 <label for="name">Họ và tên người nhận</label>
                 <input type="text" id="name" name="name" pattern="[a-zA-Z\s]+" placeholder="Nhập không dấu (son,kien,phuong)" required>
@@ -182,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
         wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
 
         if (this.value !== "") {
-          var selectedCity = danta.fid(function(item) {
+          var selectedCity = data.find(function(item) {
             return item.Id === citis.value;
           });
 
@@ -368,7 +364,7 @@ $_SESSION['totalAmount'] = $totalAmount;
                         <p>Trở lại</p>
                     </div>
                 </a>
-                <button type="submit" class="show-popup-button" style="background:var(--green);" >Hoàn tất đặt hàng</button>
+                <button type="submit" id="submitButton" class="show-popup-button" style="background: var(--green);">Hoàn tất đặt hàng</button>
                 
             </div>
         </div>
@@ -377,7 +373,66 @@ $_SESSION['totalAmount'] = $totalAmount;
 
     </footer>
 
-   
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Lấy các phần tử trong form
+    var addressSelect = document.getElementById('addressSelect');
+    var nameInput = document.getElementById('name');
+    var phoneNumberInput = document.getElementById('phoneNumber');
+    var deliveryAddressInput = document.getElementById('deliveryAddress');
+    var citySelect = document.getElementById('city');
+    var districtSelect = document.getElementById('district');
+    var wardSelect = document.getElementById('ward');
+    var submitButton = document.getElementById('submitButton');
+
+    // Bắt sự kiện change trên dropdown
+    addressSelect.addEventListener('change', function() {
+        var selectedValue = addressSelect.value;
+
+        // Nếu chọn "Địa chỉ đăng nhập"
+        if (selectedValue === 'existingAddress') {
+            // Loại bỏ thuộc tính required cho các trường nhập liệu
+            nameInput.removeAttribute('required');
+            phoneNumberInput.removeAttribute('required');
+            deliveryAddressInput.removeAttribute('required');
+            citySelect.removeAttribute('required');
+            districtSelect.removeAttribute('required');
+            wardSelect.removeAttribute('required');
+        } else {
+            // Nếu chọn "Địa chỉ mới"
+            // Thêm thuộc tính required cho các trường nhập liệu
+            nameInput.setAttribute('required', true);
+            phoneNumberInput.setAttribute('required', true);
+            deliveryAddressInput.setAttribute('required', true);
+            citySelect.setAttribute('required', true);
+            districtSelect.setAttribute('required', true);
+            wardSelect.setAttribute('required', true);
+        }
+    });
+
+    // Bắt sự kiện submit form
+    document.addEventListener('DOMContentLoaded', function() {
+    var addressSelect = document.getElementById('addressSelect');
+    var submitButton = document.getElementById('submitButton');
+
+    // Bắt sự kiện click trên nút submit
+    submitButton.addEventListener('click', function(event) {
+        var selectedValue = addressSelect.value;
+
+        // Nếu người dùng chọn "Địa chỉ đăng nhập", cho phép submit form
+        if (selectedValue === 'existingAddress') {
+            return true; // Cho phép submit
+        } else {
+            // Nếu người dùng chọn "Địa chỉ mới", ngăn chặn submit form và hiển thị thông báo
+            alert('Vui lòng hoàn thành thông tin địa chỉ mới.');
+            event.preventDefault(); // Ngăn chặn submit form
+        }
+    });
+});
+
+});
+
+</script>
 
 
 
