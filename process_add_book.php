@@ -36,8 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         if (move_uploaded_file($_FILES["bookImage"]["tmp_name"], $targetFile)) {
             // Thêm thông tin sách vào cơ sở dữ liệu
-            $sql = "INSERT INTO sach (Ten_Sach, Ma_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh)
-                    VALUES ('$bookTitle', '$bookCategory', '$bookAuthor', '$bookDescription', '$bookPrice', '$targetFile')";
+            $sql = "INSERT INTO sach (Ten_Sach, Ma_Loai, Ten_Tac_Gia, Mo_Ta, Don_Gia, Hinh_Anh, Trang_Thai)
+                    VALUES ('$bookTitle', '$bookCategory', '$bookAuthor', '$bookDescription', '$bookPrice', '$targetFile', 1)";
             execute($sql);
 
             // Chuyển hướng về trang danh sách sách sau khi thêm thành công
