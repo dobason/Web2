@@ -39,8 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $maHD = mysqli_insert_id($conn);
     
         // Truy vấn INSERT để thêm chi tiết hóa đơn từ bảng gio_hang vào bảng chi_tiet_hoa_don
-        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (Ma_HD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia)
-                             SELECT ?, gh.Ma_KH, gh.Ma_GH, gh.Ten_Sach, gh.So_Luong, gh.Don_Gia
+        $sqlInsertChiTiet = "INSERT INTO chi_tiet_hoa_don (Ma_HD, Ma_KH, Ma_GH, Ten_Sach, So_Luong, Don_Gia, Ma_Sach)
+                             SELECT ?, gh.Ma_KH, gh.Ma_GH, gh.Ten_Sach, gh.So_Luong, gh.Don_Gia, gh.Ma_Sach
                              FROM gio_hang gh
                              WHERE gh.Ma_KH = ?";
     
