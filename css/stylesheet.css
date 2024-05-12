@@ -95,9 +95,16 @@ img {
 }
 .top-right-item{
    color: black;
-    margin-top: 5px;
-   width: 20%;
 text-align: center;
+}
+#namelogin {
+   margin-left: 8px;
+}
+.top-right-item #namelogin .fa-caret-down {
+   margin-left: 8px;
+}
+.dropdown-content {
+   width: 210px;
 }
 
 .logo img{
@@ -434,6 +441,8 @@ width: 75em;
 
 .slider-product-one-content-item a> img{
    width: 100%;
+   height: 200px;
+   object-fit: cover;
    transition: all 0.5s ease;
 }
 /*------------------------*/
