@@ -9,13 +9,14 @@ if (isset($_SESSION['Ma_KH'])) {
 
     // Kiểm tra kết nối CSDL
     if ($conn) {
-        // Lấy Ma_KH từ session
-        $maKH = $_SESSION['Ma_KH'];
-
+        // Lấy Ma_KH từ database nếu bên trang admin thì lấy $_GET['Ma_KH] còn bên trang user lấy $_SESSION['Ma_KH']    
+        $maKH = !isset($_GET['Ma_KH']) ? $_SESSION['Ma_KH'] : $_GET['Ma_KH'];
+    
         // Truy vấn để lấy danh sách các hóa đơn có cùng Ma_KH
         $sql = "SELECT Ma_HD, Ten_Nguoi_Nhan_Hang, SDT, Dia_Chi_Nhan_Hang, Phuong, Quan, Thanh_Pho, Tong_Tien, Thanh_Toan, Ngay_DH, Ngay_GH, Thanh_Toan, Tinh_Trang
-                FROM hoa_don 
-                WHERE Ma_KH = '$maKH'";
+        FROM hoa_don 
+        WHERE Ma_KH = '$maKH'";
+
         $result = mysqli_query($conn, $sql);
 
         if ($result) {
@@ -26,7 +27,9 @@ if (isset($_SESSION['Ma_KH'])) {
                 // Lặp qua từng dòng kết quả để hiển thị thông tin hóa đơn
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<div class='bill-info'>"; // Áp dụng CSS cho mỗi hóa đơn nhỏ
+                    echo "<div style='text-align: center;'>";
                     echo "<h2>Hóa đơn thanh toán</h2>";
+                    echo "</div>";
                     echo "<p>Mã HĐ: " . $row['Ma_HD'] . "</p>";
                     echo "<p>Tên Người Nhận: " . $row['Ten_Nguoi_Nhan_Hang'] . "</p>";
                     echo "<p>Số Điện Thoại: " . $row['SDT'] . "</p>";
