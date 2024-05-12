@@ -417,9 +417,9 @@ if ($result) {
 
         // Kiểm tra Trang_Thai để hiển thị cụ thể
         if ($status == 0) {
-            $statusText = 'Inactive';
+            $statusText = 'Không hoạt động';
         } else {
-            $statusText = 'Active';
+            $statusText = 'Hoạt động';
         }
 
         echo "
@@ -515,7 +515,8 @@ else{
            $account = $row['Tai_Khoan'];
            $password = $row['Mat_Khau'];
            $number = $row['Tong_SoLuong'];
-           $total =      number_format($row['Tong_HD'], 0, ',', '.'); 
+           $total = number_format(floatval($row['Tong_HD']), 0, ',', '.');
+ 
      
            $status = $row['Trang_Thai'];
    

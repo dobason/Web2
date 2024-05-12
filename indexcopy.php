@@ -2,571 +2,618 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sachtore</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-    <script src="vendor/fontawesome/js/all.min.js"></script>
-    <script src="js/main.js"> </script>
-    <script src="js/search.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-    <!-- Đường dẫn tới tệp CSS bạn đã chỉnh sửa -->
-    <style>
-        body {
-            font-family: arial;
-        }
+  <link rel="stylesheet" href="plugins/bootstrap/bootstrap.min.css">
 
-        .container {
-            width: 1200px;
-            margin: 0 auto;
-        }
+  <link rel="stylesheet" type="text/css" href="css1/style.css">
 
-        h1 {
-            text-align: center;
-        }
+  <link rel="stylesheet" href="plugins/animate/animate.min.css">
 
-        .product-items {
-            border: 1px solid #ccc;
-            padding: 30px;
-        }
+  <link rel="stylesheet" href="plugins/fontawesome/all.css">
 
-        .product-item {
-            float: left;
-            width: 23%;
-            margin: 1%;
-            padding: 10px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            line-height: 26px;
-        }
+  <link href="plugins/webfonts/font.css"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css1/owl.carousel.min.css" type="text/css">
+  <link rel="stylesheet" href="css1/owl.theme.default.min.css" type="text/css">
 
-        .product-item label {
-            font-weight: bold;
-        }
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="plugins/uikit/uikit.min.css" />
 
-        .product-item p {
-            margin: 0;
-            line-height: 26px;
-            max-height: 52px;
-            overflow: hidden;
-        }
+<!--------------------------------------------------------->
+<style>
+    .logo{
+        font-size: 2.5rem;
+    font-weight: bolder;
+    color: var(--black);
+    }
+    a.logo {
+    color: #0dd6b8; /* Đặt màu chữ là #0dd6b8 */
+    text-decoration: none; /* Loại bỏ gạch chân */
+}
 
-        .product-price {
-            color: red;
-            font-weight: bold;
-        }
+    * {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+    text-decoration: none;
+    text-transform: capitalize;
+    transition: all .2s linear;
+    transition: width none;
+}
 
-        .product-img {
-            padding: 5px;
-            border: 1px solid #ccc;
-            margin-bottom: 5px;
-        }
+.slider-product-one-content-item a:hover> img{
+   transform: translateY(-15px);
+}
+.slider-product-one-content-items {
+   display: flex;
+   flex-wrap: wrap; /* Cho phép các phần tử chuyển dòng khi không đủ không gian */
+   justify-content: flex-start;
 
-        .product-item img {
-            max-width: 100%;
-        }
+}
 
-        .product-item ul {
-            margin: 0;
-            padding: 0;
-            border-right: 1px solid #ccc;
-        }
+.slider-product-one-content-item {
+   width: calc(20% - 20px); /* 20% chiều rộng cho mỗi phần tử, trừ đi margin-left và margin-right */
+   margin: 0 10px 20px 0; /* Khoảng cách giữa các phần tử, 20px dưới cùng */
+   background-color: white;
+   padding: 30px 17px;
+   border-radius: 2px;
+   border: 1px solid rgb(206, 206, 206);
+   box-sizing: border-box; /* Đảm bảo padding và border không tăng kích thước của phần tử */
+   margin-left: 10px; 
+}
 
-        .product-item ul li {
-            float: left;
-            width: 33.3333%;
-            list-style: none;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-right: 0;
-            box-sizing: border-box;
-        }
 
-        .clear-both {
-            clear: both;
-        }
+.slider-product-one-content-item a> img{
+   width: 100%;
+   transition: all 0.5s ease;
+}
+/*------------------------*/
+.slider-product-one-content-item li a{
+   text-decoration: none;
+ 
+}
 
-        a {
-            text-decoration: none;
-        }
 
-        .buy-button {
-            text-align: right;
-            margin-top: 10px;
-        }
+.slider-product-one-content-item-text li:nth-child(2){
+   color:rgb(192, 20, 28)
+}
+</style>
+ 
 
-        .buy-button a {
-            background: #444;
-            padding: 5px;
-            color: #fff;
-        }
-
-        #pagination {
-            text-align: right;
-            margin-top: 15px;
-        }
-
-        .page-item {
-            border: 1px solid #ccc;
-            padding: 5px 9px;
-            color: #000;
-        }
-
-        .current-page {
-            background: #000;
-            color: #FFF;
-        }
-    </style>
 </head>
 
 <body>
-    <header>
-        <?php
-        require('./php/classes/database.php');
-        ?>
-        <div class="big-menu">
 
+<?php require('php/classes/database.php');
+ require_once 'db/dbhelper.php'; ?>
 
-            <div class="in-big-menu">
-                <div class="logo">
-                    <a href="index.html" onclick="momodal()"><img src="IMG/logo.jpg"></a>
-                </div>
+ 
+  <!--Navbar-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
 
+    <div class="container">
+    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
+      <div class="desk-menu collapse navbar-collapse justify-content-md-center" id="navbarNav">
+        <!-- Tìm Kiếm -->
+        <form class="form-inline search-form" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+    
 
+      <div id="offcanvas-flip1" uk-offcanvas="flip: true; overlay: true">
+        <div class="uk-offcanvas-bar" style="background: white;
+        width: 100%;">
 
+          <button class="uk-offcanvas-close" style="color:#272727" type="button" uk-close></button>
+          <h3 style="font-size: 14px;
+          color: #272727;
+          text-transform: uppercase;
+          margin: 3px 0 30px 0;
+          font-weight: 500; letter-spacing: 2px;">MENU</h3>
+            <div class="justify-content-md-center">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="index.html">TRANG CHỦ</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="Product.html">BỘ SƯU TẬP</a>
+                </li>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle aaaa"  href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" >
+                    <p>SẢN PHẨM</p>
+                    <i class="fa fa-angle-double-right"></i>
 
-                <div class="box">
-                    <div class="container-1">
-                        <span class="icon"><i class="fa fa-search"></i></span>
-                        <input type="search" id="search" placeholder="Search..." />
-                        <ul id="searchSuggestions" class="search-suggestions"></ul>
-                    </div>
-                </div>
-
-
-
-                <div class="top-right-item">
-
-                    <i class="fa fa-user"></i>
-                    <span class="text-tk">
-                        <p id="namelogin">Tài khoản<i class="fa fa-caret-down"></i></p>
-                        <div class="dropdown-content">
-                            <a href="dangnhap.php" class="dropdown-item"><i class="np fa fa-arrow-right"></i>Đăng
-                                nhập</a>
-                            <a href="dangki.php" class="dropdown-item"><i class="np fa fa-user-plus"></i>Đăng ký</a>
-                        </div>
-                    </span>
-
-                </div>
-
-                <div class="top-right-item">
-                    <a href="cart.html" id="gioHangLink"><i class="fa fa-shopping-basket" aria-hidden="true"></i></a>
-                    <p id="cartItemCount">0</p>
-                </div>
-
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="border:0;">
+                    <a class="dropdown-item" href="detailproduct.html" title="Sản phẩm - Style 1">Sản phẩm - Style 1</a>
+                    <a class="dropdown-item" href="detailproduct.html" title="Sản phẩm - Style 2">Sản phẩm - Style 2</a>
+                    <a class="dropdown-item" href="detailproduct.html" title="Sản phẩm - Style 3">Sản phẩm - Style 3</a>
+                  </div>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="introduce.html">GIỚI THIỆU</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="blog.html">BLOG</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="Contact.html">LIÊN HỆ</a>
+                </li>
+              </ul>
             </div>
+
         </div>
-        <div class="menu-bar">
-            <div class="menu-bar-content">
-                <ul>
-                    <li><a href="web1.html"><i class="fa-solid fa-book"></i> Văn học trong nước <span class="menu-bar-content-icon"> <i class="fa-solid fa-caret-down"></i></span></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="web1.html">Tiểu thuyết</a></li>
-                                        <li> <a href="web1.html">Truyện ngắn</a></li>
-                                        <li> <a href="web1.html">Light Novel</a></li>
-                                        <li> <a href="web1.html">Trinh thám</a></li>
+      </div>
+      <div id="offcanvas-flip" uk-offcanvas="flip: true; overlay: true">
+        <div class="uk-offcanvas-bar" style="    background: white;
+            width: 350px;">
 
+          <button class="uk-offcanvas-close" style="color:#272727" type="button" uk-close></button>
 
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="web1.html">Ngôn Tình
-                                            </a></li>
-                                        <li> <a href="web1.html">Thơ Ca
-                                            </a></li>
-                                        <li> <a href="web1.html">Huyền bí
-                                            </a></li>
-                                        <li> <a href="web1.html">Combo Văn Học
-                                            </a></li>
-                                        <li> <a href="web1.html"> Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-paintbrush"></i> Sách theo chủ đề <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Trí tuệ Do Thái</a></li>
-                                            <li> <a href="#">Ngoại ngữ</a></li>
-                                            <li> <a href="#">Triết học Phương Đông</a></li>
-                                            <li> <a href="#">Triết học Phương Tây</a></li>
-
-
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Chính trị </a></li>
-                                        <li> <a href="#">Lịch sử thế giới</a></li>
-                                        <li> <a href="#">Tôn giáo</a></li>
-                                        <li> <a href="#">Kỹ năng sống</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-
-                                    </div>
-
-
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-                    <li><a href="#"><i class="fa-solid fa-tablet"></i> Truyện tranh - Thiếu nhi <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu1">
-                                        <li> <a href="#">Sách truyện thiếu nhi</a></li>
-                                        <li> <a href="#">Sách teen</a></li>
-                                        <li> <a href="#">Doraemon</a></li>
-                                        <li> <a href="#">Conan</a></li>
-                                        <li> <a href="#">Tặng kèm poster</a></li>
-                                    </div>
-
-
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Sách ảnh</a></li>
-                                        <li> <a href="#">Triết học cho trẻ</a></li>
-                                        <li> <a href="#">Nhập môn lập trình</a></li>
-                                        <li> <a href="#">Tư tưởng Hồ Chí Minh</a></li>
-                                        <li> <a href="#">Triết học Mác - Lênin</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-                    <li><a href="#"><i class="fa-solid fa-gift"></i> Sách giáo khoa <i class="fa-solid fa-caret-down"></i></a>
-                        <div class="sub-menu">
-                            <ul>
-                                <div class="in-sub-menu">
-                                    <div class="sub-menu2">
-                                        <div class="in-sub-menu2">
-                                            <li> <a href="#">Sách giáo khoa cấp 1</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 2</a></li>
-                                            <li> <a href="#">Sách giáo khoa cấp 3</a></li>
-                                            <li> <a href="#">Sách giáo khoa nâng cao</a></li>
-                                        </div>
-
-                                    </div>
-                                    <div class="sub-menu3">
-                                        <li> <a href="#">Bộ đề thi các năm</a></li>
-                                        <li> <a href="#">Luyện đề Ielts</a></li>
-                                        <li> <a href="#">Sách bài tập nâng cao</a></li>
-                                        <li> <a href="#">Sách Mai Lan Hương</a></li>
-                                        <li> <a href="web1.html">Tất cả sách ></a></li>
-                                    </div>
-
-                                    <div class="sub-menu-pic">
-                                        <li> <a href="#"><img src="IMG/menu1.jpg"></a></li>
-
-                                    </div>
-                                </div>
-                            </ul>
-                        </div>
-                    </li>
-
-
-                </ul>
+          <h3 style="font-size: 14px;
+                color: #272727;
+                text-transform: uppercase;
+                margin: 3px 0 30px 0;
+                font-weight: 500; letter-spacing: 2px;">Tìm kiếm</h3>
+          <div class="search-box wpo-wrapper-search">
+            <form action="search" class="searchform searchform-categoris ultimate-search">
+              <div class="wpo-search-inner" style="display:inline">
+                <input type="hidden" name="type" value="product">
+                <input required="" id="inputSearchAuto" name="q" maxlength="40" autocomplete="off"
+                  class="searchinput input-search search-input" type="text" size="20"
+                  placeholder="Tìm kiếm sản phẩm...">
+              </div>
+              <button type="submit" class="btn-search btn" id="search-header-btn">
+                <i style="font-weight:bold" class="fas fa-search"></i>
+              </button>
+            </form>
+            <div id="ajaxSearchResults" class="smart-search-wrapper ajaxSearchResults" style="display: none">
+              <div class="resultsContent"></div>
             </div>
+          </div>
         </div>
+      </div>
+   
 
-        <div id="backtop">
-            <i class="fa-solid fa-arrow-up"></i>
+      <div class="icon-ol">
+        <a style="color: #272727" href="">
+          <i class="fas fa-user-alt"></i>
+        </a>
+      
+        
+        <a style="color: #272727" href="#" uk-toggle="target: #offcanvas-flip2">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+        <button class="navbar-toggler" type="button" uk-toggle="target: #offcanvas-flip1" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+    </div>
+    </div>
 
-        </div>
-    </header>
+  </nav>
+  <!--Banner-->
+ 
+ 
+  <!--List Prodct-->
+  <div class="container" >
+    <div class="row">
+      <div class="col-md-3 col-sm-12 col-xs-12 sidebar-fix" style="width: 20%;">
+        <div class="wrap-filter">
 
-    <main>
+          <form id="productSearchForm">
 
-
-        <!----------------------------------slider1--------------------------->
-        <div class="slider1">
-            <div class="in-slider1">
-                <div class="slidebody">
-                    <div class="in-slidebody-left">
-                        <a href="#"><img src="IMG/left-top.jpg"></a>
-                        <a href="#"><img src="IMG/slide2.jpg"></a>
-                    </div>
-                    <div class="in-slidebody-right">
-                        <div id="slideshow">
-                            <div class="slide-wrapper">
-                                <div class="slide">
-                                    <a href="#"><img src="IMG/slide1.jpg"></a>
-                                </div>
-                                <div class="slide">
-                                    <a href="#"><img src="IMG/slide2.jpg"></a>
-                                </div>
-                                <div class="slide">
-                                    <a href="#"><img src="IMG/slide5.jpg"></a>
-                                </div>
-                                <div class="slide">
-                                    <a href="#"><img src="IMG/slide1.jpg"></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+          <div class="box_sidebar">
+            <div class="block left-module">
+              <div class=" filter_xs">
+                <div class="group-menu">
+                  <div class="title_block d-block d-sm-none d-none d-sm-block d-md-none" data-toggle="collapse"
+                  href="#collapseExample1" role="button" aria-expanded="false"
+                  aria-controls="collapseExample1">
+                    Danh mục sản phẩm
+                    <span><i class="fa fa-angle-down" data-toggle="collapse"
+                      href="#collapseExample1" role="button" aria-expanded="false"
+                      aria-controls="collapseExample1"></i></span>
+                  </div>
+             
                 </div>
-            </div>
-        </div>
-
-        <!------------------------------------------------------------------>
-        <div class="slider5">
-            <div class="in-slider5">
-                <section class="slider-product-one">
-                    <div class="slider-product-one-content">
-                        <div class="slider-product-one-content-items" id="bookListContainer">
-                            <?php
-                            $param = "";
-                            $sortParam = "";
-                            $orderConditon = "";
-                            //Tìm kiếm
-                            $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
-                            if ($search) {
-                                $where = "WHERE `Ten_Sach` LIKE '%" . $search . "%'";
-                                $param .= "Ten_Sach=" . $search . "&";
-                                $sortParam = "Ten_Sach=" . $search . "&";
+                <div class="layered">
+                  <p class="title_block d-block d-sm-none d-none d-sm-block d-md-none" data-toggle="collapse"
+                  href="#collapseExample2" role="button" aria-expanded="false"
+                  aria-controls="collapseExample2">
+                    Bộ lọc sản phẩm
+                    <span><i class="fa fa-angle-down" data-toggle="collapse"
+                      href="#collapseExample2" role="button" aria-expanded="false"
+                      aria-controls="collapseExample2"></i></span>
+                  </p>
+                  <div class="block_content collapse" id="collapseExample2">
+                    <div class="group-filter card card-body" style="border:0;padding:0" aria-expanded="true">
+                      <div class="layered_subtitle dropdown-filter"><span>Thương hiệu</span><span
+                          class="icon-control"><i class="fa fa-minus"></i></span></div>
+                      <div class="layered-content bl-filter filter-brand">
+                        <ul class="check-box-list">
+                          <li>
+                            <input type="checkbox" id="data-brand-p1" value="Khác">
+                            <label for="data-brand-p1">Khác</label>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="group-filter" aria-expanded="true">
+                      <div class="layered_subtitle dropdown-filter"><span>Giá sản phẩm</span><span
+                          class="icon-control"><i class="fa fa-minus"></i></span></div>
+                          <style>
+                            /* Định dạng các input và button */
+                            .price-range {
+                                display: flex;
+                             
+                                align-items: center;
+                               
                             }
-
-                            //Sắp xếp
-                            $orderField = isset($_GET['field']) ? $_GET['field'] : "";
-                            $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
-                            if (!empty($orderField) && !empty($orderSort)) {
-                                $orderConditon = "ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
-                                $param .= "field=" . $orderField . "&sort=" . $orderSort . "&";
+                    
+                            input[type="number"] {
+                                width: 120px;
+                                padding: 8px;
+                                font-size: 14px;
+                                border: 1px solid #ccc;
+                                border-radius: 4px;
+                                margin-right: 10px;
                             }
+                            .search-container button:hover {
+            background-color: #0056b3;
+        }
+                        </style>
+                      <div class="layered-content bl-filter filter-price">
+                        <div class="price-range">
+                          <input type="number" id="minPrice" placeholder="Giá thấp nhất" min="0">
+                         
+                          <input type="number" id="maxPrice" placeholder="Giá cao nhất" min="0">
+                          
+                      </div>
+                      </div>
+                    </div>
 
-                            include 'connect_db.php';
-                            $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 4;
-                             $current_page = !empty($_GET['page']) ? $_GET['page'] : 1; //Trang hiện tại
-                            $offset = ($current_page - 1) * $item_per_page;
-                            if ($search) {
-                                $products = mysqli_query($con, "SELECT * FROM `sach` WHERE `Ten_Sach` LIKE '%" . $search . "%' " . $orderConditon . " LIMIT " . $item_per_page . " OFFSET " . $offset);
-                                $totalRecords = mysqli_query($con, "SELECT * FROM `sach` WHERE 'Ten_Sach' LIKE '%" . $search . "%'");
+                    <div class="group-filter" aria-expanded="true">
+                     
+                 
+                    </div>
+             
+
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="submit" onclick="searchProducts()">Tìm kiếm</button>
+        </form>
+        </div>
+      </div>
+      <div class="col-md-9 col-sm-12 col-xs-12">
+   
+      <section class="featured" id="featured">
+
+<h1 class="heading"><span>Danh Mục </span></h1>
+    <div class="swiper featured-slider">
+                <?php
+                        require_once 'db/dbhelper.php';
+
+                        $param = [];
+                        $sortParam = [];
+                        $where = "";
+                        $orderCondition = "";
+
+                        // Tìm kiếm tên sách
+                        $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
+                        if ($search) {
+                            $where = " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                            $param['Ten_Sach'] = $search;
+                            $sortParam['Ten_Sach'] = $search;
+                        }
+
+                        // Sắp xếp
+                        $orderField = isset($_GET['field']) ? $_GET['field'] : "";
+                        $orderSort = isset($_GET['sort']) ? $_GET['sort'] : "";
+                        if (!empty($orderField) && !empty($orderSort)) {
+                            $orderCondition = " ORDER BY `sach`.`" . $orderField . "` " . $orderSort;
+                            $param['field'] = $orderField;
+                            $param['sort'] = $orderSort;
+                        }
+
+                        // Chủ đề
+                        $theme = isset($_GET['theme']) ? $_GET['theme'] : "";
+                        if (!empty($theme)) {
+                            $themeWhere = " `Ma_Loai` = " . $theme;
+                            $param['theme'] = $theme;
+                            if (empty($where)) {
+                                $where = " WHERE" . $themeWhere;
                             } else {
-                                $products = mysqli_query($con, "SELECT * FROM `sach` " . $orderConditon . " LIMIT " . $item_per_page . " OFFSET " . $offset);
-                                $totalRecords = mysqli_query($con, "SELECT * FROM `sach`");
+                                $where .= " AND" . $themeWhere;
                             }
+                        }
 
+                        // Khoảng giá
+                        $priceRange = isset($_GET['price_range']) ? $_GET['price_range'] : "";
+                        if (!empty($priceRange)) {
+                            if ($priceRange === '89000-') {
+                                // Lọc sách có giá từ 89000 đồng trở lên
+                                $minPrice = 89000;
+                                $where .= empty($where) ? " WHERE `Don_Gia` >= $minPrice" : " AND `Don_Gia` >= $minPrice";
+                            } else {
+                                // Xử lý các khoảng giá khác nếu cần
+                                $priceLimits = explode('-', $priceRange);
+                                $minPrice = isset($priceLimits[0]) ? $priceLimits[0] : 0;
+                                $maxPrice = isset($priceLimits[1]) ? $priceLimits[1] : PHP_INT_MAX;
 
-                            $totalRecords = $totalRecords->num_rows;
-                            $totalPages = ceil($totalRecords / $item_per_page);
+                                if (empty($where)) {
+                                    $where = " WHERE `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
+                                } else {
+                                    $where .= " AND `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
+                                }
+                            }
+                            $param['price_range'] = $priceRange;
+                        }
+
+                        include 'connect_db.php';
+
+                        $item_per_page = !empty($_GET['per_page']) ? $_GET['per_page'] : 5;
+                        $current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+                        $offset = ($current_page - 1) * $item_per_page;
+
+                        // Tạo URL từ mảng tham số
+                        $queryString = http_build_query($param);
+
+                        // Thực hiện truy vấn sử dụng executeResult
+                        $sql = "SELECT * FROM `sach`" . $where . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
+
+                        $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
+
+                        // Đếm tổng số bản ghi
+                        $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
+
+                        $totalRecords = executeResult($countSql);
+                        $totalRecords = $totalRecords[0]['total'];
+                        $totalPages = ceil($totalRecords / $item_per_page);
+                    ?>
+
+                        <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:center">
+                            <?php
+                            // Kiểm tra nếu có sản phẩm trong danh sách
+                            if ($sach) {
+                                foreach ($sach as $index => $book) {
+                                    $bookName = $book['Ten_Sach'];
+                                    $Tac_Gia = $book['Ten_Tac_Gia'];
+                                    $price = number_format($book['Don_Gia'], 0, ',', '.');
+                                    $imagePath = $book['Hinh_Anh'];
+
+                                    // Hiển thị sản phẩm
+                                    echo '<div class="slider-product-one-content-item">';
+                                    echo '<a href="product.php?id=' . $book['Ma_Sach'] . '"><img src="' . $imagePath . '" alt="Book Image" width="500"></a>';
+                                    echo '<div class="slider-product-one-content-item-text">';
+                                    echo '<div class="slider-text1">';
+                                    echo '<li><a href="product.php?id=' . $book['Ma_Sach'] . '"><p>' . $bookName . '</p></a></li>';
+                                    echo '</div>';
+                                    echo '<div class="slider-text2">';
+                                    echo '<li><a href="#">' . $Tac_Gia . '</a></li>';
+                                    echo '</div>';
+                                    echo '<li>' . $price . '<sup><u>đ</u></sup></li>';
+                                    echo '</div>';
+                                    echo '</div>';
+
+                                    // Chỉnh sửa CSS trực tiếp tại đây
+                                    echo '<style>';
+                                    echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
+                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; }';
+                                    echo '</style>';
+                                }
+                            } else {
+                                echo '<p>Không tìm thấy sách nào.</p>';
+                            }
                             ?>
-                            <div class="container">
-                                <div id="filter-box">
-                                    <form id="product-search" method="GET">
-                                        <label>Tìm kiếm sản phẩm</label>
-                                        <input type="text" value="<?= isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "" ?>" name="Ten_Sach" />
-                                        <input type="submit" value="Tìm kiếm" />
-                                    </form>
-                                    <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                                        <option value="">Sắp xếp giá</option>
-                                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "desc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=desc">Cao đến thấp</option>
-                                        <option <?php if (isset($_GET['sort']) && $_GET['sort'] == "asc") { ?> selected <?php } ?> value="?<?= $sortParam ?>field=Don_Gia&sort=asc">Thấp đến cao</option>
-                                    </select>
-                                    <div style="clear: both;"></div>
-                                </div>
+                </div>
+                <div class="select-container">
+                        
+                        <!-- Category selection -->
+                        <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                            <option value="">Chọn chủ đề</option>
+                            <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
+                            <option <?php if ($theme == "2") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Lịch sử</option>
+                            <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Truyện tranh & Mangas</option>
+                            <option <?php if ($theme == "4") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Phim & Nhiếp ảnh</option>
+                            <option <?php if ($theme == "5") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh dị</option>
+                            <option <?php if ($theme == "6") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Máy tính & Internet</option>
+                            <option <?php if ($theme == "7") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Thể Thao</option>
+                            <option <?php if ($theme == "8") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Du lịch lữ hành</option>
+                            <option <?php if ($theme == "9") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Kinh doanh & Kinh tế</option>
+                            <option <?php if ($theme == "10") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Nghệ thuật</option>
+                            <!-- Thêm các option cho chủ đề khác tương tự -->
+                        </select>
 
-                                <div class="product-items">
-                                    <?php
-                                    while ($row = mysqli_fetch_array($products)) {
-                                    ?>
-                                        <div class="product-item">
-                                            <div class="product-img">
-                                                <img src="<?= $row['Hinh_Anh'] ?>" title="<?= $row['Ten_Sach'] ?>" />
-                                            </div>
-                                            <strong><?= $row['Ten_Sach'] ?></strong><br />
-                                            <label>Giá: </label><span class="product-price"><?= number_format($row['Don_Gia'], 0, ",", ".") ?> đ</span><br />
-                                            <div class="buy-button">
-                                                <a href="./add_cart.php">Mua sản phẩm</a>
-                                            </div>
-                                        </div>
-                                    <?php } ?>
-                                    <div class="clear-both"></div>
-                                    <?php
-                                    include './pagination.php';
-                                    ?>
-                                    <div class="clear-both"></div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Sorting options -->
+                        <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                            <option value="">Sắp xếp giá</option>
+                            <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
+                            <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
+                        </select>
+
+                        <!-- Price range selection -->
+                        <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                            <option value="">Chọn khoảng giá</option>
+                            <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
+                            <option <?php if ($priceRange == "5-50000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=5-50000">5 - 50.000 đồng</option>
+                            <option <?php if ($priceRange == "50000-89000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=50000-89000">50.000 - 89.000 đồng</option>
+                            <option <?php if ($priceRange == "89000-") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=89000-">Trên 89.000 đồng</option>
+                        </select>
                     </div>
-                </section>
             </div>
-        </div>
-        <!----------------------------------------------->
-        <div class="slider2">
-            <div class="in-slider2">
-                <div class="in-slider2-1">
-                    <img src="IMG/slide6.png">
+          
+            <?php include './pagination.php'; ?>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!--gallery-->
+  <section class="section section-gallery">
+    <div class="">
+      <div class="hot_sp" style="padding-top: 70px;padding-bottom: 50px;">
+        <h2 style="text-align:center;padding-top: 10px">
+          <a style="font-size: 28px;color: black;text-decoration: none" href="">Khách hàng và Runner Inn</a>
+        </h2>
+      </div>
+      <div class="list-gallery clearfix">
+        <ul class="shoes-gp">
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/shoes/gallery_item_1.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/shoes/gallery_item_2.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/shoes/gallery_item_3.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/shoes/gallery_item_4.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/shoes/gallery_item_5.jpg" alt="">
+            </div>
+          </li>
+          <li>
+            <div class="gallery_item">
+              <img class="img-resize" src="images/shoes/gallery_item_6.jpg" alt="">
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <footer class="main-footer">
+    <div class="container">
+      <div class="">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="footer-col footer-block">
+              <h4 class="footer-title">
+                Giới thiệu
+              </h4>
+              <div class="footer-content">
+                <p>Runner Inn trang mua sắm trực tuyến của thương hiệu giày, thời trang nam, nữ, phụ kiện, giúp bạn
+                  tiếp
+                  cận xu hướng thời trang mới nhất.</p>
+                <div class="logo-footer">
+                  <img src="images/logo-bct.png" alt="Bộ Công Thương">
                 </div>
-                <div class="in-slider2-2">
-                    <img src="IMG/slide7.png">
+                <div class="social-list">
+                  <a href="#" class="fab fa-facebook"></a>
+                  <a href="#" class="fab fa-google"></a>
+                  <a href="#" class="fab fa-twitter"></a>
+                  <a href="#" class="fab fa-youtube"></a>
+                  <a href="#" class="fab fa-skype"></a>
                 </div>
+              </div>
             </div>
-        </div>
-
-
-
-
-        <!------------------------------------------>
-        <div class="slider6">
-            <div class="in-slider6-top">
-                <button type="button" onclick="showCategory('category1')">Manga mới</button>
-                <button type="button" onclick="showCategory('category2')">Live Novel mới</button>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="footer-col footer-link">
+              <h4 class="footer-title">
+                PHÁP LÝ &amp; CÂU HỎI
+              </h4>
+              <div class="footer-content toggle-footer">
+                <ul>
+                  <li class="item">
+                    <a href="#" title="Tìm kiếm">Tìm kiếm</a>
+                  </li>
+                  <li class="item">
+                    <a href="#" title="Giới thiệu">Giới thiệu</a>
+                  </li>
+                  <li class="item">
+                    <a href="#" title="Chính sách đổi trả">Chính sách đổi trả</a>
+                  </li>
+                  <li class="item">
+                    <a href="#" title="Chính sách bảo mật">Chính sách bảo mật</a>
+                  </li>
+                  <li class="item">
+                    <a href="#" title="Điều khoản dịch vụ">Điều khoản dịch vụ</a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="in-slider6">
-                <section id="category1" class="product_love">
-                    <div class="in-product-love">
-                        <!-------------------------------------------->
-                        <div class="in-slider6-picture">
-                            <div class="in-slider6-picture-product">
-                                <div class="in-slider6-picture-product-image">
-                                    <a href="#"><img src="IMG/in-pic1.jpg"></a>
-                                </div>
-                                <div class="in-slider6-picture-product-image-bottom">
-                                    <div class="in-slider6-title">
-                                        <a href="#">Thỏ bảy màu </a>
-                                    </div>
-                                    <div class="in-slider6-price">
-
-                                        <p>130.000d</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-------------------------------------------->
-
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="footer-col footer-block">
+              <h4 class="footer-title">
+                Thông tin liên hệ
+              </h4>
+              <div class="footer-content toggle-footer">
+                <ul>
+                  <li><span>Địa chỉ:</span> 117-119 Lý Chính Thắng, Phường 7, Quận 3, TP. Hồ Chí Minh, Vietnam</li>
+                  <li><span>Điện thoại:</span> +84 (028) 38800659</li>
+                  <li><span>Fax:</span> +84 (028) 38800659</li>
+                  <li><span>Mail:</span> contact@aziworld.com</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="footer-col footer-block">
+              <h4 class="footer-title">
+                FANPAGE
+              </h4>
+              <div class="footer-content">
+                <div id="fb-root">
+                  <div class="footer-static-content">
+                    <div class="fb-page" data-href="https://www.facebook.com/AziWorld-Viet-Nam-908555669481794/"
+                      data-tabs="timeline" data-width="" data-height="215" data-small-header="false"
+                      data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                      <blockquote cite="https://www.facebook.com/AziWorld-Viet-Nam-908555669481794/"
+                        class="fb-xfbml-parse-ignore"><a
+                          href="https://www.facebook.com/AziWorld-Viet-Nam-908555669481794/">AziWorld Viet Nam</a>
+                      </blockquote>
                     </div>
-                </section>
-                <!--------------Section2---------------->
-
-                <section id="category2" class="product_love">
-
-                    <!-------------------------------------------->
-                    <div class="in-slider6-picture">
-                        <div class="in-slider6-picture-product">
-                            <div class="in-slider6-picture-product-image">
-                                <a href="#"><img src="IMG/in-pic1.jpg"></a>
-                            </div>
-                            <div class="in-slider6-picture-product-image-bottom">
-                                <div class="in-slider6-title">
-                                    <a href="#">Spy X Family - Tập 9</a>
-                                </div>
-                                <div class="in-slider6-price">
-
-                                    <p>130.000d</p>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-------------------------------------------->
-                </section>
+                  </div>
+                </div>
+              </div>
             </div>
-
-            <script>
-                function showCategory(categoryId) {
-                    // Hide all categories
-                    document.getElementById('category1').style.display = 'none';
-                    document.getElementById('category2').style.display = 'none';
-
-                    // Show the selected category
-                    document.getElementById(categoryId).style.display = 'block';
-                }
-            </script>
+          </div>
         </div>
-    </main>
-    <footer>
-        <div class="footer">
-
-
-            <div class="in-footer-body">
-                <div class="in-footer-body-left">
-                    <p>Phương thức thanh toán</p>
-                    <li><img src="IMG/pay1.png"></li>
-                    <li><img src="IMG/pay2.png"></li>
-                    <li><img src="IMG/pay3.png"></li>
-                    <li><img src="IMG/pay4.png"></li>
-                    <li><img src="IMG/pay5.webp"></li>
-                </div>
-
-                <div class="in-footer-body-mid">
-                    <p>Tài khoản của bạn</p>
-                    <li><a href="">Cập nhật tài khoản</a></li>
-                    <li><a href="">Giỏ hàng</a></li>
-                    <li><a href="">Lịch sử giao dịch</a></li>
-                    <li><a href="">Sản phẩm yêu thích</a></li>
-                    <li><a href="">Kiểm tra đơn hàng</a></li>
-                </div>
-
-                <div class="in-footer-body-mid">
-                    <p>GOODREADS</a>
-                        <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
-                        <li><a href="">GOODREADS trên Facebook</a></li>
-                        <li><a href="">Liên hệ GOODREADS</a></li>
-                        <li><a href="">Đặt hàng theo yêu cầu</a< /li>
-                </div>
-                <div class="in-footer-body-right">
-                    <p>Kết nối với chúng tôi</p>
-                    <li><a href="#"><img src="IMG/contact1.webp"></a></li>
-                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
-                    <li><a href="#"><img src="IMG/contact3.webp"></a></li>
-                    <li><a href="#"><img src="IMG/contact4.webp"></a></li>
-                    <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
-                    <li><a href="#">Tuyển dụng</a></li><br>
-                    <li><a href="#">Chính sách đổi - trả</a></li>
-                    <li><a href="#">Chính sách bồi hoàn</a></li>
-                    <li><a href="#">Câu hỏi thường gặp (FAQs)</a></li>
-
-
-
-                </div>
-            </div>
-
-
+      </div>
+    </div>
+    <div class="main-footer--copyright">
+      <div class="container">
+        <hr>
+        <div class="main-footer--border" style="text-align:center;padding-bottom: 15px;">
+          <p>Copyright © 2019 <a href="https://runner-inn.myharavan.com"> Runner Inn</a>. <a target="_blank"
+              href="https://www.facebook.com/henrynguyen202">Powered by HuniBlue</a></p>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 sachtore</p>
-        </div>
-
-
-    </footer>
-    <script src="js/p.js"></script>
+      </div>
+    </div>
+  </footer>
+  <script async defer crossorigin="anonymous" src="plugins/sdk.js"></script>
+  <script src="plugins/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+  <script src="plugins/bootstrap/popper.min.js"></script>
+  <script src="plugins/bootstrap/bootstrap.min.js"></script>
+  <script src="plugins/owl.carousel/owl.carousel.min.js"></script>
+  <script src="plugins/uikit/uikit.min.js"></script>
+  <script src="plugins/uikit/uikit-icons.min.js"></script>
 </body>
 
 </html>

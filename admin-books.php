@@ -338,7 +338,8 @@ foreach ($books as $index => $book) {
     echo '</td>';
     echo '</tr>';
 }
-?><!-- Modal để sửa thông tin sách -->
+?>
+<!-- Modal để sửa thông tin sách -->
 <div class="modal fade" id="editBookModal" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel" aria-hidden="true">
    <div class="modal-dialog" role="document">
      <div class="modal-content">
@@ -401,10 +402,8 @@ foreach ($books as $index => $book) {
        </div>
      </div>
    </div>
- </div>
+</div>
 
-
-<!-- Đoạn mã JavaScript để xử lý sự kiện khi nhấn vào nút "Sửa" -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const editButtons = document.querySelectorAll('.edit-book');
@@ -415,9 +414,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Hiển thị modal "Sửa thông tin sách"
             $('#editBookModal').modal('show');
-
-            // Gán giá trị bookId vào input hidden
-            document.getElementById('bookId').value = bookId;
 
             // Gửi yêu cầu Ajax để lấy thông tin sách từ cơ sở dữ liệu
             $.ajax({
@@ -479,6 +475,8 @@ document.addEventListener('DOMContentLoaded', function() {
    });
 });
 </script>
+
+
 
 
 

@@ -52,7 +52,7 @@ select {
 
     <div class="header-2">
         <nav class="navbar">
-            <a href="#home">Trang chủ</a>
+            <a href="index.php">Trang chủ</a>
             <a href="#featured">Danh mục</a>
             <a href="#arrivals">Sách mới</a>
             <a href="#reviews">Khách hàng</a>
@@ -66,6 +66,30 @@ select {
 </header>
 
     <main>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    var addressSelect = document.getElementById('addressSelect');
+    var checkOutBottom = document.getElementById('checkOutBottom');
+
+    // Ẩn ban đầu phần in-check-out-bottom
+    checkOutBottom.style.display = 'block'; // Mặc định hiển thị
+
+    // Xử lý sự kiện khi lựa chọn thay đổi
+    addressSelect.onchange = function() {
+        var selectedValue = addressSelect.value;
+
+        if (selectedValue === 'existingAddress') {
+            // Nếu chọn địa chỉ đăng nhập, ẩn phần in-check-out-bottom
+            checkOutBottom.style.display = 'none';
+        } else {
+            // Nếu chọn địa chỉ mới, hiển thị lại phần in-check-out-bottom
+            checkOutBottom.style.display = 'block';
+        }
+    };
+});
+</script>
+
         <form id="checkoutForm" action="bill.php" method="post">
         <div class="slider5">
 
@@ -73,9 +97,17 @@ select {
                 <h3>ĐỊA CHỈ GIAO HÀNG</h3>
             </div>
             <div class="checkout">
+                
             <div class="in-checkout">
+            <div class="in-check-out-address">
+                
+                    <select id="addressSelect" name="addressSelect" required>
+                        <option value="newAddress">Địa chỉ mới</option>
+                        <option value="existingAddress">Địa chỉ đăng nhập</option>
+                    </select>
+                </div>
 
-        <div class="in-check-out-bottom">
+                <div id="checkOutBottom" class="in-check-out-bottom">
             <div class="in-check-out-name">
                 <label for="name">Họ và tên người nhận</label>
                 <input type="text" id="name" name="name" pattern="[a-zA-Z\s]+" placeholder="Nhập không dấu (son,kien,phuong)" required>
@@ -150,7 +182,7 @@ select {
         wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
 
         if (this.value !== "") {
-          var selectedCity = data.find(function(item) {
+          var selectedCity = danta.fid(function(item) {
             return item.Id === citis.value;
           });
 
