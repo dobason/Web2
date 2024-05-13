@@ -261,7 +261,7 @@
                                        <th scope="col">Họ và tên</th>
                                        <th scope="col">Tổng tiền</th>
                                        <th scope="col">Tình trạng</th>
-                                       <th scope="col">Hoạt động</th>
+                                       <th scope="col">Lịch sử mua hàng</th>
                                     </tr>
                                  </thead>
                                  <tbody>
@@ -335,15 +335,6 @@ if ($result_top_customers) {
                <td>{$statusText}</td>
                <td>
                    <div class='flex align-items-center list-user-action'>
-                       <a href='#' class='edit-customer-link bg-primary' onclick='openEditModal({$maKH})' data-toggle='tooltip' data-placement='top' title='Chỉnh sửa'>
-                           <i class='ri-pencil-line'></i>
-                       </a>
-                       <a href='#' class='bg-primary' onclick='confirmLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Khóa'>
-                           <i class='ri-delete-bin-line'></i>
-                       </a>
-                       <a href='#' class='bg-primary' onclick='confirmunLockUser({$maKH}, \"{$customerName}\")' data-toggle='tooltip' data-placement='top' title='Mở khóa'>
-                           <i class='ri-lock-line'></i>
-                       </a>
                        <a href='{$historyLink}' class='bg-primary' data-toggle='tooltip' data-placement='top' title='Lịch sử mua hàng'>
                            <i class='ri-file-text-line'></i>
                        </a>

@@ -137,7 +137,7 @@
                         // Tìm kiếm tên sách
                         $search = isset($_GET['Ten_Sach']) ? $_GET['Ten_Sach'] : "";
                         if ($search) {
-                            $where = " WHERE `Ten_Sach` LIKE '%" . $search . "%'";
+                            $where = " WHERE `Ten_Sach` LIKE '%" . $search . "%' AND Trang_Thai = 0";
                             $param['Ten_Sach'] = $search;
                             $sortParam['Ten_Sach'] = $search;
                         }
