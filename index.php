@@ -1,132 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trang chủ</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <!--Font awesome cdn link -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-    <!-- Custom css file link -->
-    <link rel="stylesheet" href="./css/Style2.css">
+    <title>Cửa hàng sách</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <script src="vendor/fontawesome/js/all.min.js"></script>
+    <script src="js/main.js"> </script>
+    <script src="js/search.js"></script>
+    <script src="js/dangky"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/StylesBT.css">
     <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
 </head>
+
 <body>
-    <!-- Header section star -->
+    <!--Index CSS-->
+    <style>
+        .container {
+            width: 1200px;
+            margin: 0 auto;
+        }
 
-<header class="header">
+        .product-items {
+            border: 1px solid #ccc;
+            padding: 30px;
+        }
 
-<div class="header-1">
-    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
+        .clear-both {
+            clear: both;
+        }
 
-    <!-- Tìm Kiếm -->
-    <form class="search-form" method="GET">
-        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-        <div id="bookListContainer"></div>
-    </form>
+        a {
+            text-decoration: none;
+        }
 
-    <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
-    <div class="icons" style="display:flex;align-items:center">
-        <a href="cart.php" class="fas fa-shopping-cart"></a>
-        <?php require_once 'header.php'; ?>
-    </div>
-</div>
+        #pagination {
+            text-align: right;
+            margin-bottom: 10px;
+            margin-right: 5px;
+        }
 
-<div class="header-2">
-    <nav class="navbar">
-        <a href="#home">Trang chủ</a>
-        <a href="#featured">Danh mục</a>
-        <a href="#arrivals">Sách mới</a>
-        <a href="#reviews">Khách hàng</a>
-        <a href="#blogs">Bài viết</a>
-    </nav>
-</div>
+        .page-item {
+            border: 1px solid #ccc;
+            padding: 5px 9px;
+            color: #000;
+        }
 
-<!---Kết nối database-->
-<?php require('php/classes/database.php'); ?>
+        .current-page {
+            background: #000;
+            color: #FFF;
+        }
 
-</header>
-    <!-- bottom navbar -->
+        .slider-product-one-content-items {
+            margin-top: 10px;
+            justify-content: center;
+        }
+/*----------------------------------------------*/
+.box-select {
+    display: flex;
+    justify-content: space-between; /* Căn các thành phần theo hai bên của container */
+    align-items: center; /* Căn các thành phần theo chiều dọc */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+    margin-left: 10px;
+}
 
-    <nav class="bottom-navbar">
-        <a href="#home" class="fas fa-home"></a>
-        <a href="#featured" class="fas fa-list"></a>
-        <a href="#arrivals" class="fas fa-tags"></a>
-        <a href="#reviews" class="fas fa-comments"></a>
-        <a href="#blogs" class="fas fa-blogs"></a>
-    </nav>
+.select-container {
+    display: flex;
+    align-items: center; /* Căn các thành phần con theo chiều dọc */
+}
 
-    <!-- home section start -->
+/* Style cho label */
+label {
+    margin-right: 10px; /* Khoảng cách phía bên phải của label */
+}
 
-    <section class="home" id="home">
+/* Style cho input và button */
+input[type="number"],
+button {
+    margin-right: 10px; /* Khoảng cách phía bên phải của input và button */
+}
 
-        <div class="row">
+/* Định dạng cho select */
+select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
 
-            <div class="content">
-                <h3>Giảm đến 75%</h3>
-                <p>Nhà sách Goodreads là điểm đến lý tưởng cho những người đam mê sách trên khắp thế giới. Với một bộ sưu tập đa dạng và phong phú bao gồm từ những cuốn sách kinh điển đến những tác phẩm hiện đại, Goodreads không chỉ là nơi để bạn khám phá những tác phẩm mới mẻ mà còn là cộng đồng đam mê với hàng triệu độc giả khác. Từ việc đánh giá và đánh dấu sách yêu thích đến thảo luận và chia sẻ những ý kiến, Goodreads là ngôi nhà ảo nơi mọi người có thể kết nối và tương tác với nhau qua chung niềm đam mê với văn học.</p>
-                <a href="#" class="btn">Khám phá ngay</a>
+    .right-select{
+        margin-left: 30px;
+    }
+    </style>
+
+
+
+    <header>
+
+        <!--Navbar-->
+        <nav class="navbar navbar-expand-lg fixed-to">
+            <div class="container">
+                <a class="navbar-brand" href="index.php">GOODREADS</a>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <form class="d-flex" method="GET">
+                        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        <div id="bookListContainer"></div>
+                    </form>
+                </div>
+                <div class="top-right-item">
+                    <a href="cart.php" id="gioHangLink"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <p id="cartItemCount">0</p>
+                </div>
+                <?php require_once 'header.php'; ?>
+                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
             </div>
-            </div>
+        </nav>
 
-        </div>
+        <!---Kết nối database-->
+        <?php require('./php/classes/database.php'); ?>
 
-    </section>
+    </header>
 
-     <!-- home section end -->
 
-     <!-- icons section starts -->
-    <section class="icons-container">
+    <main>
+        <!------------------------------------------------------------------>
 
-        <div class="icons">
-            <i class="fas fa-plane" style="line-height:2;">
-                <div class="content">
-                    <h3>Miễn phí giao hàng</h3>
-                    <p>Dành cho đơn chỉ từ 100.000đ</p>
-                </div>
-            </i>
-        </div>
-
-        <div class="icons">
-            <i class="fas fa-lock" style="line-height:2;">
-                <div class="content">
-                    <h3>Thanh toán an toàn</h3>
-                    <p>100 thanh toán bảo mật</p>
-                </div>
-            </i>
-        </div>
-
-        <div class="icons">
-            <i class="fas fa-redo-alt" style="line-height:2;">
-                <div class="content">
-                    <h3>Dễ dàng trả hàng</h3>
-                    <p>Chỉ từ 10 ngày</p>
-                </div>
-            </i>
-        </div>
-
-        <div class="icons">
-            <i class="fas fa-headset" style="line-height:2;">
-                <div class="content">
-                    <h3>Hỗ trợ 24/7</h3>
-                    <p>Gọi chúng tôi bất kì lúc nào</p>
-                </div>
-            </i>
-        </div>
-
-    </section>
-
-     <!-- icons section ends -->
-
-    <!-- Featured secion start -->
-
-<section class="featured" id="featured">
-
-<h1 class="heading"><span>Danh Mục </span></h1>
-    <div class="swiper featured-slider">
-                <?php
+        <div class="slider5">
+            <div class="in-slider5">
+                <section class="slider-product-one">
+                    <div class="slider-product-one-content">
+                        <?php
                         require_once 'db/dbhelper.php';
 
                         $param = [];
@@ -164,25 +175,21 @@
                         }
 
                         // Khoảng giá
-                        $priceRange = isset($_GET['price_range']) ? $_GET['price_range'] : "";
-                        if (!empty($priceRange)) {
-                            if ($priceRange === '89000-') {
-                                // Lọc sách có giá từ 89000 đồng trở lên
-                                $minPrice = 89000;
-                                $where .= empty($where) ? " WHERE `Don_Gia` >= $minPrice" : " AND `Don_Gia` >= $minPrice";
-                            } else {
-                                // Xử lý các khoảng giá khác nếu cần
-                                $priceLimits = explode('-', $priceRange);
-                                $minPrice = isset($priceLimits[0]) ? $priceLimits[0] : 0;
-                                $maxPrice = isset($priceLimits[1]) ? $priceLimits[1] : PHP_INT_MAX;
+                        $minPrice = isset($_GET['min_price']) ? $_GET['min_price'] : "";
+                        $maxPrice = isset($_GET['max_price']) ? $_GET['max_price'] : "";
 
-                                if (empty($where)) {
-                                    $where = " WHERE `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
-                                } else {
-                                    $where .= " AND `Don_Gia` >= " . $minPrice . " AND `Don_Gia` <= " . $maxPrice;
-                                }
+                        if (!empty($minPrice) && !empty($maxPrice)) {
+                            $minPrice = intval($minPrice);
+                            $maxPrice = intval($maxPrice);
+
+                            if (empty($where)) {
+                                $where = " WHERE `Don_Gia` >= $minPrice AND `Don_Gia` <= $maxPrice";
+                            } else {
+                                $where .= " AND `Don_Gia` >= $minPrice AND `Don_Gia` <= $maxPrice";
                             }
-                            $param['price_range'] = $priceRange;
+
+                            $param['min_price'] = $minPrice;
+                            $param['max_price'] = $maxPrice;
                         }
 
                         include 'connect_db.php';
@@ -196,10 +203,8 @@
 
                         // Thực hiện truy vấn sử dụng executeResult
                         $sql = "SELECT * FROM `sach`" . $where . $orderCondition . " LIMIT " . $item_per_page . " OFFSET " . $offset;
-                        $sql_loai_sach = "SELECT * from loai_sach";
 
                         $sach = executeResult($sql); // Thực hiện truy vấn và lấy dữ liệu
-                        $loai_sach = executeResult($sql_loai_sach); // Thực hiện truy vấn và lấy dữ liệu loại sách
 
                         // Đếm tổng số bản ghi
                         $countSql = "SELECT COUNT(*) as total FROM `sach`" . $where;
@@ -207,9 +212,89 @@
                         $totalRecords = executeResult($countSql);
                         $totalRecords = $totalRecords[0]['total'];
                         $totalPages = ceil($totalRecords / $item_per_page);
-                    ?>
+                        ?>
 
-                        <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:center">
+                        <hr>
+                        <div class="box-select">
+                            <div class="select-container">
+
+                                <!-- Category selection -->
+                                <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                    <option value="">Chọn chủ đề</option>
+                                    <option <?php if ($theme == "1") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=1">Chung</option>
+                                    <option <?php if ($theme == "2") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=2">Lịch sử</option>
+                                    <option <?php if ($theme == "3") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=3">Truyện tranh & Mangas</option>
+                                    <option <?php if ($theme == "4") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=4">Phim & Nhiếp ảnh</option>
+                                    <option <?php if ($theme == "5") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=5">Kinh dị</option>
+                                    <option <?php if ($theme == "6") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=6">Máy tính & Internet</option>
+                                    <option <?php if ($theme == "7") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=7">Thể Thao</option>
+                                    <option <?php if ($theme == "8") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=8">Du lịch lữ hành</option>
+                                    <option <?php if ($theme == "9") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=9">Kinh doanh & Kinh tế</option>
+                                    <option <?php if ($theme == "10") { ?> selected <?php } ?> value="?<?= $queryString ?>&theme=10">Nghệ thuật</option>
+                                    <!-- Thêm các option cho chủ đề khác tương tự -->
+                                </select>
+
+                                <!-- Price range selection -->
+                                <div>
+                                    <label for="min-price">Giá từ:</label>
+                                    <input type="number" id="min-price" name="min_price" value="<?= isset($_GET['min_price']) ? $_GET['min_price'] : '' ?>" placeholder="Nhập giá tối thiểu">
+
+                                    <label for="max-price">đến:</label>
+                                    <input type="number" id="max-price" name="max_price" value="<?= isset($_GET['max_price']) ? $_GET['max_price'] : '' ?>" placeholder="Nhập giá tối đa">
+        <button id="apply-filter-btn">Áp dụng</button>
+                                   
+
+                                    <!-- Sorting options -->
+                                  <span name="right-select">
+                                    <select  id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
+                                        <option value="">Sắp xếp giá</option>
+                                        <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
+                                        <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
+                                    </select>
+                                    </span>
+                                </div>
+                        
+                            </div>
+                        </div>
+                        <script>
+    // Chờ tài liệu HTML được tải hoàn toàn
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lắng nghe sự kiện click trên nút "Áp dụng"
+        var applyButton = document.getElementById("apply-filter-btn");
+        if (applyButton) {
+            applyButton.addEventListener("click", function() {
+                // Lấy giá trị của các phần tử HTML
+                var theme = document.getElementById("theme-box").value;
+                var minPrice = document.getElementById("min-price").value;
+                var maxPrice = document.getElementById("max-price").value;
+
+                // Xây dựng URL mới dựa trên các giá trị đã chọn
+                var url = "?";
+
+                if (theme !== "") {
+                    url += "theme=" + theme + "&";
+                }
+                if (minPrice !== "") {
+                    url += "min_price=" + minPrice + "&";
+                }
+                if (maxPrice !== "") {
+                    url += "max_price=" + maxPrice + "&";
+                }
+
+                // Kiểm tra xem có dấu "&" ở cuối URL không và loại bỏ nếu có
+                if (url.endsWith("&")) {
+                    url = url.slice(0, -1);
+                }
+
+                // Chuyển hướng trình duyệt đến URL mới chỉ khi tất cả các bộ lọc đã được áp dụng
+                window.location.href = "indexcopy.php";
+            });
+        }
+    });
+</script>
+
+
+                        <div class="slider-product-one-content-items" id="bookListContainer" style="justify-content:left">
                             <?php
                             // Kiểm tra nếu có sản phẩm trong danh sách
                             if ($sach) {
@@ -236,55 +321,29 @@
                                     // Chỉnh sửa CSS trực tiếp tại đây
                                     echo '<style>';
                                     echo '.slider-product-one-content-items { display: flex; flex-wrap: wrap; justify-content: flex-start; }';
-                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; }';
+                                    echo '.slider-product-one-content-item { width: calc(20% - 20px); margin: 0 10px 20px 0; background-color: white; padding: 30px 17px; border-radius: 2px; border: 1px solid rgb(206, 206, 206); box-sizing: border-box; margin-left: 10px; }';
                                     echo '</style>';
                                 }
                             } else {
                                 echo '<p>Không tìm thấy sách nào.</p>';
                             }
                             ?>
-                </div>
-                <div class="select-container">
-                        
-                        <!-- Category selection -->
-                        <select id="theme-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="./index.php">Chọn thể loại</option>
-                            <?php
-                                foreach ($loai_sach as $index => $category) {
-                                    $selected = $theme == $category['Ma_Loai'] ? 'selected' : '';
-                                    $current_params = array_merge( $_GET, array( 'theme' => $category['Ma_Loai'] ) );
-                                    $new_query_string = http_build_query($current_params);
-                                    echo '<option '.$selected.' value="?'.$new_query_string.'">'.$category['Ten_Loai'].'</option>';
-                                }
-                            ?>
-                            <!-- Thêm các option cho chủ đề khác tương tự -->
-                        </select>
 
-                        <!-- Sorting options -->
-                        <select id="sort-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="./index.php">Sắp xếp giá</option>
-                            <option <?php if ($orderField == "Don_Gia" && $orderSort == "desc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=desc">Cao đến thấp</option>
-                            <option <?php if ($orderField == "Don_Gia" && $orderSort == "asc") { ?> selected <?php } ?> value="?<?= $queryString ?>&field=Don_Gia&sort=asc">Thấp đến cao</option>
-                        </select>
-
-                        <!-- Price range selection -->
-                        <select id="price-box" onchange="this.options[this.selectedIndex].value && (window.location = this.options[this.selectedIndex].value);">
-                            <option value="./index.php">Chọn khoảng giá</option>
-                            <option <?php if ($priceRange == "0-5") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=0-5">Dưới 5 đồng</option>
-                            <option <?php if ($priceRange == "5-50000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=5-50000">5 - 50.000 đồng</option>
-                            <option <?php if ($priceRange == "50000-89000") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=50000-89000">50.000 - 89.000 đồng</option>
-                            <option <?php if ($priceRange == "89000-") { ?> selected <?php } ?> value="?<?= $queryString ?>&price_range=89000-">Trên 89.000 đồng</option>
-                        </select>
+                        </div>
+                        <?php include './pagination.php'; ?>
                     </div>
+                </section>
             </div>
-          
-            <?php include './pagination.php'; ?>
-        </section>
+        </div>
 
-<!-- footer section -->
+        <!------------------------------------------------------------------>
+
+
+    </main>
+    <!---Footer----->
     <footer>
-        <div class="footer" style="background:var(--green);">
-            <div class="in-footer-body" >
+        <div class="footer">
+            <div class="in-footer-body">
 
                 <div class="in-footer-body-mid">
                     <p>Tài khoản của bạn</p>
@@ -309,26 +368,42 @@
                     <li><a href="#">Chính sách đổi - trả</a></li>
                     <li><a href="#">Chính sách bồi hoàn</a></li>
                     <li><a href="#">Câu hỏi thường gặp (FAQs)</a></li>
+
+
+
                 </div>
             </div>
+
+
         </div>
-        <div class="footer-bottom" style="background:var(--dark-color);">
+        <div class="footer-bottom">
             <p>&copy; 2023 sachtore</p>
         </div>
+
+
     </footer>
 
-    </section>
+    <script>
+        function applyPriceRange() {
+            var minPrice = document.getElementById('min-price').value;
+            var maxPrice = document.getElementById('max-price').value;
 
-</section>
+            // Tạo một URL mới với các tham số khoảng giá
+            var url = window.location.href.split('?')[0]; // Lấy URL trước khi có tham số
+            var params = new URLSearchParams(window.location.search);
 
-     <!-- Arrivals section end -->
+            // Xóa các tham số cũ về khoảng giá
+            params.delete('price_range');
+            params.set('min_price', minPrice);
+            params.set('max_price', maxPrice);
 
+            // Tạo URL mới với các tham số đã cập nhật
+            var newUrl = url + '?' + params.toString();
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-    <!-- Custom js file link -->
-    <script src="./js/script2.js"></script>
-
-
+            // Chuyển hướng trang tới URL mới
+            window.location.href = newUrl;
+        }
+    </script>
 </body>
+
 </html>

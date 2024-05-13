@@ -105,68 +105,7 @@
                         </li>
                         
                        
-                        <li class="line-height pt-3">
-                           <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                              <img src="IMG/user.png" class="img-fluid rounded-circle mr-3" alt="user">
-                              <div class="caption">
-                                 <h6 class="mb-1 line-height">Admin</h6>
-                                 <p class="mb-0 text-primary">Tài Khoản</p>
-                              </div>
-                           </a>
-                           <div class="iq-sub-dropdown iq-user-dropdown">
-                              <div class="iq-card shadow-none m-0">
-                                 <div class="iq-card-body p-0 ">
-                                    <div class="bg-primary p-3">
-                                       <h5 class="mb-0 text-white line-height">Xin Chào Admin</h5>
-                                    </div>
-                                    <a href="profile.php" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-file-user-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Tài khoản của tôi</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-profile-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Sổ địa chỉ</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-account-box-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Đơn hàng của tôi</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="wishlist.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-heart-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Yêu Thích</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="admin-login.php" role="button">Đăng xuất<i class="ri-login-box-line ml-2"></i></a>
-   
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
+                   
                      </ul>
                   </div>
                </nav>
@@ -177,58 +116,10 @@
          <div id="content-page" class="content-page">
             <div class="container-fluid">
                <div class="row">
-                  <div class="col-md-6 col-lg-3">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-body">
-                           <div class="d-flex align-items-center">
-                              <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-line"></i></div>
-                              <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">100</span></h2>
-                                 <h5 class="">Người dùng</h5>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6 col-lg-3">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-body">
-                           <div class="d-flex align-items-center">
-                              <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-book-line"></i></div>
-                              <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">10</span></h2>
-                                 <h5 class="">Sách</h5>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6 col-lg-3">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-body">
-                           <div class="d-flex align-items-center">
-                              <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-shopping-cart-2-line"></i></div>
-                              <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">100</span></h2>
-                                 <h5 class="">Đơn Hàng</h5>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-                  <div class="col-md-6 col-lg-3">
-                     <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                        <div class="iq-card-body">
-                           <div class="d-flex align-items-center">
-                              <div class="rounded-circle iq-card-icon bg-info"><i class="ri-radar-line"></i></div>
-                              <div class="text-left ml-3">                                 
-                                 <h2 class="mb-0"><span class="counter">69</span></h2>
-                                 <h5 class="">Chờ Duyệt</h5>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
+              
+              
+               
+                 
                   <div class="col-sm-12">
                      <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                         <div class="iq-card-header d-flex justify-content-between">
@@ -238,7 +129,7 @@
                            <div class="iq-card-header-toolbar d-flex align-items-center">
                               <div class="dropdown">
                                  <span class="dropdown-toggle text-primary" id="dropdownMenuButton5" data-toggle="dropdown">
-                                 <i class="ri-more-fill"></i>
+                              
                                  </span>
                                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton5">
                                     <a class="dropdown-item" href="#"><i class="ri-eye-fill mr-2"></i>Xem</a>

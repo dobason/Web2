@@ -29,20 +29,12 @@
 
     <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
     <div class="icons" style="display:flex;align-items:center">
-        <a href="cart.php" class="fas fa-shopping-cart"></a>
+  
         <?php require_once 'header.php'; ?>
     </div>
 </div>
 
-<div class="header-2">
-    <nav class="navbar">
-        <a href="#home">Trang chủ</a>
-        <a href="#featured">Danh mục</a>
-        <a href="#arrivals">Sách mới</a>
-        <a href="#reviews">Khách hàng</a>
-        <a href="#blogs">Bài viết</a>
-    </nav>
-</div>
+
 
 <!---Kết nối database-->
 <?php require('php/classes/database.php'); ?>
@@ -117,7 +109,7 @@ if (isset($_SESSION['Ma_KH'])) {
                         <p>Ngày Đặt Hàng: <?php echo $row['Ngay_DH']; ?></p>
                         <p>Ngày Giao Hàng: <?php echo $row['Ngay_GH']; ?></p>
                         <div style="display: flex; justify-content: center;">
-                            <a href="index.php"><button type="button" style="height: 50px;border-radius: 4px;background-color: var(--swiper-theme-color);">Quay lại trang chủ</button></a>
+                            <a href="index.php"><button type="button" style="height: 50px;border-radius: 4px;background-color: var(--swiper-theme-color);">Trang chủ</button></a>
                         </div>
 
                     </div>
@@ -147,7 +139,12 @@ if (isset($_SESSION['Ma_KH'])) {
 </html>
 
 
+
+
 <style>
+    p{
+        font-size: large;
+    }
    .h2{
     text-align: center;
    }
@@ -200,4 +197,3 @@ tr:hover {
         text-align: center;
     }
 </style>
-

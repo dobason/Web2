@@ -19,6 +19,39 @@
 
    </head>
    <body>
+      <style>
+         /* Thiết lập các input và select để xếp dọc */
+#addCustomerModal .input-box {
+    margin-bottom: 15px; /* Khoảng cách dưới giữa các input box */
+}
+
+#addCustomerModal .input-box input,
+#addCustomerModal .input-box select {
+    width: 100%; /* Chiều rộng tối đa là 100% của container */
+    padding: 10px; /* Khoảng cách giữa nội dung và viền của input/select */
+    font-size: 14px; /* Kích thước font chữ */
+    border: 1px solid #ccc; /* Viền input/select */
+    border-radius: 4px; /* Góc bo tròn của input/select */
+    box-sizing: border-box; /* Tính cả padding và border trong chiều rộng */
+}
+
+#addCustomerModal .input-box select {
+    appearance: none; /* Ẩn giao diện mặc định của select */
+    -webkit-appearance: none; /* Tương thích với các trình duyệt WebKit */
+    -moz-appearance: none; /* Tương thích với Mozilla */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.293 7.707a1 1 0 011.414 0L10 10.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/></svg>'); /* Định dạng mũi tên dropdown */
+    background-repeat: no-repeat; /* Không lặp lại hình ảnh nền */
+    background-position: right 10px center; /* Vị trí của mũi tên dropdown */
+    padding-right: 30px; /* Khoảng cách từ bên phải để tránh chồng lên mũi tên */
+}
+
+/* Định dạng nút Thêm */
+#addCustomerModal .btn-primary {
+    width: 100%; /* Chiều rộng 100% của button */
+    margin-top: 15px; /* Khoảng cách trên giữa button và các input/select */
+}
+
+      </style>
       <?php
          require('./php/classes/database.php');
          $result = Database::getAllRows('khach_hang');
@@ -60,8 +93,7 @@
                      "><i class="ri-record-circle-line"></i>Khách Hàng</a></li>
                      <li><a href="admin-books.php
                      "><i class="ri-record-circle-line"></i>Sách</a></li>
-                     <li><a href="admin-category.php
-                     "><i class="ri-record-circle-line"></i>Thể Loại Sách</a></li>
+          
                      <li><a href="dangnhap.php
                      "><i class="ri-record-circle-line"></i>Đăng Xuất</a></li>
                   </ul>
@@ -125,67 +157,7 @@
                            </form>
                         </li>
                         
-                        <li class="line-height pt-3">
-                           <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                              <img src="IMG/user.png" class="img-fluid rounded-circle mr-3" alt="user">
-                              <div class="caption">
-                                 <h6 class="mb-1 line-height">Admin</h6>
-                                 <p class="mb-0 text-primary">Tài Khoản</p>
-                              </div>
-                           </a>
-                           <div class="iq-sub-dropdown iq-user-dropdown">
-                              <div class="iq-card shadow-none m-0">
-                                 <div class="iq-card-body p-0 ">
-                                    <div class="bg-primary p-3">
-                                       <h5 class="mb-0 text-white line-height">Admin</h5>
-                                    </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-file-user-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Tài khoản của tôi</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-profile-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Sổ địa chỉ</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-account-box-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Đơn hàng của tôi</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="wishlist.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-heart-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Yêu Thích</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
+                   
                      </ul>
                   </div>
                </nav>
@@ -216,21 +188,111 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addCustomerForm" action="process_add_customer.php" method="post">
-                    <div class="form-group">
-                        <label for="name">Họ Tên:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="account">Tài Khoản:</label>
-                        <input type="text" class="form-control" id="account" name="account" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="pass">Mật Khẩu:</label>
-                        <input type="password" class="form-control" id="pass" name="pass" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Thêm</button>
-                </form>
+            <form id="addCustomerForm" action="process_add_customer.php" method="post">
+      
+      <div class="input-box">
+        <input type="text" id="name" name="name" placeholder="Họ và tên" required />
+      </div>
+      <div class="input-box">
+        <input type="text" id="account" name="account" placeholder="Tên đăng nhập" required />
+      </div>
+      <div class="input-box">
+        <select class="form-select form-select-sm mb-3" id="city" name="city" aria-label=".form-select-sm">
+          <option value="" selected>Tỉnh thành</option>
+        </select>
+        <select class="form-select form-select-sm mb-3" id="district" name="district" aria-label=".form-select-sm">
+          <option value="" selected>Quận huyện</option>
+        </select>
+        <select class="form-select form-select-sm" id="ward" name="ward" aria-label=".form-select-sm">
+          <option value="" selected>Phường xã</option>
+        </select>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <!-- Đoạn mã JavaScript để lấy dữ liệu địa điểm và hiển thị lên các select -->
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
+            var locationFileUrl = "js/location.js";
+            var Parameter = {
+              url: locationFileUrl,
+              method: "GET",
+              responseType: "json" // Sử dụng responseType là "json" để Axios tự động parse JSON
+            };
+
+            axios(Parameter)
+              .then(function(response) {
+                renderCity(response.data);
+              })
+              .catch(function(error) {
+                console.error('Error fetching location data:', error);
+              });
+
+            function renderCity(data) {
+              // Đổ dữ liệu các thành phố vào dropdown thành phố (city)
+              data.forEach(function(city) {
+                citis.options[citis.options.length] = new Option(city.Name, city.Id);
+              });
+
+              // Xử lý sự kiện khi chọn thành phố
+              citis.onchange = function() {
+                districts.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+                wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+
+                if (this.value !== "") {
+                  var selectedCity = data.find(function(item) {
+                    return item.Id === this.value;
+                  }, this);
+
+                  // Đổ dữ liệu các quận/huyện vào dropdown quận/huyện (district)
+                  if (selectedCity) {
+                    selectedCity.Districts.forEach(function(district) {
+                      districts.options[districts.options.length] = new Option(district.Name, district.Id);
+                    });
+                  }
+                }
+              };
+
+              // Xử lý sự kiện khi chọn quận/huyện
+              districts.onchange = function() {
+                wards.length = 1; // Xóa tất cả các options trừ option đầu tiên (placeholder)
+
+                if (this.value !== "") {
+                  var selectedCity = data.find(function(item) {
+                    return item.Id === citis.value;
+                  });
+
+                  if (selectedCity) {
+                    var selectedDistrict = selectedCity.Districts.find(function(district) {
+                      return district.Id === this.value;
+                    }, this);
+
+                    // Đổ dữ liệu các phường/xã vào dropdown phường/xã (ward)
+                    if (selectedDistrict) {
+                      selectedDistrict.Wards.forEach(function(ward) {
+                        wards.options[wards.options.length] = new Option(ward.Name, ward.Id);
+                      });
+                    }
+                  }
+                }
+              };
+            }
+          });
+        </script>
+
+
+      </div>
+      <div class="input-box">
+        <input type="number" id="phone" name="phone" placeholder="Số Điện Thoại" required />
+      </div>
+      <div class="input-box">
+        <input type="password" id="pass" name="pass" placeholder="Mật khẩu" required />
+      
+      </div>
+   
+
+      <button type="submit" class="btn btn-primary">Thêm</button>
+    </form>
             </div>
         </div>
     </div>

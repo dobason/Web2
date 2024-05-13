@@ -26,8 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Tìm thấy người dùng với tên đăng nhập tương ứng và trạng thái = 1
         $stored_password = $user['Mat_Khau'];
 
+        $hashed_password = md5($password);
+
         // Kiểm tra mật khẩu
-        if ($password === $stored_password) {
+        if ($hashed_password === $stored_password) {
             // Mật khẩu hợp lệ, đăng nhập thành công
             $_SESSION['Ma_KH'] = $user['Ma_KH']; // Lưu Ma_KH vào session
 

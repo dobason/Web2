@@ -10,46 +10,36 @@
     <script src="vendor/fontawesome/js/all.min.js"></script>
     <script src="js/main.js"></script>
     <title>Document</title>
-    <link rel="stylesheet" href="./css/Style2.css">
-    <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
-
 </head>
 
 <body>
 
-<header class="header">
+    <header>
 
-<div class="header-1">
-    <a href="index.php" class="logo"> <i class="fas fa-book"></i> GoodReads </a>
 
-    <!-- Tìm Kiếm -->
-    <form class="search-form" method="GET">
-        <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-        <div id="bookListContainer"></div>
-    </form>
+        <div class="big-menu">
 
-    <!-- Chỗ giỏ hàng và chỗ đăng nhập -->
-    <div class="icons" style="display:flex;align-items:center">
-        <a href="cart.php" class="fas fa-shopping-cart"></a>
-        <?php require_once 'header.php'; ?>
-    </div>
-</div>
 
-<div class="header-2">
-    <nav class="navbar">
-        <a href="#home">Trang chủ</a>
-        <a href="#featured">Danh mục</a>
-        <a href="#arrivals">Sách mới</a>
-        <a href="#reviews">Khách hàng</a>
-        <a href="#blogs">Bài viết</a>
-    </nav>
-</div>
+            <div class="in-big-menu">
+                <div class="logo">
+                    <a href="index.php" onclick="momodal()"><img src="IMG/logo.jpg"></a>
+                </div>
+                <?php
+// Include file header.php để sử dụng giao diện phía trên
+require_once 'header.php';
+?>
 
-<!---Kết nối database-->
-<?php require('./php/classes/database.php'); ?>
+                
 
-</header>
+            </div>
+        </div>
+
+
+        <div id="backtop">
+            <i class="fa-solid fa-arrow-up"></i>
+
+        </div>
+    </header>
 
 <main>
 
@@ -87,9 +77,8 @@ function displayProductDetail($product) {
     echo '</div>';
     echo '<div class="product-right">';
     echo '<div class="product-right-top">';
-    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>'; 
-    echo '<p><span style="color:red;">Tác giả: </span>'. htmlentities($product['Ten_Tac_Gia']).'</p>';
-    echo '<p><span style="color:red;">Đơn giá:</span>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
+    echo '<h2>' . htmlentities($product['Ten_Sach']) . '</h2>';
+    echo '<p>' . number_format($product['Don_Gia'], 0, ',', '.') . 'đ</p>';
     echo '<div class="product-shopping">';
     echo '<form action="add_to_cart.php" method="post">';
     echo '<input type="hidden" name="product_id" value="' . $product['Ma_Sach'] . '">';
@@ -130,10 +119,20 @@ function displayProductDetail($product) {
 ?>
     <section class="featured" id="featured">
 </main>
-<footer>
-        <div class="footer" style="background:var(--green);">
-            <div class="in-footer-body" >
-
+    <footer>
+        <div class="footer">
+           
+        
+            <div class="in-footer-body">
+                <div class="in-footer-body-left">
+                    <p>Phương thức thanh toán</p>
+                    <li><img src="IMG/pay1.png"></li>
+                    <li><img src="IMG/pay2.png"></li>
+                    <li><img src="IMG/pay3.png"></li>
+                    <li><img src="IMG/pay4.png"></li>
+                    <li><img src="IMG/pay5.webp"></li>
+                </div>
+        
                 <div class="in-footer-body-mid">
                     <p>Tài khoản của bạn</p>
                     <li><a href="">Cập nhật tài khoản</a></li>
@@ -142,28 +141,39 @@ function displayProductDetail($product) {
                     <li><a href="">Sản phẩm yêu thích</a></li>
                     <li><a href="">Kiểm tra đơn hàng</a></li>
                 </div>
-
+        
                 <div class="in-footer-body-mid">
                     <p>GOODREADS</a>
-                        <li><a href="gioi_thieu.html">Giới thiệu GOODREADS</a></li>
-                        <li><a href="">GOODREADS trên Facebook</a></li>
-                        <li><a href="">Liên hệ GOODREADS</a></li>
-                        <li><a href="">Đặt hàng theo yêu cầu</a< /li>
+                    <li><a href="/gioi_thieu.html">Giới thiệu GOODREADS</a></li>
+                    <li><a href="">GOODREADS trên Facebook</a></li>
+                    <li><a href="">Liên hệ GOODREADS</a></li>
+                    <li><a href="">Đặt hàng theo yêu cầu</a</li>
                 </div>
-                <div class="in-footer-body-right">
+                 <div class="in-footer-body-right">
                     <p>Kết nối với chúng tôi</p>
+                    <li><a href="#"><img src="IMG/contact1.webp"></a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100066245906401"><img src="IMG/contact2.webp"></a></li>
+                    <li><a href="#"><img src="IMG/contact3.webp"></a></li>
+                    <li><a href="#"><img src="IMG/contact4.webp"></a></li>
                     <li><a href="#">Liên hệ hợp tác kinh doanh</a></li>
                     <li><a href="#">Tuyển dụng</a></li><br>
                     <li><a href="#">Chính sách đổi - trả</a></li>
                     <li><a href="#">Chính sách bồi hoàn</a></li>
                     <li><a href="#">Câu hỏi thường gặp (FAQs)</a></li>
+        
+        
+        
                 </div>
-            </div>
+                </div>
+        
+               
         </div>
-        <div class="footer-bottom" style="background:var(--dark-color);">
-            <p>&copy; 2023 sachtore</p>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Bookstore</p>
         </div>
-    </footer>
+       
+         
+        </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.js"
         integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
      

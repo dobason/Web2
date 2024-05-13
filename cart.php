@@ -41,20 +41,35 @@
 
 <body>
     
-    <header>
-        
-            <?php
-            echo'<h1><a href="index.php"><img src="IMG/logo.jpg"></a></h1>';
-            // Include file header.php để sử dụng giao diện phía trên
-            require_once 'header.php';
-            ?>
+<header>
 
-
-        <div id="backtop">
-            <i class="fa-solid fa-arrow-up"></i>
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg fixed-to">
+    <div class="container">
+        <a class="navbar-brand" href="index.php">GOODREADS</a>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <form class="d-flex" method="GET">
+                <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search" name="Ten_Sach">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+                <div id="bookListContainer"></div>
+            </form>
         </div>
+      
+        <?php require_once 'header.php'; ?>
+        <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
 
-    </header>
+<!---Kết nối database-->
+<?php require('./php/classes/database.php'); ?>
+
+</header>
     <hr>
     <h1 style="text-align:center" >Giỏ hàng</h1>
     <hr>
