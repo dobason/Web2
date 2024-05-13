@@ -19,6 +19,39 @@
 
    </head>
    <body>
+      <style>
+         /* Thiết lập các input và select để xếp dọc */
+#addCustomerModal .input-box {
+    margin-bottom: 15px; /* Khoảng cách dưới giữa các input box */
+}
+
+#addCustomerModal .input-box input,
+#addCustomerModal .input-box select {
+    width: 100%; /* Chiều rộng tối đa là 100% của container */
+    padding: 10px; /* Khoảng cách giữa nội dung và viền của input/select */
+    font-size: 14px; /* Kích thước font chữ */
+    border: 1px solid #ccc; /* Viền input/select */
+    border-radius: 4px; /* Góc bo tròn của input/select */
+    box-sizing: border-box; /* Tính cả padding và border trong chiều rộng */
+}
+
+#addCustomerModal .input-box select {
+    appearance: none; /* Ẩn giao diện mặc định của select */
+    -webkit-appearance: none; /* Tương thích với các trình duyệt WebKit */
+    -moz-appearance: none; /* Tương thích với Mozilla */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.293 7.707a1 1 0 011.414 0L10 10.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"/></svg>'); /* Định dạng mũi tên dropdown */
+    background-repeat: no-repeat; /* Không lặp lại hình ảnh nền */
+    background-position: right 10px center; /* Vị trí của mũi tên dropdown */
+    padding-right: 30px; /* Khoảng cách từ bên phải để tránh chồng lên mũi tên */
+}
+
+/* Định dạng nút Thêm */
+#addCustomerModal .btn-primary {
+    width: 100%; /* Chiều rộng 100% của button */
+    margin-top: 15px; /* Khoảng cách trên giữa button và các input/select */
+}
+
+      </style>
       <?php
          require('./php/classes/database.php');
          $result = Database::getAllRows('khach_hang');
@@ -124,67 +157,7 @@
                            </form>
                         </li>
                         
-                        <li class="line-height pt-3">
-                           <a href="#" class="search-toggle iq-waves-effect d-flex align-items-center">
-                              <img src="IMG/user.png" class="img-fluid rounded-circle mr-3" alt="user">
-                              <div class="caption">
-                                 <h6 class="mb-1 line-height">Admin</h6>
-                                 <p class="mb-0 text-primary">Tài Khoản</p>
-                              </div>
-                           </a>
-                           <div class="iq-sub-dropdown iq-user-dropdown">
-                              <div class="iq-card shadow-none m-0">
-                                 <div class="iq-card-body p-0 ">
-                                    <div class="bg-primary p-3">
-                                       <h5 class="mb-0 text-white line-height">Admin</h5>
-                                    </div>
-                                    <a href="profile.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-file-user-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Tài khoản của tôi</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="profile-edit.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-profile-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Sổ địa chỉ</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="account-setting.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-account-box-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Đơn hàng của tôi</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <a href="wishlist.html" class="iq-sub-card iq-bg-primary-hover">
-                                       <div class="media align-items-center">
-                                          <div class="rounded iq-card-icon iq-bg-primary">
-                                             <i class="ri-heart-line"></i>
-                                          </div>
-                                          <div class="media-body ml-3">
-                                             <h6 class="mb-0 ">Yêu Thích</h6>
-                                          </div>
-                                       </div>
-                                    </a>
-                                    <div class="d-inline-block w-100 text-center p-3">
-                                       <a class="bg-primary iq-sign-btn" href="sign-in.html" role="button">Sign out<i class="ri-login-box-line ml-2"></i></a>
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </li>
+                   
                      </ul>
                   </div>
                </nav>
